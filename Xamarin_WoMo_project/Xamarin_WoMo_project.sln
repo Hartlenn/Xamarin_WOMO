@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoMo", "S:\_Public\Projekt\XAMARIN - WOMO\VisualStudio\WoMo\WoMo\WoMo.csproj", "{67FA714D-36B8-4554-A40B-93462AB9AB67}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin_WoMo", "Xamarin_WoMo\Xamarin_WoMo.csproj", "{4D9706D9-F285-4828-946F-1A99C0575F51}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{67FA714D-36B8-4554-A40B-93462AB9AB67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67FA714D-36B8-4554-A40B-93462AB9AB67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67FA714D-36B8-4554-A40B-93462AB9AB67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67FA714D-36B8-4554-A40B-93462AB9AB67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D9706D9-F285-4828-946F-1A99C0575F51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D9706D9-F285-4828-946F-1A99C0575F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D9706D9-F285-4828-946F-1A99C0575F51}.Release|Any CPU.ActiveCfg = Release|Any CPU

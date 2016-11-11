@@ -53,7 +53,7 @@ namespace WoMo.Logik
         }
 
         // Methoden
-        public bool PerformNoQuery(IListeneintrag eintrag, string type)
+        public bool insert(IListeneintrag eintrag, string type)
         {
             bool b = false;
 
@@ -71,20 +71,14 @@ namespace WoMo.Logik
 
             try
             {
+                type = type.ToLower();
                 string tabelle = "";
                 tabellen.TryGetValue(eintrag.GetType(), out tabelle);
                 string spalten = this.ConvertArrayToString(eintrag.GetType().GetCustomAttributes(true));
                 string values = this.ConvertArrayToString(eintrag.GetType().GetCustomAttributesData().ToArray());
 
-                switch (type)
-                {
-                    case ("insert"):
-                        command.CommandText = "Insert into" + tabelle + "(" + spalten + ") VALUES (" + values + ")";
-                        break;
 
-                }
-
-                
+                command.CommandText = "Insert into" + tabelle + "(" + spalten + ") VALUES (" + values + ");";
                 command.ExecuteNonQuery();
 
                 // Attempt to commit the transaction.
@@ -133,6 +127,7 @@ namespace WoMo.Logik
             // Concatenate all the elements into a StringBuilder.
             //
             StringBuilder builder = new StringBuilder();
+            
             foreach (object value in array)
             {
                 builder.Append(value.ToString());
@@ -140,6 +135,5 @@ namespace WoMo.Logik
             }
             return builder.ToString().Trim(", ".ToCharArray());
         }
-
     }
 }
