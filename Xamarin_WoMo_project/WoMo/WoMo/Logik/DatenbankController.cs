@@ -13,10 +13,27 @@ namespace WoMo.Logik
     {
         static object locker = new object();
         SQLiteConnection database;
+        //needs to be filled later(device specific)
         private string databasePath;
+
         public DatenbankController()
         {
-            database = new SQLiteConnection(databasePath);
+            initialisiereDatenbank();
+        }
+
+        public bool initialisiereDatenbank()
+        {
+            try{
+                database = new SQLiteConnection(databasePath);
+            }
+            catch{
+                return false;
+            }
+            return true;
+        }
+
+        public void erstelleObjekte()
+        {
             database.CreateTable<Bilder_Eintrag>();
             database.CreateTable<Bilderliste>();
             database.CreateTable<Checkliste>();
@@ -29,12 +46,38 @@ namespace WoMo.Logik
             database.CreateTable<TBEintrag_Stellplatz>();
         }
 
-        public IListenklasse<T> GetItems()
+        public DatenbankController getInstance()
+        {
+            return this;
+        }
+
+        public int insert(IListeneintrag eintrag)
         {
             lock (locker)
             {
-                return (from i in database.Table<TBEintrag_Stellplatz>() select i).ToList();
+                return database.Insert(eintrag);
             }
+        }
+
+        public bool update(IListeneintrag eintrag)
+        {
+            lock (locker)
+            {
+                return database.Update(eintrag) > 0;
+
+            }
+        }
+
+        public bool delete(IListeneintrag eintrag)
+        {
+            lock (locker) {
+                return database.Delete(eintrag) > 0;
+            }
+        }
+
+        public IListeneintrag select(String Tabelle)
+        {
+            throw new NotImplementedException();
         }
     }
 }

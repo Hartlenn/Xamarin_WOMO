@@ -9,9 +9,16 @@ namespace WoMo.Logik.Database
 {
     class Bilderliste
     {
-        [PrimaryKey, AutoIncrement]
-        public int BilderlistenID { get; set; }
         public int StellplatzID { get; set; }
+
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public int sortiere(IListeneintrag vergleich)
+        {
+            if (this.Id < vergleich.Id) return -1;
+            if (this.Id == vergleich.Id) return 0;
+            else return 1;
+        }
 
     }
 }

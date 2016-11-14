@@ -9,11 +9,16 @@ namespace WoMo.Logik.Database
 {
     class Standort
     {
-        [PrimaryKey, AutoIncrement]
-        private int standortID { get; set; }
         private double latitude { get; set; }
         private double longtitude { get; set; }
 
-      
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public int sortiere(IListeneintrag vergleich)
+        {
+            if (this.Id < vergleich.Id) return -1;
+            if (this.Id == vergleich.Id) return 0;
+            else return 1;
+        }
     }
 }

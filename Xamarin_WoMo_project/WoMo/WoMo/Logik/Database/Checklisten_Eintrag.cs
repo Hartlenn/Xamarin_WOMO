@@ -9,10 +9,17 @@ namespace WoMo.Logik.Database
 {
     class Checklisten_Eintrag
     {
-        [PrimaryKey, AutoIncrement]
-        public int CLEintragsID { get; set; }
         public String Bezeichner { get; set; }
         public bool Checked { get; set; }
         public int ChecklistenID { get; set; }
+
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public int sortiere(IListeneintrag vergleich)
+        {
+            if (this.Id < vergleich.Id) return -1;
+            if (this.Id == vergleich.Id) return 0;
+            else return 1;
+        }
     }
 }
