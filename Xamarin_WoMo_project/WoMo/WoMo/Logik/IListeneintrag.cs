@@ -16,6 +16,5 @@ namespace WoMo.Logik
         // Methoden
 
         int sortiere(IListeneintrag vergleich);
-        void xmlExport();
     }
 }

@@ -106,13 +106,21 @@ namespace WoMo.Logik
             
         public int sortiere(IListeneintrag vergleich)
         {
-            throw new NotImplementedException();
+            if (vergleich.GetType().Equals(this.GetType()))
+            {
+                if(vergleich.Id > this.Id)
+                {
+                    return -1;
+                }else if(vergleich.Id == this.Id)
+                {
+                    return 0;
+                }
+                return 1;
+            }
+            throw new MyTypeException("Can not sort different types. Please adjust your search algorithm.");
         }
 
-        public void xmlExport()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
     class MyTypeException : Exception
