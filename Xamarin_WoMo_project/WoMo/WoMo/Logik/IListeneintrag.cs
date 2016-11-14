@@ -16,7 +16,5 @@ namespace WoMo.Logik
         XmlSerializer Serializer { get; }
 
         // Methoden
-
-        int sortiereNachAttribut(IListeneintrag vergleich, string attribut);
     }
 }

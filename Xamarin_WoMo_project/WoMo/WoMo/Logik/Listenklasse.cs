@@ -126,7 +126,7 @@ namespace WoMo.Logik
         }
 
         /// <summary>
-        /// Sortiert die enthaltenen Listeneinträge nach der ID
+        /// Sortiert die enthaltenen Listeneinträge nach dem übergebenen Attribut
         /// </summary>
         public void sortiereEintraegeNachAttribut(string attribut)
         {
@@ -135,7 +135,7 @@ namespace WoMo.Logik
 
                 for(int j = 0; j<i; j++)
                 {
-                    if(liste.ElementAt(j).sortiereNachAttribut(liste.ElementAt(i), attribut) > 0)
+                    if(Controller.sortiereNachAttribut(liste.ElementAt(j), liste.ElementAt(i), attribut) > 0)
                     {
                         T help = liste.ElementAt(j);
                         liste.Insert(j, liste.ElementAt(i));
@@ -149,28 +149,8 @@ namespace WoMo.Logik
 
 
         // Interface Methoden
+           
             
-        public int sortiereNachAttribut(IListeneintrag vergleich, string attribut)
-        {
-            switch (attribut)
-            {
-                case("id")
-            }
-            if (vergleich.GetType().Equals(this.GetType()))
-            {
-                if(vergleich.Id > this.Id)
-                {
-                    return -1;
-                }else if(vergleich.Id == this.Id)
-                {
-                    return 0;
-                }
-                return 1;
-            }
-            throw new MyTypeException("Can not sort different types. Please adjust your search algorithm.");
-        }
-
-        
     }
 
     class MyTypeException : Exception
