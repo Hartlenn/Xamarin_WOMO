@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using SQLite;
 
 namespace WoMo.Logik
 {
@@ -17,6 +18,7 @@ namespace WoMo.Logik
         private static Uri adresse;
 
         private Dictionary<Type, string> tabellen = new Dictionary<Type, string>();
+
 
         public Dictionary<Type, string> Tabellen
         {
@@ -83,14 +85,14 @@ namespace WoMo.Logik
 
                 // Attempt to commit the transaction.
                 transaction.Commit();
-                Console.WriteLine("Records are written to database.");
+                //Console.WriteLine("Records are written to database.");
                 b = true;
             }
             catch (Exception ex)
             {
                 b = false;
-                Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
-                Console.WriteLine("  Message: {0}", ex.Message);
+                //Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                //Console.WriteLine("  Message: {0}", ex.Message);
 
                 // Attempt to roll back the transaction.
                 try
@@ -102,8 +104,8 @@ namespace WoMo.Logik
                     // This catch block will handle any errors that may have occurred
                     // on the server that would cause the rollback to fail, such as
                     // a closed connection.
-                    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                    Console.WriteLine("  Message: {0}", ex2.Message);
+                    //Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                    //Console.WriteLine("  Message: {0}", ex2.Message);
                 }
             }
 
