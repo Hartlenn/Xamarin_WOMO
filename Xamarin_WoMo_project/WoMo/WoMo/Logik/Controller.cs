@@ -15,7 +15,7 @@ namespace WoMo.Logik
         private Controller(Listenklasse<IListeneintrag> menue)
         {
             this.dba = DatenbankAdapter.getInstance();
-            menue = this.dba.getObject()
+            menue = (Listenklasse<IListeneintrag>) this.dba.getObject(menue.Akzeptiert, 0);
         }
     }
 }
