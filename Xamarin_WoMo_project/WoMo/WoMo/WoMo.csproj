@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+	<Compile Include="Logik\Controller.cs" />  
     <Compile Include="Logik\Database\Bilderliste.cs" />
     <Compile Include="Logik\Database\Bilder_Eintrag.cs" />
     <Compile Include="Logik\Database\Checkliste.cs" />

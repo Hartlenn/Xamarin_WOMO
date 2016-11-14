@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace WoMo.Logik
 {
@@ -52,6 +53,15 @@ namespace WoMo.Logik
                 akzeptiert = value;
             }
         }
+
+        public XmlSerializer Serializer
+        {
+            get
+            {
+                return new XmlSerializer(this.GetType());
+            }
+        }
+
         public Listenklasse(){
         }
 
@@ -115,27 +125,32 @@ namespace WoMo.Logik
             }
         }
 
+        /// <summary>
+        /// Sortiert die enthaltenen Listeneinträge nach dem übergebenen Attribut
+        /// </summary>
+        public void sortiereEintraegeNachAttribut(string attribut)
+        {
+            for(int i = 0; i < liste.Count; i++)
+            {
+
+                for(int j = 0; j<i; j++)
+                {
+                    if(Controller.sortiereNachAttribut(liste.ElementAt(j), liste.ElementAt(i), attribut) > 0)
+                    {
+                        T help = liste.ElementAt(j);
+                        liste.Insert(j, liste.ElementAt(i));
+                        liste.Insert(i, help);
+                    }
+                }
+
+            }
+        }
+
 
 
         // Interface Methoden
+           
             
-        public int sortiere(IListeneintrag vergleich)
-        {
-            if (vergleich.GetType().Equals(this.GetType()))
-            {
-                if(vergleich.Id > this.Id)
-                {
-                    return -1;
-                }else if(vergleich.Id == this.Id)
-                {
-                    return 0;
-                }
-                return 1;
-            }
-            throw new MyTypeException("Can not sort different types. Please adjust your search algorithm.");
-        }
-
-        
     }
 
     class MyTypeException : Exception
