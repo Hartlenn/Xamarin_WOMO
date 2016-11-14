@@ -14,7 +14,7 @@ namespace WoMo.Logik
         
         // Methoden
         
-        void sortiere();
+        int sortiere();
         void xmlExport();
     }
 }
