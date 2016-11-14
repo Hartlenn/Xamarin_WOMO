@@ -52,7 +52,8 @@ namespace WoMo.Logik
                 akzeptiert = value;
             }
         }
-        public Listenklasse(){}
+        public Listenklasse(){
+        }
 
         public Listenklasse(string text, int id)
         {

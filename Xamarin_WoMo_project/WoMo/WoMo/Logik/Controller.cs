@@ -8,14 +8,14 @@ namespace WoMo.Logik
 {
     class Controller
     {
-        private Listenklasse<IListeneintrag> menue = new Listenklasse<IListeneintrag>();
+        private Listenklasse<IListeneintrag> menue;
         private static Controller controller;
         private DatenbankAdapter dba;
         
         private Controller(Listenklasse<IListeneintrag> menue)
         {
             this.dba = DatenbankAdapter.getInstance();
-            menue = (Listenklasse<IListeneintrag>) this.dba.getObject(menue.Akzeptiert, 0);
+            menue = (Listenklasse<IListeneintrag>) this.dba.getObject("Listenklasse", 0);
         }
     }
 }
