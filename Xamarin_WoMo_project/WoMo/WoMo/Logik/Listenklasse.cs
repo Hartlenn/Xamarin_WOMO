@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik
 {
-    class Listenklasse : IListeneintrag
+    class Listenklasse<T> : IListeneintrag where T: IListeneintrag
     {
-        private List<IListeneintrag> liste = new List<IListeneintrag>();
+        private List<T> liste = new List<T>();
         private Type akzeptiert;
 
         private string text;
@@ -40,6 +40,19 @@ namespace WoMo.Logik
             }
         }
 
+        public Type Akzeptiert
+        {
+            get
+            {
+                return akzeptiert;
+            }
+
+            private set
+            {
+                akzeptiert = value;
+            }
+        }
+
         public Listenklasse(string text, int id)
         {
             this.Text = text;
@@ -68,19 +81,19 @@ namespace WoMo.Logik
         /// <param name="eintrag">Ein Eintrag des Typs IListeneintrag</param>
         public void add(IListeneintrag eintrag)
         {
-            if (this.akzeptiert == null)
+            if (this.Akzeptiert == null)
             {
-                this.akzeptiert = eintrag.GetType();
+                this.Akzeptiert = eintrag.GetType();
             }
             else
             {
-                if (eintrag.GetType().Equals(this.akzeptiert))
+                if (eintrag.GetType().Equals(this.Akzeptiert))
                 {
-                    this.liste.Add(eintrag);
+                    this.liste.Add((T) eintrag);
                 }
                 else
                 {
-                    throw new MyTypeException("Type " + eintrag.GetType().ToString() + " not allowed in this list. Only " + this.akzeptiert.ToString() + " is accepted.");
+                    throw new MyTypeException("Type " + eintrag.GetType().ToString() + " not allowed in this list. Only " + this.Akzeptiert.ToString() + " is accepted.");
                 }
             }
         }

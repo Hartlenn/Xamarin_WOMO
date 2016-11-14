@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logik\Controller.cs" />
     <Compile Include="Logik\DatenbankAdapter.cs" />
     <Compile Include="Logik\IListeneintrag.cs" />
     <Compile Include="Logik\Listenklasse.cs" />

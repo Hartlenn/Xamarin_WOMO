@@ -110,6 +110,9 @@ namespace WoMo.Logik
             return b;
         }
 
+        public IListeneintrag getObject(Type klasse, int id) { throw new NotImplementedException(); }
+        public IListeneintrag getObject(Type klasse, string suchText) { throw new NotImplementedException(); }
+
 
 
 
