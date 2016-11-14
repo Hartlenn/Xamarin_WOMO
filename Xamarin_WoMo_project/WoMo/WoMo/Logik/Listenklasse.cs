@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik
 {
-    class Listenklasse : IListeneintrag
+    class Listenklasse<T> : IListeneintrag where T: IListeneintrag
     {
-        private List<IListeneintrag> liste;
-        private IListeneintrag cursor;
+        private List<T> liste = new List<T>();
         private Type akzeptiert;
 
         private string text;
@@ -41,19 +40,118 @@ namespace WoMo.Logik
             }
         }
 
+        public Type Akzeptiert
+        {
+            get
+            {
+                return akzeptiert;
+            }
+
+            private set
+            {
+                akzeptiert = value;
+            }
+        }
+        public Listenklasse(){
+        }
+
         public Listenklasse(string text, int id)
         {
+            this.Text = text;
+            this.Id = id;
+        }
+
+        public Listenklasse(string text, int id, IListeneintrag eintrag)
+        {
+            this.Text = text;
+            this.Id = id;
 
         }
+
+        public Listenklasse(string text, int id, List<IListeneintrag> liste)
+        {
+            this.Text = text;
+            this.Id = id;
+
+        }
+
+        // Methoden
+
+        /// <summary>
+        /// Fügt einen Eintrag des akzeptierten Typs der internen Liste hinzu.
+        /// </summary>
+        /// <param name="eintrag">Ein Eintrag des Typs IListeneintrag</param>
+        public void add(IListeneintrag eintrag)
+        {
+            if (this.Akzeptiert == null)
+            {
+                this.Akzeptiert = eintrag.GetType();
+            }
+            else
+            {
+                if (eintrag.GetType().Equals(this.Akzeptiert))
+                {
+                    this.liste.Add((T) eintrag);
+                }
+                else
+                {
+                    throw new MyTypeException("Type " + eintrag.GetType().ToString() + " not allowed in this list. Only " + this.Akzeptiert.ToString() + " is accepted.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fügt eine Liste von Einträgen der internen Liste hinzu.
+        /// </summary>
+        /// <param name="collection">Eine beliebige Collection des IListenklassen Typs</param>
+        public void addRange(IEnumerable<IListeneintrag> collection)
+        {
+            foreach(IListeneintrag eintrag in collection)
+            {
+                try
+                {
+                    this.add(eintrag);
+                } catch (MyTypeException mte) { }
+            }
+        }
+
+
+
+        // Interface Methoden
             
-        public void sortiere()
+        public int sortiere(IListeneintrag vergleich)
         {
-            throw new NotImplementedException();
+            if (vergleich.GetType().Equals(this.GetType()))
+            {
+                if(vergleich.Id > this.Id)
+                {
+                    return -1;
+                }else if(vergleich.Id == this.Id)
+                {
+                    return 0;
+                }
+                return 1;
+            }
+            throw new MyTypeException("Can not sort different types. Please adjust your search algorithm.");
         }
 
-        public void xmlExport()
+        
+    }
+
+    class MyTypeException : Exception
+    {
+        public MyTypeException()
         {
-            throw new NotImplementedException();
+        }
+
+        public MyTypeException(string message) : base(message)
+        {
+        }
+
+        public MyTypeException(string message, Exception innerException) : base(message, innerException)
+        {
         }
     }
 }
+
+

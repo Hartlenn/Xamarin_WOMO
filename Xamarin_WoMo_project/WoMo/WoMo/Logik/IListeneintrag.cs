@@ -11,10 +11,10 @@ namespace WoMo.Logik
         // Properties
         string Text { get; set; }
         int Id { get; set; }
-        
+
+
         // Methoden
-        
-        void sortiere();
-        void xmlExport();
+
+        int sortiere(IListeneintrag vergleich);
     }
 }
