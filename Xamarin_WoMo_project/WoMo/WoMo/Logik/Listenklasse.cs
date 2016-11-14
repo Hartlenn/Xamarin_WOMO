@@ -135,7 +135,7 @@ namespace WoMo.Logik
 
                 for(int j = 0; j<i; j++)
                 {
-                    if(liste.ElementAt(j).sortiereNachAttribut(liste.ElementAt(i), attribut) < 0)
+                    if(liste.ElementAt(j).sortiereNachAttribut(liste.ElementAt(i), attribut) > 0)
                     {
                         T help = liste.ElementAt(j);
                         liste.Insert(j, liste.ElementAt(i));
@@ -150,8 +150,12 @@ namespace WoMo.Logik
 
         // Interface Methoden
             
-        public int sortiere(IListeneintrag vergleich)
+        public int sortiereNachAttribut(IListeneintrag vergleich, string attribut)
         {
+            switch (attribut)
+            {
+                case("id")
+            }
             if (vergleich.GetType().Equals(this.GetType()))
             {
                 if(vergleich.Id > this.Id)
