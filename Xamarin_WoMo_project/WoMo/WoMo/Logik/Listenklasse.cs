@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace WoMo.Logik
 {
@@ -52,6 +53,15 @@ namespace WoMo.Logik
                 akzeptiert = value;
             }
         }
+
+        public XmlSerializer Serializer
+        {
+            get
+            {
+                return new XmlSerializer(this.GetType());
+            }
+        }
+
         public Listenklasse(){
         }
 
@@ -112,6 +122,27 @@ namespace WoMo.Logik
                 {
                     this.add(eintrag);
                 } catch (MyTypeException mte) { }
+            }
+        }
+
+        /// <summary>
+        /// Sortiert die enthaltenen Listeneinträge nach der ID
+        /// </summary>
+        public void sortiereEintraegeNachAttribut(string attribut)
+        {
+            for(int i = 0; i < liste.Count; i++)
+            {
+
+                for(int j = 0; j<i; j++)
+                {
+                    if(liste.ElementAt(j).sortiereNachAttribut(liste.ElementAt(i), attribut) < 0)
+                    {
+                        T help = liste.ElementAt(j);
+                        liste.Insert(j, liste.ElementAt(i));
+                        liste.Insert(i, help);
+                    }
+                }
+
             }
         }
 
