@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WoMo.Logik;
 
 namespace WoMo.Logik
 {
@@ -71,17 +70,17 @@ namespace WoMo.Logik
         {
             if (this.akzeptiert == null)
             {
-                this.akzeptiert = eintrag.getType();
+                this.akzeptiert = eintrag.GetType();
             }
             else
             {
-                if (eintrag.getType().Equals(this.akzeptiert))
+                if (eintrag.GetType().Equals(this.akzeptiert))
                 {
                     this.liste.Add(eintrag);
                 }
                 else
                 {
-                    throw new MyTypeException("Type " + eintrag.getType().ToString() + " not allowed in this list. Only " + this.akzeptiert.ToString() + " is accepted.");
+                    throw new MyTypeException("Type " + eintrag.GetType().ToString() + " not allowed in this list. Only " + this.akzeptiert.ToString() + " is accepted.");
                 }
             }
         }
@@ -105,7 +104,7 @@ namespace WoMo.Logik
 
         // Interface Methoden
             
-        public void sortiere()
+        public int sortiere(IListeneintrag vergleich)
         {
             throw new NotImplementedException();
         }
@@ -118,7 +117,17 @@ namespace WoMo.Logik
 
     class MyTypeException : Exception
     {
-        
+        public MyTypeException()
+        {
+        }
+
+        public MyTypeException(string message) : base(message)
+        {
+        }
+
+        public MyTypeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }
 
