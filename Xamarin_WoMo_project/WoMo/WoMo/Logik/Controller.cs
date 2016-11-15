@@ -20,7 +20,7 @@ namespace WoMo.Logik
         private Controller()
         {
             this.dba = DatenbankAdapter.getInstance();
-            menue = (Listenklasse<IListeneintrag>) this.dba.getObject("Listenklasse", 0);
+            //menue = (Listenklasse<IListeneintrag>) this.dba.getObject("Listenklasse", 0);
         }
 
         // Singleton
@@ -73,7 +73,7 @@ namespace WoMo.Logik
 
             // ToDo: Dateiausgabe
 
-
+            return false;
         }
 
         /// <summary>
@@ -118,10 +118,8 @@ namespace WoMo.Logik
                     throw new NotImplementedException("Datumssortierung noch nicht verfügbar.");
                 default:
                     throw new NotSupportedException("Kenne das Attribut " + attribut + " nicht!");
-                
+
             }
-            
-        
         }
 
     }

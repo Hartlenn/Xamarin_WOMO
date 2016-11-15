@@ -13,10 +13,11 @@ namespace WoMo.Logik
         static object locker = new object();
         SQLiteConnection database;
         private static DatenbankAdapter singleton;
+        //private Queue<DBAction> workload;
 
-    //device specific maybe not working?
-        string databasePath
-        {
+        //device specific maybe not working?
+        string databasePath;
+        /*{
             get
             {
                 var sqlliteFilename = "WoMo.db3";
@@ -33,13 +34,12 @@ namespace WoMo.Logik
 #endif
 #endif
                 return path;
-
-
             }
-        }
+        }*/
 
         private DatenbankAdapter()
         {
+            //workload = new Queue<DBAction>();
             initialisiereDatenbank();
         }
 
@@ -74,11 +74,7 @@ namespace WoMo.Logik
             database.CreateTable<TbEintrag>();
         }
 
-        public DatenbankAdapter getInstance()
-        {
-            return this;
-        }
-
+        /*
         public void work()
         {
             //in funktionen in queue werfen
@@ -86,8 +82,9 @@ namespace WoMo.Logik
             //extra task
             //aktuelle methoden auf private setzten neue eingabe(für buffer)
         }
+        */
 
-        public int insert(IListeneintrag eintrag)
+        public int insert(IListeneintrag eintrag, String  type)
         {
             lock (locker)
             {
@@ -199,6 +196,21 @@ namespace WoMo.Logik
 
             return list;
         }
+
+        /*
+        class DBAction
+        {
+            public String action { get; private set; }
+            public IListeneintrag eintrag { get; private set; }
+
+            public DBAction(String action, IListeneintrag eintrag)
+            {
+                this.action = action;
+                this.eintrag = eintrag;
+            }
+        }
+
+        */
     }
 }
 

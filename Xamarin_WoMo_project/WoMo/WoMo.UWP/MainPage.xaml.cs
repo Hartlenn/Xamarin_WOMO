@@ -23,5 +23,10 @@ namespace WoMo.UWP
 
             LoadApplication(new WoMo.App());
         }
+
+        void OnStellplatzClick(object sender, EventArgs e) { }
+        void OnChecklistClick(object sender, EventArgs e) { }
+        void OnTagebuchClick(object sender, EventArgs e) { }
+        void OnXMLVerwaltungClick(object sender, EventArgs e) { }
     }
 }
