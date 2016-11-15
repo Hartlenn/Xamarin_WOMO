@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,10 @@ namespace WoMo.Logik.Listeneinträge
     class Standort : IListeneintrag
     {
         private int id;
-        private string gps;
+        private string text;
+        private double longitude, latitude;
 
-
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get
@@ -24,24 +26,42 @@ namespace WoMo.Logik.Listeneinträge
                 throw new NotImplementedException();
             }
         }
+        
+        public double Longitude {
+            get { return longitude; }
+            set {
+                this.longitude = value;
+                aktualisierungenSpeichern();
+            }
+        }
+        public double Latitude {
+            get {
+                return latitude;
+            }
+            set {
+                this.latitude = value;
+                aktualisierungenSpeichern();
+            }
+        }
 
-        public string Gps
+        public string Text
         {
             get
             {
-                return gps;
+                return text;
             }
 
             set
             {
-                gps = value;
+                text = value;
+                aktualisierungenSpeichern();
             }
         }
 
-        public Standort(string gps)
+        public Standort(double longitude, double latitude)
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
-            this.Gps = gps;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
         }
 
         public void setGpsToHere()
@@ -49,7 +69,7 @@ namespace WoMo.Logik.Listeneinträge
             throw new NotImplementedException();
         }
 
-        // Inteface Methoden
+        // Interface Methoden
         public void aktualisierungenSpeichern()
         {
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());

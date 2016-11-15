@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,11 @@ namespace WoMo.Logik.Listeneinträge
     class BilderEintrag : IListeneintrag
     {
         private int id;
+        private string text;
         private int bildId;
+        private Listenklasse<BilderEintrag> bilderListe;
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get
@@ -21,6 +25,19 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 throw new NotImplementedException();
+            }
+        }
+        public string Text
+        {
+            get
+            {
+                return this.text;
+            }
+
+            set
+            {
+                this.text = value;
+                aktualisierungenSpeichern();
             }
         }
 
@@ -34,13 +51,28 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 bildId = value;
+                aktualisierungenSpeichern();
             }
         }
 
-        public BilderEintrag(int bildId)
+        internal Listenklasse<BilderEintrag> BilderListe
+        {
+            get
+            {
+                return bilderListe;
+            }
+
+            set
+            {
+                bilderListe = value;
+                aktualisierungenSpeichern();
+            }
+        }
+
+        public BilderEintrag(int bildId, Listenklasse<BilderEintrag> bilderListe)
         {
             this.BildId = bildId;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.BilderListe = bilderListe;
         }
 
         // Interface Methoden

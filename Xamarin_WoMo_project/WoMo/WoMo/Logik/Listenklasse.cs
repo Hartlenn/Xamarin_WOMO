@@ -25,6 +25,7 @@ namespace WoMo.Logik
             set
             {
                 this.text = value;
+                aktualisierungenSpeichern();
             }
         }
 
@@ -51,6 +52,7 @@ namespace WoMo.Logik
             private set
             {
                 akzeptiert = value;
+                aktualisierungenSpeichern();
             }
         }
 
@@ -116,6 +118,16 @@ namespace WoMo.Logik
                     this.add(eintrag);
                 } catch (MyTypeException mte) { }
             }
+        }
+
+        public void remove(int index)
+        {
+            this.liste.RemoveAt(index);
+        }
+
+        public void remove(T eintrag)
+        {
+            this.liste.Remove(eintrag);
         }
 
         /// <summary>

@@ -9,6 +9,8 @@ namespace WoMo.Logik.Database
 {
     class DB_Tagebuch_Eintrag
     {
+        // Bereits umgestellt auf die TbEintrag.
+
         public DateTime Datum { get; set; }
         public String Inhalt { get; set; }
         public int TagebuchID { get; set; }

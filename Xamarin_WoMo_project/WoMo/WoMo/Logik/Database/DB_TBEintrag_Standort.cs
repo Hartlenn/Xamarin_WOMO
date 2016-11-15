@@ -9,6 +9,8 @@ namespace WoMo.Logik.Database
 {
     class DB_TBEintrag_Standort
     {
+        // Mit der Umstellung auf TbEintrag obsolet.
+
         public int TBEintragID { get; set; }
         public int StandortID { get; set; }
 

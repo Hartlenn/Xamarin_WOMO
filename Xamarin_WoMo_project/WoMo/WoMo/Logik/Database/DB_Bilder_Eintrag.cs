@@ -9,6 +9,8 @@ namespace WoMo.Logik.Database
 {
     class DB_Bilder_Eintrag
     {
+        // Durch Umstellung auf bilderEintrag obsolet.
+
         public int BilderlisteID { get; set; }
         public String Bildadresse { get; set; }
 

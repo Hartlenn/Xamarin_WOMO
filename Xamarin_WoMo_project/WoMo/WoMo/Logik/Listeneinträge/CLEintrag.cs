@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,10 @@ namespace WoMo.Logik.Listeneinträge
     class CLEintrag : IListeneintrag
     {
         private int id;
-        private bool check = false;
+        private string text;
+        private bool check;
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get
@@ -24,32 +27,55 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+
+            set
+            {
+                this.text = value;
+                aktualisierungenSpeichern();
+            }
+        }
+
+        public bool Check
+        {
+            get
+            {
+                return check;
+            }
+
+            set
+            {
+                check = value;
+                aktualisierungenSpeichern();
+            }
+        }
+
         public CLEintrag()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            Check = false;
         }
 
         public void toggleCheck()
         {
-            if (check)
+            if (Check)
             {
-                check = false;
+                Check = false;
             }else
             {
-                check = true;
+                Check = true;
             }
+
         }
 
-        public bool getCheck()
-        {
-            return check;
-        }
-
-        // Inteface Methoden
+        // Interface Methoden
         public void aktualisierungenSpeichern()
         {
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
-
         }
     }
 }
