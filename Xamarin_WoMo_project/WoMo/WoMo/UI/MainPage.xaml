@@ -4,8 +4,12 @@
              xmlns:local="clr-namespace:WoMo"
              x:Class="WoMo.MainPage">
 
-  <Label Text="Welcome to Xamarin Forms!"
-           VerticalOptions="Center"
-           HorizontalOptions="Center" />
+  <StackLayout>
+    <Label Text="WoMo APP"/>
+    <Button Text="Stellplatz" Clicked="OnStellplatzClick" x:Name="Stellplatz"/>
+    <Button Text="Checklist" Clicked="OnChecklistClick" x:Name="Checklist"/>
+    <Button Text="Tagebuch" Clicked="OnTagebuchClick" x:Name="Tagebuch"/>
+    <Button Text ="XML-Verwaltung" Clicked="OnXMLVerwaltungClick" x:Name="XML_Verwaltung"/>
+  </StackLayout>
 
 </ContentPage>

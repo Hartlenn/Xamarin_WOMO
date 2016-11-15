@@ -69,6 +69,14 @@ namespace WoMo.Logik
             return this;
         }
 
+        public void work()
+        {
+            //in funktionen in queue werfen
+            //queue abhandeln
+            //extra task
+            //aktuelle methoden auf private setzten neue eingabe(für buffer)
+        }
+
         public int insert(IListeneintrag eintrag)
         {
             lock (locker)
