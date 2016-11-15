@@ -15,7 +15,10 @@ namespace WoMo.Logik.Listeneinträge
         private Standort standort;
         private Listenklasse<CLEintrag> eigenschaftsListe;
         private Listenklasse<BilderEintrag> bilderListe;
+        private Listenklasse<Stellplatz> superior;
+
         private static Listenklasse<CLEintrag> standardListe;
+        
 
         public static Listenklasse<CLEintrag> StandardListe
         {
@@ -25,7 +28,7 @@ namespace WoMo.Logik.Listeneinträge
             }
             set
             {
-
+                
             }
         }
 
@@ -119,22 +122,28 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
-        public Stellplatz(Standort standort, Listenklasse<CLEintrag> eigenschaftsListe, Listenklasse<BilderEintrag> bilderListe)
+        public Stellplatz(Standort standort, Listenklasse<CLEintrag> eigenschaftsListe, Listenklasse<BilderEintrag> bilderListe, Listenklasse<Stellplatz> superior)
         {
             this.Standort = standort;
             this.EigenschaftsListe = eigenschaftsListe;
             this.BilderListe = bilderListe;
+            this.superior = superior;
+            aktualisierungenSpeichern();
         }
 
-        public Stellplatz(Standort standort, Listenklasse<BilderEintrag> bilderListe)
+        public Stellplatz(Standort standort, Listenklasse<BilderEintrag> bilderListe, Listenklasse<Stellplatz> superior)
         {
             this.Standort = standort;
             this.BilderListe = bilderListe;
+            this.superior = superior;
+            aktualisierungenSpeichern();
         }
 
-        public Stellplatz(Standort standort)
+        public Stellplatz(Standort standort, Listenklasse<Stellplatz> superior)
         {
             this.Standort = standort;
+            this.superior = superior;
+            aktualisierungenSpeichern();
         }
 
 
@@ -145,5 +154,15 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
+        public string toXml()
+        {
+            return "<Stellplatz><Id>"
+                + Id + "</Id><text>"
+                + Text + "</text><Standort>"
+                + Standort.Id + "</Standort><eigenschaftsListe>"
+                + EigenschaftsListe.Id + "</eigenschaftsListe><bilderListe>"
+                + bilderListe.Id + "</bilderListe><Superior>"
+                + superior + "</Superior></Stellplatz>";
+        }
     }
 }

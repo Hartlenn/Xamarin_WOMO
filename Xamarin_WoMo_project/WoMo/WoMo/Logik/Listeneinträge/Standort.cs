@@ -12,6 +12,7 @@ namespace WoMo.Logik.Listeneinträge
         private int id;
         private string text;
         private double longitude, latitude;
+        private Listenklasse<Standort> superior;
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -60,13 +61,22 @@ namespace WoMo.Logik.Listeneinträge
 
         public Standort()
         {
-            setGpsToHere();
+
         }
 
-        public Standort(double longitude, double latitude)
+        public Standort(Listenklasse<Standort> superior)
+        {
+            setGpsToHere();
+            this.superior = superior;
+            aktualisierungenSpeichern();
+        }
+
+        public Standort(double longitude, double latitude, Listenklasse<Standort> superior)
         {
             this.Latitude = latitude;
             this.Longitude = longitude;
+            this.superior = superior;
+            aktualisierungenSpeichern();
         }
 
         public void setGpsToHere()

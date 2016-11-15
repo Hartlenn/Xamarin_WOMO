@@ -16,6 +16,7 @@ namespace WoMo.Logik.Listeneinträge
         private DateTime datum;
         private Standort standort;
         private Stellplatz stellplatz;
+        private Listenklasse<TbEintrag> superior;
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -102,44 +103,50 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
-        public TbEintrag(Standort standort, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
+        public TbEintrag(Standort standort, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
         {
             this.Tagebuch = tagebuch;
             this.Stellplatz = stellplatz;
             this.Datum = datum;
             this.Text = text;
+            this.superior = superior;
             aktualisierungenSpeichern();
+
         }
 
-        public TbEintrag(Stellplatz stellplatz, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
+        public TbEintrag(Stellplatz stellplatz, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
         {
             this.Tagebuch = tagebuch;
             this.Stellplatz = stellplatz;
             this.Datum = datum;
             this.Text = text;
+            this.superior = superior;
             aktualisierungenSpeichern();
         }
 
-        public TbEintrag(DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
+        public TbEintrag(DateTime datum, string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
         {
             this.Tagebuch = tagebuch;
             this.Datum = datum;
             this.Text = text;
+            this.superior = superior;
             aktualisierungenSpeichern();
         }
 
-        public TbEintrag(string text, Listenklasse<TbEintrag> tagebuch)
+        public TbEintrag(string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
         {
             this.Tagebuch = tagebuch;
             this.Datum = DateTime.Now;
             this.Text = text;
+            this.superior = superior;
             aktualisierungenSpeichern();
         }
 
-        public TbEintrag(Listenklasse<TbEintrag> tagebuch)
+        public TbEintrag(Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
         {
             this.Tagebuch = tagebuch;
             this.Datum = DateTime.Now;
+            this.superior = superior;
             aktualisierungenSpeichern();
         }
 
@@ -158,11 +165,22 @@ namespace WoMo.Logik.Listeneinträge
 
 
 
-        // Inteface Methoden
+        // Interface Methoden
         public void aktualisierungenSpeichern()
         {
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
 
+        }
+
+        public string toXml()
+        {
+            return "<TbEintrag><Id>"
+                + Id + "</Id><text>"
+                + "</text><Datum>"
+                + this.Datum.ToString() + "</Datum><Standort>"
+                + Standort.Id + "</Standort><Stellplatz>"
+                + Stellplatz.Id + "</Stellplatz><Superior>"
+                + superior + "</Superior></TbEintrag>";
         }
     }
 }

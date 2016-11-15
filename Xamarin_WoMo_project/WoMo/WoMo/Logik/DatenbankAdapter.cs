@@ -12,6 +12,7 @@ namespace WoMo.Logik
     {
         static object locker = new object();
         SQLiteConnection database;
+        private static DatenbankAdapter singleton;
 
     //device specific maybe not working?
         string databasePath
@@ -37,9 +38,18 @@ namespace WoMo.Logik
             }
         }
 
-        public DatenbankAdapter()
+        private DatenbankAdapter()
         {
             initialisiereDatenbank();
+        }
+
+        // Singleton
+        public static DatenbankAdapter getInstance()
+        {
+            if (singleton == null)
+                singleton = new DatenbankAdapter();
+
+            return singleton;
         }
 
         public bool initialisiereDatenbank()
@@ -154,42 +164,33 @@ namespace WoMo.Logik
 
         public Listenklasse<IListeneintrag> select(string Tabelle)
         {
+            Tabelle = Tabelle.ToLower();
+
             Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
-            if (Tabelle.Equals("Stellplatz"))
+            if (Tabelle.Equals("stellplatz"))
             {
                 List<Stellplatz> collection;
                 collection = database.Query<Stellplatz>("SELECT * FROM [Stellplatz]");
-                foreach (Stellplatz item in collection)
-                {
-                    list.add((IListeneintrag)item);
-                }
+                list.addRange(collection);
+                
             }
-            else if (Tabelle.Equals("CLEintrag"))
+            else if (Tabelle.Equals("cleintrag"))
             {
                 List<CLEintrag> collection;
                 collection = database.Query<CLEintrag>("SELECT * FROM [CLEintrag]");
-                foreach (CLEintrag item in collection)
-                {
-                    list.add((IListeneintrag)item);
-                }
+                list.addRange(collection);
             }
-            else if (Tabelle.Equals("TbEintrag"))
+            else if (Tabelle.Equals("tbeintrag"))
             {
                 List<TbEintrag> collection;
                 collection = database.Query<TbEintrag>("SELECT * FROM [TbEintrag]");
-                foreach (TbEintrag item in collection)
-                {
-                    list.add((IListeneintrag)item);
-                }
+                list.addRange(collection);
             }
-            else if (Tabelle.Equals("BilderEintrag"))
+            else if (Tabelle.Equals("bildereintrag"))
             {
                 List<BilderEintrag> collection;
                 collection = database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag]");
-                foreach (BilderEintrag item in collection)
-                {
-                    list.add((IListeneintrag)item);
-                }
+                list.addRange(collection);
             }
             else
             {
