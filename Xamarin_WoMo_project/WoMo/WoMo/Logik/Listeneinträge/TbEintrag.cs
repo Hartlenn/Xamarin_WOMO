@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,14 @@ namespace WoMo.Logik.Listeneinträge
 {
     class TbEintrag : IListeneintrag
     {
+        
         private int id;
         private string text;
         private DateTime datum;
+        private Standort standort;
+        private Stellplatz stellplatz;
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get
@@ -35,6 +40,11 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
+        /// <summary>
+        /// Nur wichtig für SQLLite, damit in der Datenbank der Verweis zum Tagebuch richtig stattfindet.
+        /// </summary>
+        public Listenklasse<TbEintrag> Tagebuch { get; set; }
+
         public DateTime Datum
         {
             get
@@ -44,30 +54,93 @@ namespace WoMo.Logik.Listeneinträge
 
             set
             {
-                datum = value;
+                if(value <= DateTime.Now)
+                    datum = value;
+            }
+        }
+
+        /// <summary>
+        /// Der Standort an dem der Tagebucheintrag erstellt wurde. 
+        /// Schließt einen Stellplatz aus.
+        /// </summary>
+        public Standort Standort
+        {
+            get
+            {
+                return standort;
+            }
+
+            set
+            {
+                stellplatz = null;
+                standort = value;
+            }
+        }
+
+        /// <summary>
+        /// Der Stellplatz an dem der Tagebucheintrag erstellt wurde. 
+        /// Schließt einen Standort aus, da er bereits im Stellplatz enthalten ist.
+        /// </summary>
+        public Stellplatz Stellplatz
+        {
+            get
+            {
+                return stellplatz;
+            }
+
+            set
+            {
+                standort = null;
+                stellplatz = value;
             }
         }
 
         // Konstruktoren
 
-        public TbEintrag(DateTime datum, string text)
-        {
-            this.Datum = datum;
-            this.Text = text;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
-        }
-
-        public TbEintrag(string text)
-        {
-            this.Datum = DateTime.Now;
-            this.Text = text;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
-        }
-
         public TbEintrag()
         {
+
+        }
+
+        public TbEintrag(Standort standort, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
+        {
+            this.Tagebuch = tagebuch;
+            this.Stellplatz = stellplatz;
+            this.Datum = datum;
+            this.Text = text;
+            aktualisierungenSpeichern();
+        }
+
+        public TbEintrag(Stellplatz stellplatz, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
+        {
+            this.Tagebuch = tagebuch;
+            this.Stellplatz = stellplatz;
+            this.Datum = datum;
+            this.Text = text;
+            aktualisierungenSpeichern();
+        }
+
+        public TbEintrag(DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
+        {
+            this.Tagebuch = tagebuch;
+            this.Datum = datum;
+            this.Text = text;
+            aktualisierungenSpeichern();
+        }
+
+        public TbEintrag(string text, Listenklasse<TbEintrag> tagebuch)
+        {
+            this.Tagebuch = tagebuch;
             this.Datum = DateTime.Now;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.Text = text;
+            aktualisierungenSpeichern();
+        }
+
+        public TbEintrag(Listenklasse<TbEintrag> tagebuch)
+        {
+            this.Tagebuch = tagebuch;
+            this.Datum = DateTime.Now;
+            aktualisierungenSpeichern();
         }
 
         // Methoden
@@ -79,7 +152,8 @@ namespace WoMo.Logik.Listeneinträge
         public void aendereText(string text)
         {
             this.Text = text;
-            DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            aktualisierungenSpeichern();
+
         }
 
 
