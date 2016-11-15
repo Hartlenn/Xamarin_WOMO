@@ -97,6 +97,11 @@ namespace WoMo.Logik.Listeneinträge
 
         // Konstruktoren
 
+        public TbEintrag()
+        {
+
+        }
+
         public TbEintrag(Standort standort, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch)
         {
             this.Tagebuch = tagebuch;

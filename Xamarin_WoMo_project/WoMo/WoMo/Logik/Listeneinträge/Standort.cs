@@ -58,6 +58,11 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
+        public Standort()
+        {
+            setGpsToHere();
+        }
+
         public Standort(double longitude, double latitude)
         {
             this.Latitude = latitude;

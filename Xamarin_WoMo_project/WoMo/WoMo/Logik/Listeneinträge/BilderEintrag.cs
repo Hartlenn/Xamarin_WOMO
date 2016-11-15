@@ -69,6 +69,11 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
+        public BilderEintrag()
+        {
+
+        }
+
         public BilderEintrag(int bildId, Listenklasse<BilderEintrag> bilderListe)
         {
             this.BildId = bildId;

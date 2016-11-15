@@ -11,7 +11,7 @@ namespace WoMo.Logik.Listeneinträge
     {
         private int id;
         private string text;
-        private bool check;
+        private bool check = false;
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -57,7 +57,7 @@ namespace WoMo.Logik.Listeneinträge
 
         public CLEintrag()
         {
-            Check = false;
+
         }
 
         public void toggleCheck()

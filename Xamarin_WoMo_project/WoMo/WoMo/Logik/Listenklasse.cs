@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,7 @@ namespace WoMo.Logik
             }
         }
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get
@@ -57,27 +59,23 @@ namespace WoMo.Logik
         }
 
         public Listenklasse(){
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            
         }
 
         public Listenklasse(string text)
         {
             this.Text = text;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
         }
 
         public Listenklasse(string text, IListeneintrag eintrag)
         {
             this.Text = text;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
 
         }
 
         public Listenklasse(string text, List<IListeneintrag> liste)
         {
             this.Text = text;
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
-
         }
 
         // Methoden
