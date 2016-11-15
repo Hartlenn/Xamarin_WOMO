@@ -2,143 +2,194 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
 using SQLite;
+using System.IO;
+using WoMo.Logik.Listeneinträge;
 
 namespace WoMo.Logik
 {
     class DatenbankAdapter
     {
-        // Attribute
+        static object locker = new object();
+        SQLiteConnection database;
 
-        private static DatenbankAdapter dba;
-        private string datenbank, user;
-        private System.Security.SecureString passwort;
-        private static Uri adresse;
-
-        private Dictionary<Type, string> tabellen = new Dictionary<Type, string>();
-
-
-        public Dictionary<Type, string> Tabellen
+    //device specific maybe not working?
+        string databasePath
         {
             get
             {
-                return tabellen;
-            }
+                var sqlliteFilename = "WoMo.db3";
+#if __IOS__
+                string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                string libaryPath = Path.Combine(documentsPath, "..", "Libary");
+                var path = Path.Combine(libaryPath, sqlliteFilename);
+#else
+#if __ANDROID__
+                    string documentsPath = Environment.getFolderPath(Environment.SpecialFolder.Personal);
+                    var path = Path.Combine(documentsPath, sqlliteFilename);
+#else
+                var path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, sqlliteFilename);
+#endif
+#endif
+                return path;
 
-            set
-            {
-                tabellen.Add(value.GetType(), value.GetType().FullName);
+
             }
         }
 
-        // Konstruktor
-
-        private DatenbankAdapter(string pDatenbank, string pUser, System.Security.SecureString pPasswort, Uri pAdresse)
+        public DatenbankAdapter()
         {
-            datenbank = pDatenbank;
-            user = pUser;
-            passwort = pPasswort;
-            adresse = pAdresse;
+            initialisiereDatenbank();
         }
 
-        public static DatenbankAdapter getInstance()
+        public bool initialisiereDatenbank()
         {
-            if(dba == null)
-            {
-                System.Security.SecureString password = new System.Security.SecureString();
-                dba = new DatenbankAdapter("deufault", "root", password, new Uri("./database"));
-            }
-
-            return dba;
-        }
-
-        // Methoden
-        public int insert(IListeneintrag eintrag, string type)
-        {
-            bool b = false;
-
-            SqlConnection connection = this.connect();
-            connection.Open();
-            SqlCommand command = connection.CreateCommand();
-            SqlTransaction transaction;
-            // Start a local transaction.
-            transaction = connection.BeginTransaction("SampleTransaction");
-
-            // Must assign both transaction object and connection
-            // to Command object for a pending local transaction
-            command.Connection = connection;
-            command.Transaction = transaction;
-
             try
             {
-                type = type.ToLower();
-                string tabelle = "";
-                tabellen.TryGetValue(eintrag.GetType(), out tabelle);
-                string spalten = this.ConvertArrayToString(eintrag.GetType().GetCustomAttributes(true));
-                string values = this.ConvertArrayToString(eintrag.GetType().GetCustomAttributesData().ToArray());
-
-
-                command.CommandText = "Insert into" + tabelle + "(" + spalten + ") VALUES (" + values + ");";
-                command.ExecuteNonQuery();
-
-                // Attempt to commit the transaction.
-                transaction.Commit();
-                //Console.WriteLine("Records are written to database.");
-                b = true;
+                database = new SQLiteConnection(databasePath);
             }
-            catch (Exception ex)
+            catch
             {
-                b = false;
-                //Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
-                //Console.WriteLine("  Message: {0}", ex.Message);
-
-                // Attempt to roll back the transaction.
-                try
-                {
-                    transaction.Rollback();
-                }
-                catch (Exception ex2)
-                {
-                    // This catch block will handle any errors that may have occurred
-                    // on the server that would cause the rollback to fail, such as
-                    // a closed connection.
-                    //Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                    //Console.WriteLine("  Message: {0}", ex2.Message);
-                }
+                return false;
             }
-
-            return b;
+            return true;
         }
 
-        public IListeneintrag getObject(Type klasse, int id) { throw new NotImplementedException(); }
-        public IListeneintrag getObject(Type klasse, string suchText) { throw new NotImplementedException(); }
-        public IListeneintrag getObject(string klasse, int id) { throw new NotImplementedException(); }
-
-
-
-
-        private SqlConnection connect()
+        public void erstelleObjekte()
         {
-
-            return new SqlConnection(adresse.AbsolutePath, new SqlCredential(this.user, this.passwort));
+            database.CreateTable<BilderEintrag>();
+            database.CreateTable<CLEintrag>();
+            database.CreateTable<Standort>();
+            database.CreateTable<Stellplatz>();
+            database.CreateTable<TbEintrag>();
         }
 
-
-        private string ConvertArrayToString(object[] array)
+        public DatenbankAdapter getInstance()
         {
-            //
-            // Concatenate all the elements into a StringBuilder.
-            //
-            StringBuilder builder = new StringBuilder();
-            
-            foreach (object value in array)
+            return this;
+        }
+
+        public int insert(IListeneintrag eintrag)
+        {
+            lock (locker)
             {
-                builder.Append(value.ToString());
-                builder.Append(", ");
+                if (eintrag is Stellplatz)
+                {
+                    return database.Insert((Stellplatz)eintrag);
+                }
+                else if (eintrag is CLEintrag)
+                {
+                    return database.Insert((CLEintrag)eintrag);
+                }
+                else if (eintrag is TbEintrag)
+                {
+                    return database.Insert((TbEintrag)eintrag);
+                }
+                else if (eintrag is BilderEintrag)
+                {
+                    return database.Insert((BilderEintrag)eintrag);
+                }
+                else
+                    return 0;
             }
-            return builder.ToString().Trim(", ".ToCharArray());
+        }
+
+        public bool update(IListeneintrag eintrag)
+        {
+            lock (locker)
+            {
+                if (eintrag is Stellplatz)
+                {
+                    return database.Update((Stellplatz)eintrag) > 0;
+                }
+                else if (eintrag is CLEintrag)
+                {
+                    return database.Update((CLEintrag)eintrag) > 0;
+                }
+                else if (eintrag is TbEintrag)
+                {
+                    return database.Update((TbEintrag)eintrag) > 0;
+                }
+                else if (eintrag is BilderEintrag)
+                {
+                    return database.Update((BilderEintrag)eintrag) > 0;
+                }
+                else
+                    return false;
+            }
+        }
+
+        public bool delete(IListeneintrag eintrag)
+        {
+            lock (locker)
+            {
+                if (eintrag is Stellplatz)
+                {
+                    return database.Delete((Stellplatz)eintrag) > 0;
+                }
+                else if (eintrag is CLEintrag)
+                {
+                    return database.Delete((CLEintrag)eintrag) > 0;
+                }
+                else if (eintrag is TbEintrag)
+                {
+                    return database.Delete((TbEintrag)eintrag) > 0;
+                }
+                else if (eintrag is BilderEintrag)
+                {
+                    return database.Delete((BilderEintrag)eintrag) > 0;
+                }
+                else
+                    return false;
+            }
+        }
+
+        public Listenklasse<IListeneintrag> select(string Tabelle)
+        {
+            Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
+            if (Tabelle.Equals("Stellplatz"))
+            {
+                List<Stellplatz> collection;
+                collection = database.Query<Stellplatz>("SELECT * FROM [Stellplatz]");
+                foreach (Stellplatz item in collection)
+                {
+                    list.add((IListeneintrag)item);
+                }
+            }
+            else if (Tabelle.Equals("CLEintrag"))
+            {
+                List<CLEintrag> collection;
+                collection = database.Query<CLEintrag>("SELECT * FROM [CLEintrag]");
+                foreach (CLEintrag item in collection)
+                {
+                    list.add((IListeneintrag)item);
+                }
+            }
+            else if (Tabelle.Equals("TbEintrag"))
+            {
+                List<TbEintrag> collection;
+                collection = database.Query<TbEintrag>("SELECT * FROM [TbEintrag]");
+                foreach (TbEintrag item in collection)
+                {
+                    list.add((IListeneintrag)item);
+                }
+            }
+            else if (Tabelle.Equals("BilderEintrag"))
+            {
+                List<BilderEintrag> collection;
+                collection = database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag]");
+                foreach (BilderEintrag item in collection)
+                {
+                    list.add((IListeneintrag)item);
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+            return list;
         }
     }
 }
+

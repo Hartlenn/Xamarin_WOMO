@@ -48,17 +48,31 @@
     <Compile Include="Logik\Listeneinträge\Stellplatz.cs" />
     <Compile Include="Logik\Listeneinträge\TbEintrag.cs" />
     <Compile Include="Logik\DatenbankAdapter.cs" />
-    <Compile Include="Logik\DatenbankController.cs" />
     <Compile Include="Logik\IListeneintrag.cs" />
     <Compile Include="Logik\Listenklasse.cs" />
     <Compile Include="Logik\SQLite_Adapter.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="UI\Checklist.xaml.cs">
+      <DependentUpon>Checklist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Listenverzeichnis.xaml.cs">
+      <DependentUpon>Listenverzeichnis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Stellplatz_Eigenschaften.xaml.cs">
+      <DependentUpon>Stellplatz_Eigenschaften.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Stellplatz_Uebersicht.xaml.cs">
+      <DependentUpon>Stellplatz_Uebersicht.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Tagebuch.xaml.cs">
+      <DependentUpon>Tagebuch.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainPage.xaml">
+    <EmbeddedResource Include="UI\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -99,6 +113,36 @@
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Stellplatz_Eigenschaften.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Stellplatz_Uebersicht.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Checklist.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Tagebuch.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\Listenverzeichnis.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
