@@ -104,19 +104,20 @@ namespace WoMo.Logik
         {
             if (eintrag is Stellplatz)
             {
-
+                database.Delete<DB_Stellplatz>(eintrag.Id);
             }
             else if (eintrag is CLEintrag)
             {
-
+                database.Delete<DB_Checklisten_Eintrag>(eintrag.Id);
             }
             else if (eintrag is TBEintrag)
             {
-
+                List<DB_TBEintrag_Standort> standorte = database.Query();
+                database.Delete<DB_Tagebuch_Eintrag>(eintrag.Id);
             }
             else if (eintrag is Standort)
             {
-
+                database.Delete<DB_Stellplatz>(eintrag.Id);
             }
             lock (locker) {
                 return database.Delete(eintrag) > 0;
