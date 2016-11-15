@@ -64,7 +64,16 @@ namespace WoMo.Logik
 
         public bool xmlExportDatenbank(Uri pfad)
         {
-            DatenbankAdapter.getInstance().select("BilderEintrag");
+            string xml = "<XML><WoMo>";
+
+            xml += DatenbankAdapter.getInstance().select("DB_Bilderliste").toXml();
+            xml += DatenbankAdapter.getInstance().select("DB_Checkliste").toXml();
+            xml += DatenbankAdapter.getInstance().select("DB_Tagebuch").toXml();
+            xml += "</menue></WoMo></XML>";
+
+            // ToDo: Dateiausgabe
+
+
         }
 
         /// <summary>

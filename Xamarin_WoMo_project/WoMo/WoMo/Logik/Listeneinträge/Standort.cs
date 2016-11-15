@@ -91,7 +91,9 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
-
-
+        public string toXml()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
