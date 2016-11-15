@@ -54,14 +54,6 @@ namespace WoMo.Logik
             }
         }
 
-        public XmlSerializer Serializer
-        {
-            get
-            {
-                return new XmlSerializer(this.GetType());
-            }
-        }
-
         public Listenklasse(){
         }
 

@@ -13,11 +13,10 @@ namespace WoMo.Logik
         // Properties
         [PrimaryKey, AutoIncrement]
         int Id { get; set; }
-
-        XmlSerializer Serializer { get; }
+        
 
         // Methoden
 
-        int sortiere(IListeneintrag vergleich);
+        
     }
 }

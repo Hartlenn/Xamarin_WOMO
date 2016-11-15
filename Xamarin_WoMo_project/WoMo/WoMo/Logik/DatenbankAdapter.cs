@@ -55,7 +55,7 @@ namespace WoMo.Logik
         }
 
         // Methoden
-        public bool insert(IListeneintrag eintrag, string type)
+        public int insert(IListeneintrag eintrag, string type)
         {
             bool b = false;
 
