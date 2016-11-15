@@ -17,6 +17,8 @@ namespace WoMo.Logik
 
         // Methoden
         void aktualisierungenSpeichern();
+        string toXml();
+
         
     }
 }

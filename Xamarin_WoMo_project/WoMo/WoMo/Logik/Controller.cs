@@ -39,7 +39,21 @@ namespace WoMo.Logik
 
         public bool xmlExport(Uri pfad)
         {
-            throw new NotImplementedException();
+            bool b = false;
+
+            string xml = "<XML>\n\t<WoMo>\n\t\t<menue>\n";
+
+            int tabcounter = 3;
+
+            foreach(IListeneintrag eintrag in menue)
+            {
+                for(int i = 0; i<tabcounter; i++)
+                {
+
+                }
+            }
+
+            return b;
         }
 
         /// <summary>
