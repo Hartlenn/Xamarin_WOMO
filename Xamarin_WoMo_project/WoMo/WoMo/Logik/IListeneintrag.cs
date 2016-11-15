@@ -13,10 +13,10 @@ namespace WoMo.Logik
         // Properties
         [PrimaryKey, AutoIncrement]
         int Id { get; set; }
-        
+
 
         // Methoden
-
+        void aktualisierungenSpeichern();
         
     }
 }

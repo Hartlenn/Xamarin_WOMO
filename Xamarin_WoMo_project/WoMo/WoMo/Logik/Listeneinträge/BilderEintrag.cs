@@ -24,11 +24,30 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
+        public int BildId
+        {
+            get
+            {
+                return bildId;
+            }
+
+            set
+            {
+                bildId = value;
+            }
+        }
+
         public BilderEintrag(int bildId)
         {
-            this.bildId = bildId;
+            this.BildId = bildId;
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
         }
 
+        // Interface Methoden
+        public void aktualisierungenSpeichern()
+        {
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+
+        }
     }
 }

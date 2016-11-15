@@ -55,25 +55,26 @@ namespace WoMo.Logik
         }
 
         public Listenklasse(){
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
         }
 
-        public Listenklasse(string text, int id)
+        public Listenklasse(string text)
         {
             this.Text = text;
-            this.Id = id;
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
         }
 
-        public Listenklasse(string text, int id, IListeneintrag eintrag)
+        public Listenklasse(string text, IListeneintrag eintrag)
         {
             this.Text = text;
-            this.Id = id;
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
 
         }
 
-        public Listenklasse(string text, int id, List<IListeneintrag> liste)
+        public Listenklasse(string text, List<IListeneintrag> liste)
         {
             this.Text = text;
-            this.Id = id;
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
 
         }
 
@@ -139,10 +140,17 @@ namespace WoMo.Logik
         }
 
 
-
         // Interface Methoden
-           
-            
+
+
+        public void aktualisierungenSpeichern()
+        {
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+        }
+
+
+
+
     }
 
     class MyTypeException : Exception

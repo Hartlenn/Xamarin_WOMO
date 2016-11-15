@@ -44,5 +44,12 @@ namespace WoMo.Logik.Listeneinträge
         {
             return check;
         }
+
+        // Inteface Methoden
+        public void aktualisierungenSpeichern()
+        {
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+
+        }
     }
 }

@@ -81,5 +81,14 @@ namespace WoMo.Logik.Listeneinträge
             this.Text = text;
             DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
         }
+
+
+
+        // Inteface Methoden
+        public void aktualisierungenSpeichern()
+        {
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+
+        }
     }
 }

@@ -48,8 +48,13 @@ namespace WoMo.Logik.Listeneinträge
         {
             throw new NotImplementedException();
         }
-        
 
+        // Inteface Methoden
+        public void aktualisierungenSpeichern()
+        {
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+
+        }
 
 
 

@@ -101,5 +101,13 @@ namespace WoMo.Logik.Listeneinträge
             this.Standort = standort;
         }
 
+
+        // Inteface Methoden
+        public void aktualisierungenSpeichern()
+        {
+            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+
+        }
+
     }
 }
