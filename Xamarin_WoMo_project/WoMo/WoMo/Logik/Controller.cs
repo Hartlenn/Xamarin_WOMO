@@ -64,7 +64,7 @@ namespace WoMo.Logik
 
         public bool xmlExportDatenbank(Uri pfad)
         {
-
+            DatenbankAdapter.
         }
 
         /// <summary>
