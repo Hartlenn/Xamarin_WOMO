@@ -12,7 +12,7 @@ namespace WoMo.Logik.Listeneinträge
         private int id;
         private string text;
         private int bildId;
-        private Listenklasse<BilderEintrag> bilderListe;
+        private Listenklasse<BilderEintrag> superior;
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -55,16 +55,16 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
-        internal Listenklasse<BilderEintrag> BilderListe
+        public Listenklasse<BilderEintrag> Superior
         {
             get
             {
-                return bilderListe;
+                return superior;
             }
 
             set
             {
-                bilderListe = value;
+                superior = value;
                 aktualisierungenSpeichern();
             }
         }
@@ -74,10 +74,10 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
-        public BilderEintrag(int bildId, Listenklasse<BilderEintrag> bilderListe)
+        public BilderEintrag(int bildId, Listenklasse<BilderEintrag> superior)
         {
             this.BildId = bildId;
-            this.BilderListe = bilderListe;
+            this.Superior = superior;
         }
 
         // Interface Methoden
@@ -85,6 +85,14 @@ namespace WoMo.Logik.Listeneinträge
         {
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
 
+        }
+
+        public string toXml()
+        {
+            return "<BilderEintrag><Id>" + Id + "</Id><text>"
+                + Text + "</text><bildId>"
+                + BildId + "</bildId><Superior>"
+                + Superior + "</Superior></BilderEintrag>";
         }
     }
 }

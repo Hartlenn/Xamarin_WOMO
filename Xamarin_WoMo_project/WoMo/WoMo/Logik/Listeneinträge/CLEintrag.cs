@@ -12,6 +12,7 @@ namespace WoMo.Logik.Listeneinträge
         private int id;
         private string text;
         private bool check = false;
+        private Listenklasse<CLEintrag> superior;
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -41,7 +42,7 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
-        public bool Check
+        public bool Checked
         {
             get
             {
@@ -60,14 +61,20 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
+        public CLEintrag(Listenklasse<CLEintrag> superior)
+        {
+            this.superior = superior;
+            aktualisierungenSpeichern();
+        }
+
         public void toggleCheck()
         {
-            if (Check)
+            if (Checked)
             {
-                Check = false;
+                Checked = false;
             }else
             {
-                Check = true;
+                Checked = true;
             }
 
         }
@@ -76,6 +83,15 @@ namespace WoMo.Logik.Listeneinträge
         public void aktualisierungenSpeichern()
         {
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+        }
+
+        public string toXml()
+        {
+            return "<CLEintrag></Id>"
+                + Id + "</Id><text>"
+                + Text + "</text><checked>"
+                + Checked + "</checked><Superior>"
+                + superior + "</Superior></CLEintrag>";
         }
     }
 }

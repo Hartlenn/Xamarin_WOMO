@@ -37,23 +37,34 @@ namespace WoMo.Logik
 
         // Methoden
 
-        public bool xmlExport(Uri pfad)
+        /// <summary>
+        /// Gibt die derzeit in der Logik befindlichen und durch das Hauptmenü erreichbare Elemente als XML aus.
+        /// </summary>
+        /// <param name="pfad"></param>
+        /// <returns></returns>
+        public bool xmlExportLogik(Uri pfad)
         {
             bool b = false;
 
-            string xml = "<XML>\n\t<WoMo>\n\t\t<menue>\n";
-
-            int tabcounter = 3;
-
-            foreach(IListeneintrag eintrag in menue)
+            try
             {
-                for(int i = 0; i<tabcounter; i++)
-                {
-
-                }
+                string xml = "<XML><WoMo><menue>"
+                    + menue.toXml()
+                    + "</menue></WoMo></XML>";
+                b = true;
+            }catch(Exception e)
+            {
+                b = false;
             }
 
+            // ToDo: Dateiausgabe
+
             return b;
+        }
+
+        public bool xmlExportDatenbank(Uri pfad)
+        {
+
         }
 
         /// <summary>

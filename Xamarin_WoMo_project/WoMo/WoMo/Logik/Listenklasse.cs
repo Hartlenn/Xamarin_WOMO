@@ -12,6 +12,7 @@ namespace WoMo.Logik
     {
         private List<T> liste = new List<T>();
         private Type akzeptiert;
+        private Listenklasse<Listenklasse<T>> superior;
 
         private string text;
         private int id;
@@ -165,7 +166,17 @@ namespace WoMo.Logik
 
         public string toXml()
         {
-            throw new NotImplementedException();
+            string xml = "<Listenklasse>" + "<Akzeptiert>" + Akzeptiert + "</Akzeptiert><Id>"
+                + Id + "</Id><text>" + Text + "</text><Superior>" + superior.Id + "</Superior>"
+                + "<Eintraege>";
+
+            foreach(T eintrag in liste)
+            {
+                xml += eintrag.toXml();
+            }
+            xml += "</Eintraege></Listenklasse>";
+
+            return xml;
         }
 
 
