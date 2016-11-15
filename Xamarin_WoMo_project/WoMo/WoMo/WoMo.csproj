@@ -40,15 +40,8 @@
     </Compile>
     <Compile Include="Logik\Controller.cs" />
     <Compile Include="Logik\Database\DB_Bilderliste.cs" />
-    <Compile Include="Logik\Database\DB_Bilder_Eintrag.cs" />
     <Compile Include="Logik\Database\DB_Checkliste.cs" />
-    <Compile Include="Logik\Database\DB_Checklisten_Eintrag.cs" />
-    <Compile Include="Logik\Database\DB_Standort.cs" />
-    <Compile Include="Logik\Database\DB_Stellplatz.cs" />
     <Compile Include="Logik\Database\DB_Tagebuch.cs" />
-    <Compile Include="Logik\Database\DB_Tagebuch_Eintrag.cs" />
-    <Compile Include="Logik\Database\DB_TBEintrag_Standort.cs" />
-    <Compile Include="Logik\Database\DB_TBEintrag_Stellplatz.cs" />
     <Compile Include="Logik\Listeneinträge\BilderEintrag.cs" />
     <Compile Include="Logik\Listeneinträge\CLEintrag.cs" />
     <Compile Include="Logik\Listeneinträge\Standort.cs" />
