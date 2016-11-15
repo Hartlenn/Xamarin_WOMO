@@ -39,7 +39,10 @@ namespace WoMo.Logik
 
         public bool xmlExport(Uri pfad)
         {
-            throw new NotImplementedException();
+            foreach(IListeneintrag eintrag in menue)
+            {
+
+            }
         }
 
         /// <summary>

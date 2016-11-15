@@ -149,6 +149,11 @@ namespace WoMo.Logik
             }
         }
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this.liste.GetEnumerator();
+        }
+
 
         // Interface Methoden
 
@@ -156,6 +161,11 @@ namespace WoMo.Logik
         public void aktualisierungenSpeichern()
         {
             this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+        }
+
+        public string toXml()
+        {
+            throw new NotImplementedException();
         }
 
 

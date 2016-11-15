@@ -9,6 +9,8 @@ namespace WoMo.Logik.Database
 {
     class DB_Standort
     {
+        // Mit der Umstellung auf Standort obsolet.
+
         private double latitude { get; set; }
         private double longtitude { get; set; }
 

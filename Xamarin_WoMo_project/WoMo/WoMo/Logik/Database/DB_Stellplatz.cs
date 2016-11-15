@@ -9,6 +9,8 @@ namespace WoMo.Logik.Database
 {
     class DB_Stellplatz
     {
+        // Mit der Umstellung auf Stellplatz obsolet.
+
         public int StandortID { get; set; }
         public int BilderlisteID { get; set; }
         public int ChecklistID { get; set; }
