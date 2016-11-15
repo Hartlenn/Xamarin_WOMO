@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
-namespace WoMo.Logik
+namespace WoMo.Logik.Database
 {
-    interface IListeneintrag
+    class DB_Bilderliste
     {
-        // Properties
-        [PrimaryKey, AutoIncrement]
-        int Id { get; set; }
+        public int StellplatzID { get; set; }
 
-        XmlSerializer Serializer { get; }
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
     }
 }

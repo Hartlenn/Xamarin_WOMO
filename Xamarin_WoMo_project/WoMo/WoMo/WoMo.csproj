@@ -38,17 +38,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-	<Compile Include="Logik\Controller.cs" />  
-    <Compile Include="Logik\Database\Bilderliste.cs" />
-    <Compile Include="Logik\Database\Bilder_Eintrag.cs" />
-    <Compile Include="Logik\Database\Checkliste.cs" />
-    <Compile Include="Logik\Database\Checklisten_Eintrag.cs" />
-    <Compile Include="Logik\Database\Standort.cs" />
-    <Compile Include="Logik\Database\Stellplatz.cs" />
-    <Compile Include="Logik\Database\Tagebuch.cs" />
-    <Compile Include="Logik\Database\Tagebuch_Eintrag.cs" />
-    <Compile Include="Logik\Database\TBEintrag_Standort.cs" />
-    <Compile Include="Logik\Database\TBEintrag_Stellplatz.cs" />
+    <Compile Include="Logik\Controller.cs" />
+    <Compile Include="Logik\Database\DB_Bilderliste.cs" />
+    <Compile Include="Logik\Database\DB_Bilder_Eintrag.cs" />
+    <Compile Include="Logik\Database\DB_Checkliste.cs" />
+    <Compile Include="Logik\Database\DB_Checklisten_Eintrag.cs" />
+    <Compile Include="Logik\Database\DB_Standort.cs" />
+    <Compile Include="Logik\Database\DB_Stellplatz.cs" />
+    <Compile Include="Logik\Database\DB_Tagebuch.cs" />
+    <Compile Include="Logik\Database\DB_Tagebuch_Eintrag.cs" />
+    <Compile Include="Logik\Database\DB_TBEintrag_Standort.cs" />
+    <Compile Include="Logik\Database\DB_TBEintrag_Stellplatz.cs" />
     <Compile Include="Logik\DatenbankAdapter.cs" />
     <Compile Include="Logik\DatenbankController.cs" />
     <Compile Include="Logik\IListeneintrag.cs" />
