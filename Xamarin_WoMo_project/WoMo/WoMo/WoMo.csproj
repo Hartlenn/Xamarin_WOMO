@@ -49,11 +49,11 @@
     <Compile Include="Logik\Database\DB_Tagebuch_Eintrag.cs" />
     <Compile Include="Logik\Database\DB_TBEintrag_Standort.cs" />
     <Compile Include="Logik\Database\DB_TBEintrag_Stellplatz.cs" />
-	<Compile Include="Logik\Listeneinträge\BilderEintrag.cs" />
-	<Compile Include="Logik\Listeneinträge\CLEintrag.cs" />
-	<Compile Include="Logik\Listeneinträge\Standort.cs" />
-	<Compile Include="Logik\Listeneinträge\Stellplatz.cs" />
-	<Compile Include="Logik\Listeneinträge\TbEintrag.cs" />
+    <Compile Include="Logik\Listeneinträge\BilderEintrag.cs" />
+    <Compile Include="Logik\Listeneinträge\CLEintrag.cs" />
+    <Compile Include="Logik\Listeneinträge\Standort.cs" />
+    <Compile Include="Logik\Listeneinträge\Stellplatz.cs" />
+    <Compile Include="Logik\Listeneinträge\TbEintrag.cs" />
     <Compile Include="Logik\DatenbankAdapter.cs" />
     <Compile Include="Logik\DatenbankController.cs" />
     <Compile Include="Logik\IListeneintrag.cs" />
@@ -86,6 +86,9 @@
     <Reference Include="SQLitePCLRaw.core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SQLitePCLRaw.core.1.0.1\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Windows">
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral\Windows.winmd</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.2.0.45\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
