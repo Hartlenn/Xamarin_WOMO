@@ -14,7 +14,7 @@ namespace WoMo.Logik
         static object locker = new object();
         SQLiteConnection database;
         //needs to be filled later(device specific)
-       string databasePath
+        string databasePath
         {
             get
             {
@@ -55,16 +55,11 @@ namespace WoMo.Logik
 
         public void erstelleObjekte()
         {
-            database.CreateTable<DB_Bilder_Eintrag>();
-            database.CreateTable<DB_Bilderliste>();
-            database.CreateTable<DB_Checkliste>();
-            database.CreateTable<DB_Checklisten_Eintrag>();
-            database.CreateTable<DB_Standort>();
-            database.CreateTable<DB_Stellplatz>();
-            database.CreateTable<DB_Tagebuch>();
-            database.CreateTable<DB_Tagebuch_Eintrag>();
-            database.CreateTable<DB_TBEintrag_Standort>();
-            database.CreateTable<DB_TBEintrag_Stellplatz>();
+            database.CreateTable<BilderEintrag>();
+            database.CreateTable<CLEintrag>();
+            database.CreateTable<Standort>();
+            database.CreateTable<Stellplatz>();
+            database.CreateTable<TbEintrag>();
         }
 
         public DatenbankController getInstance()
@@ -74,50 +69,50 @@ namespace WoMo.Logik
 
         public int insert(IListeneintrag eintrag)
         {
-            if (eintrag is Stellplatz)
-            {
-                throw new NotImplementedException();
-            }
-            else if (eintrag is CLEintrag)
-            {
-                throw new NotImplementedException();
-            }
-            else if(eintrag is TbEintrag)
-            {
-                throw new NotImplementedException();
-            }
-            else if(eintrag is Standort)
-            {
-                throw new NotImplementedException();
-            }
-            lock (locker)
-            {
-                return database.Insert(eintrag);
+            lock (locker) { 
+                if (eintrag is Stellplatz)
+                {
+                    return database.Insert((Stellplatz)eintrag);
+                }
+                else if (eintrag is CLEintrag)
+                {
+                    return database.Insert((CLEintrag)eintrag);
+                }
+                else if (eintrag is TbEintrag)
+                {
+                    return database.Insert((TbEintrag)eintrag);
+                }
+                else if (eintrag is BilderEintrag)
+                {
+                    return database.Insert((BilderEintrag)eintrag);
+                }
+                else
+                    return 0;
             }
         }
 
         public bool update(IListeneintrag eintrag)
         {
-            lock (locker) { 
-                if (eintrag is DB_Stellplatz)
+            lock (locker) {
+                if (eintrag is Stellplatz)
                 {
-                    throw new NotImplementedException();
+                    return database.Update((Stellplatz)eintrag) > 0;
                 }
                 else if (eintrag is CLEintrag)
                 {
-                    throw new NotImplementedException()
+                    return database.Update((CLEintrag)eintrag) > 0;
                 }
                 else if (eintrag is TbEintrag)
                 {
-                    throw new NotImplementedException();
+                    return database.Update((TbEintrag)eintrag) > 0;
                 }
-                else if (eintrag is DB_Standort)
+                else if (eintrag is BilderEintrag)
                 {
-                    throw new NotImplementedException();
+                    return database.Update((BilderEintrag)eintrag) > 0;
                 }
+                else
+                    return false;
             }
-
-            return false;
         }
 
         public bool delete(IListeneintrag eintrag)
@@ -126,39 +121,50 @@ namespace WoMo.Logik
             {
                 if (eintrag is Stellplatz)
                 {
-                    throw new NotImplementedException();
+                    return database.Delete((Stellplatz)eintrag) > 0;
                 }
                 else if (eintrag is CLEintrag)
                 {
-                    throw new NotImplementedException();
+                    return database.Delete((CLEintrag)eintrag) > 0;
                 }
                 else if (eintrag is TbEintrag)
                 {
-                    List<DB_TBEintrag_Standort> standorte = database.Query<DB_TBEintrag_Standort>("SELECT * FROM [DB_TBEintrag_Standort] WHERE [TBEintragID] = ?", eintrag.Id);
-                    foreach(DB_TBEintrag_Standort pos in standorte)
-                    {
-                        database.Delete<DB_TBEintrag_Standort>(pos.Id);
-                    }
-                    List<DB_TBEintrag_Stellplatz> plaetze = database.Query<DB_TBEintrag_Stellplatz>("SELECT * FROM [DB_TBEintrag_Stellplatz] WHERE [TBEintragID] = ?", eintrag.Id);
-                    foreach(DB_TBEintrag_Stellplatz platz in plaetze)
-                    {
-                        database.Delete<DB_TBEintrag_Stellplatz>(platz.Id);
-                    }
-                    return database.Delete<DB_Tagebuch_Eintrag>(eintrag.Id) > 0;
+                    return database.Delete((TbEintrag)eintrag) > 0;
                 }
-                else if (eintrag is Standort)
+                else if (eintrag is BilderEintrag)
                 {
-                    throw new NotImplementedException();
+                    return database.Delete((BilderEintrag)eintrag) > 0;
                 }
+                else
+                    return false;
             }
-
-            return false;
         }
 
-        public IEnumerable<IListeneintrag> select(string Tabelle)
+        public Listenklasse<IListeneintrag> select(string Tabelle)
         {
-            throw new NotImplementedException();
-            return null;
+            Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
+            if (Tabelle.Equals("Stellplatz"))
+            {
+                list = database.Query<Stellplatz>("SELECT * FROM [Stellplatz]");
+            }
+            else if (Tabelle.Equals("CLEintrag"))
+            {
+                list = database.Query<CLEintrag>("SELECT * FROM [CLEintrag]");
+            }
+            else if (Tabelle.Equals("TbEintrag"))
+            {
+                list = database.Query<TbEintrag>("SELECT * FROM [TbEintrag]");
+            }
+            else if (Tabelle.Equals("BilderEintrag"))
+            {
+                list = database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag]");
+            }
+            else
+            {
+                return null;
+            }
+
+            return list;
         }
     }
 }
