@@ -34,16 +34,16 @@ namespace WoMo.Logik
 
         public void erstelleObjekte()
         {
-            database.CreateTable<Bilder_Eintrag>();
-            database.CreateTable<Bilderliste>();
-            database.CreateTable<Checkliste>();
-            database.CreateTable<Checklisten_Eintrag>();
-            database.CreateTable<Standort>();
-            database.CreateTable<Stellplatz>();
-            database.CreateTable<Tagebuch>();
-            database.CreateTable<Tagebuch_Eintrag>();
-            database.CreateTable<TBEintrag_Standort>();
-            database.CreateTable<TBEintrag_Stellplatz>();
+            database.CreateTable<DB_Bilder_Eintrag>();
+            database.CreateTable<DB_Bilderliste>();
+            database.CreateTable<DB_Checkliste>();
+            database.CreateTable<DB_Checklisten_Eintrag>();
+            database.CreateTable<DB_Standort>();
+            database.CreateTable<DB_Stellplatz>();
+            database.CreateTable<DB_Tagebuch>();
+            database.CreateTable<DB_Tagebuch_Eintrag>();
+            database.CreateTable<DB_TBEintrag_Standort>();
+            database.CreateTable<DB_TBEintrag_Stellplatz>();
         }
 
         public DatenbankController getInstance()
@@ -53,6 +53,22 @@ namespace WoMo.Logik
 
         public int insert(IListeneintrag eintrag)
         {
+            if (eintrag is DB_Stellplatz)
+            {
+
+            }
+            else if (eintrag is CLEintrag)
+            {
+
+            }
+            else if(eintrag is TBEintrag)
+            {
+
+            }
+            else if(eintrag is DB_Standort)
+            {
+
+            }
             lock (locker)
             {
                 return database.Insert(eintrag);
@@ -61,6 +77,22 @@ namespace WoMo.Logik
 
         public bool update(IListeneintrag eintrag)
         {
+            if (eintrag is DB_Stellplatz)
+            {
+
+            }
+            else if (eintrag is CLEintrag)
+            {
+
+            }
+            else if (eintrag is TBEintrag)
+            {
+
+            }
+            else if (eintrag is DB_Standort)
+            {
+
+            }
             lock (locker)
             {
                 return database.Update(eintrag) > 0;
@@ -70,14 +102,30 @@ namespace WoMo.Logik
 
         public bool delete(IListeneintrag eintrag)
         {
+            if (eintrag is Stellplatz)
+            {
+
+            }
+            else if (eintrag is CLEintrag)
+            {
+
+            }
+            else if (eintrag is TBEintrag)
+            {
+
+            }
+            else if (eintrag is Standort)
+            {
+
+            }
             lock (locker) {
                 return database.Delete(eintrag) > 0;
             }
         }
 
-        public IListeneintrag select(String Tabelle)
+        public IEnumerable<IListeneintrag> select(string Tabelle)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

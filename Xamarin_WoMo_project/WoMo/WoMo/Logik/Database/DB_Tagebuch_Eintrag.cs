@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Database
 {
-    class Tagebuch_Eintrag
+    class DB_Tagebuch_Eintrag
     {
         public DateTime Datum { get; set; }
         public String Inhalt { get; set; }
@@ -16,11 +16,5 @@ namespace WoMo.Logik.Database
 
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        public int sortiere(IListeneintrag vergleich)
-        {
-            if (this.Id < vergleich.Id) return -1;
-            if (this.Id == vergleich.Id) return 0;
-            else return 1;
-        }
     }
 }
