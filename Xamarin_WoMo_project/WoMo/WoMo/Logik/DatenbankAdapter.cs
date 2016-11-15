@@ -74,11 +74,6 @@ namespace WoMo.Logik
             database.CreateTable<TbEintrag>();
         }
 
-        public DatenbankAdapter getInstance()
-        {
-            return this;
-        }
-
         public int insert(IListeneintrag eintrag)
         {
             lock (locker)

@@ -64,7 +64,7 @@ namespace WoMo.Logik
 
         public bool xmlExportDatenbank(Uri pfad)
         {
-            DatenbankAdapter.
+            DatenbankAdapter.getInstance().select("BilderEintrag");
         }
 
         /// <summary>
