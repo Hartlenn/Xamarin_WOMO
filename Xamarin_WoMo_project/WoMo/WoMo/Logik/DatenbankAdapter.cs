@@ -76,7 +76,7 @@ namespace WoMo.Logik
             database.CreateTable<TbEintrag>();
         }
 
-        public int insert(IListeneintrag eintrag, String  type)
+        public int insert(IListeneintrag eintrag)
         {
             lock (locker)
             {

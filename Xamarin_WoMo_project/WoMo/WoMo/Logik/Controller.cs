@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
+using WoMo.Logik.Listeneinträge;
 
 namespace WoMo.Logik
 {
@@ -121,7 +122,31 @@ namespace WoMo.Logik
                     }
                     return -1;
                 case ("datum"):
-                    if(elem1 is Listeneinträge.TbEintrag)
+                    if(elem1 is TbEintrag)
+                    {
+                        return ((TbEintrag)elem1).Datum.CompareTo(((TbEintrag)elem2).Datum);
+                    } else
+                    {
+                        throw new MyTypeException("Elemente haben kein Datum.");
+                    }
+                case ("longitude"):
+                    if (elem1 is Standort)
+                    {
+                        return ((Standort)elem1).Longitude.CompareTo(((Standort)elem2).Longitude);
+                    }
+                    else
+                    {
+                        throw new MyTypeException("Elemente haben kein Longitude.");
+                    }
+                case ("latitude"):
+                    if (elem1 is Standort)
+                    {
+                        return ((Standort)elem1).Latitude.CompareTo(((Standort)elem2).Latitude);
+                    }
+                    else
+                    {
+                        throw new MyTypeException("Elemente haben kein Longitude.");
+                    }
                 default:
                     throw new NotSupportedException("Kenne das Attribut " + attribut + " nicht!");
 
