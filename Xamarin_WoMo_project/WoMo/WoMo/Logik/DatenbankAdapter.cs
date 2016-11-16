@@ -5,6 +5,9 @@ using System.Text;
 using SQLite;
 using System.IO;
 using WoMo.Logik.Listeneinträge;
+using WoMo.Logik.Database;
+using WoMo.Logik;
+using Xamarin.Forms;
 
 namespace WoMo.Logik
 {
@@ -13,11 +16,10 @@ namespace WoMo.Logik
         static object locker = new object();
         SQLiteConnection database;
         private static DatenbankAdapter singleton;
-        //private Queue<DBAction> workload;
 
         //device specific maybe not working?
-        string databasePath;
-        /*{
+       /* string databasePath
+        {
             get
             {
                 var sqlliteFilename = "WoMo.db3";
@@ -39,7 +41,6 @@ namespace WoMo.Logik
 
         private DatenbankAdapter()
         {
-            //workload = new Queue<DBAction>();
             initialisiereDatenbank();
         }
 
@@ -56,7 +57,8 @@ namespace WoMo.Logik
         {
             try
             {
-                database = new SQLiteConnection(databasePath);
+                var connection = DependencyService.Get<SQLite_Adapter>();
+                database = connection.GetConnection();
             }
             catch
             {
@@ -74,17 +76,7 @@ namespace WoMo.Logik
             database.CreateTable<TbEintrag>();
         }
 
-        /*
-        public void work()
-        {
-            //in funktionen in queue werfen
-            //queue abhandeln
-            //extra task
-            //aktuelle methoden auf private setzten neue eingabe(für buffer)
-        }
-        */
-
-        public int insert(IListeneintrag eintrag)
+        public int insert(IListeneintrag eintrag, String  type)
         {
             lock (locker)
             {
@@ -129,6 +121,18 @@ namespace WoMo.Logik
                 {
                     return database.Update((BilderEintrag)eintrag) > 0;
                 }
+                else if (eintrag is DB_Bilderliste)
+                {
+                    return database.Update((DB_Bilderliste)eintrag) > 0;
+                }
+                else if (eintrag is DB_Checkliste)
+                {
+                    return database.Update((DB_Checkliste)eintrag) > 0;
+                }
+                else if (eintrag is DB_Tagebuch)
+                {
+                    return database.Update((DB_Tagebuch)eintrag) > 0;
+                }
                 else
                     return false;
             }
@@ -153,6 +157,18 @@ namespace WoMo.Logik
                 else if (eintrag is BilderEintrag)
                 {
                     return database.Delete((BilderEintrag)eintrag) > 0;
+                }
+                else if (eintrag is DB_Tagebuch)
+                {
+                    return database.Delete((DB_Tagebuch)eintrag) > 0;
+                }
+                else if (eintrag is DB_Checkliste)
+                {
+                    return database.Delete((DB_Checkliste)eintrag) > 0;
+                }
+                else if (eintrag is DB_Bilderliste)
+                {
+                    return database.Delete((DB_Bilderliste)eintrag) > 0;
                 }
                 else
                     return false;
@@ -189,6 +205,24 @@ namespace WoMo.Logik
                 collection = database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag]");
                 list.addRange(collection);
             }
+            else if (Tabelle.Equals("db_bilderliste"))
+            {
+                List<DB_Bilderliste> collection;
+                collection = database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste]");
+                list.addRange(collection);
+            }
+            else if (Tabelle.Equals("db_checkliste"))
+            {
+                List<DB_Checkliste> collection;
+                collection = database.Query<DB_Checkliste>("SELECT * FROM [DB_Bilderliste]");
+                list.addRange(collection);
+            }
+            else if (Tabelle.Equals("db_tagebuch"))
+            {
+                List<DB_Tagebuch> collection;
+                collection = database.Query<DB_Tagebuch>("SELECT * FROM [DB_Bilderliste]");
+                list.addRange(collection);
+            }
             else
             {
                 return null;
@@ -196,21 +230,6 @@ namespace WoMo.Logik
 
             return list;
         }
-
-        /*
-        class DBAction
-        {
-            public String action { get; private set; }
-            public IListeneintrag eintrag { get; private set; }
-
-            public DBAction(String action, IListeneintrag eintrag)
-            {
-                this.action = action;
-                this.eintrag = eintrag;
-            }
-        }
-
-        */
     }
 }
 
