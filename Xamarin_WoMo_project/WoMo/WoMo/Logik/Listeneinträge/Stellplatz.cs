@@ -35,7 +35,6 @@ namespace WoMo.Logik.Listeneinträge
         public static void addToStandardListe(CLEintrag eintrag)
         {
             StandardListe.add(eintrag);
-            StandardListe.aktualisierungenSpeichern();
         }
 
         public static void removeFromStandardListe(int index)
@@ -67,7 +66,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 this.text = value;
-                this.aktualisierungenSpeichern();
             }
         }
 
@@ -81,7 +79,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 standort = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -99,7 +96,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 eigenschaftsListe = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -113,7 +109,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 bilderListe = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -128,7 +123,6 @@ namespace WoMo.Logik.Listeneinträge
             this.EigenschaftsListe = eigenschaftsListe;
             this.BilderListe = bilderListe;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public Stellplatz(Standort standort, Listenklasse<BilderEintrag> bilderListe, Listenklasse<Stellplatz> superior)
@@ -136,21 +130,19 @@ namespace WoMo.Logik.Listeneinträge
             this.Standort = standort;
             this.BilderListe = bilderListe;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public Stellplatz(Standort standort, Listenklasse<Stellplatz> superior)
         {
             this.Standort = standort;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
 
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.id = DatenbankAdapter.getInstance().insert(this);
 
         }
 

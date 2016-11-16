@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Database
 {
-    class DB_Tagebuch : IListeneintrag
+    class DB_Tagebuch : DB_List
     {
         public String Bezeichner { get; set; }
 
+        /*
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Text { get; set; }
-
-        public void aktualisierungenSpeichern()
+        */
+        public override void aktualisierungenSpeichern()
         {
             throw new NotImplementedException();
         }
 
-        public string toXml()
+        public override string toXml()
         {
             throw new NotImplementedException();
         }

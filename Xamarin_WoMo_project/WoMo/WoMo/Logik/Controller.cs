@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
+using WoMo.Logik.Listeneinträge;
 
 namespace WoMo.Logik
 {
@@ -20,7 +21,6 @@ namespace WoMo.Logik
         private Controller()
         {
             this.dba = DatenbankAdapter.getInstance();
-            //menue = (Listenklasse<IListeneintrag>) this.dba.getObject("Listenklasse", 0);
         }
 
         // Singleton
@@ -64,16 +64,23 @@ namespace WoMo.Logik
 
         public bool xmlExportDatenbank(Uri pfad)
         {
-            string xml = "<XML><WoMo>";
+            bool b = false;
+            try
+            {
+                string xml = "<XML><WoMo>";
 
-            xml += DatenbankAdapter.getInstance().select("DB_Bilderliste").toXml();
-            xml += DatenbankAdapter.getInstance().select("DB_Checkliste").toXml();
-            xml += DatenbankAdapter.getInstance().select("DB_Tagebuch").toXml();
-            xml += "</menue></WoMo></XML>";
-
+                xml += DatenbankAdapter.getInstance().select("DB_Bilderliste","").toXml();
+                xml += DatenbankAdapter.getInstance().select("DB_Checkliste","").toXml();
+                xml += DatenbankAdapter.getInstance().select("DB_Tagebuch","").toXml();
+                xml += "</menue></WoMo></XML>";
+                b = true;
+            }catch(Exception e)
+            {
+                b = false;
+            }
             // ToDo: Dateiausgabe
 
-            return false;
+            return b;
         }
 
         /// <summary>
@@ -114,8 +121,32 @@ namespace WoMo.Logik
                         return 0;
                     }
                     return -1;
-                case ("Datum"):
-                    throw new NotImplementedException("Datumssortierung noch nicht verfügbar.");
+                case ("datum"):
+                    if(elem1 is TbEintrag)
+                    {
+                        return ((TbEintrag)elem1).Datum.CompareTo(((TbEintrag)elem2).Datum);
+                    } else
+                    {
+                        throw new MyTypeException("Elemente haben kein Datum.");
+                    }
+                case ("longitude"):
+                    if (elem1 is Standort)
+                    {
+                        return ((Standort)elem1).Longitude.CompareTo(((Standort)elem2).Longitude);
+                    }
+                    else
+                    {
+                        throw new MyTypeException("Elemente haben kein Longitude.");
+                    }
+                case ("latitude"):
+                    if (elem1 is Standort)
+                    {
+                        return ((Standort)elem1).Latitude.CompareTo(((Standort)elem2).Latitude);
+                    }
+                    else
+                    {
+                        throw new MyTypeException("Elemente haben kein Longitude.");
+                    }
                 default:
                     throw new NotSupportedException("Kenne das Attribut " + attribut + " nicht!");
 

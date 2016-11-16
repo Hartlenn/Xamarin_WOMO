@@ -38,7 +38,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 this.text = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -52,7 +51,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 check = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -64,7 +62,6 @@ namespace WoMo.Logik.Listeneinträge
         public CLEintrag(Listenklasse<CLEintrag> superior)
         {
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public void toggleCheck()
@@ -82,7 +79,7 @@ namespace WoMo.Logik.Listeneinträge
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.id = DatenbankAdapter.getInstance().insert(this);
         }
 
         public string toXml()

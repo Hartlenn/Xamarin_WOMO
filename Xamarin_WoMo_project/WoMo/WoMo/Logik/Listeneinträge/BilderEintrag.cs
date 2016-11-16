@@ -37,7 +37,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 this.text = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -51,7 +50,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 bildId = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -65,7 +63,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 superior = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -83,7 +80,7 @@ namespace WoMo.Logik.Listeneinträge
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.id = DatenbankAdapter.getInstance().insert(this);
 
         }
 
