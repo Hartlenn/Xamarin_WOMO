@@ -13,11 +13,10 @@ namespace WoMo.Logik
         static object locker = new object();
         SQLiteConnection database;
         private static DatenbankAdapter singleton;
-        //private Queue<DBAction> workload;
 
         //device specific maybe not working?
-        string databasePath;
-        /*{
+        string databasePath
+        {
             get
             {
                 var sqlliteFilename = "WoMo.db3";
@@ -35,11 +34,10 @@ namespace WoMo.Logik
 #endif
                 return path;
             }
-        }*/
+        }
 
         private DatenbankAdapter()
         {
-            //workload = new Queue<DBAction>();
             initialisiereDatenbank();
         }
 
@@ -73,16 +71,6 @@ namespace WoMo.Logik
             database.CreateTable<Stellplatz>();
             database.CreateTable<TbEintrag>();
         }
-
-        /*
-        public void work()
-        {
-            //in funktionen in queue werfen
-            //queue abhandeln
-            //extra task
-            //aktuelle methoden auf private setzten neue eingabe(für buffer)
-        }
-        */
 
         public int insert(IListeneintrag eintrag, String  type)
         {
@@ -189,6 +177,12 @@ namespace WoMo.Logik
                 collection = database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag]");
                 list.addRange(collection);
             }
+            else if (Tabelle.Equals("db_bilderliste"))
+            {
+                List<BilderEintrag> collection;
+                collection = database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste]");
+                list.addRange(collection);
+            }
             else
             {
                 return null;
@@ -196,21 +190,6 @@ namespace WoMo.Logik
 
             return list;
         }
-
-        /*
-        class DBAction
-        {
-            public String action { get; private set; }
-            public IListeneintrag eintrag { get; private set; }
-
-            public DBAction(String action, IListeneintrag eintrag)
-            {
-                this.action = action;
-                this.eintrag = eintrag;
-            }
-        }
-
-        */
     }
 }
 
