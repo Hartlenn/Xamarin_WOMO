@@ -13,7 +13,7 @@ namespace WoMo
         {
             InitializeComponent();
 
-            MainPage = new WoMo.MainPage();
+            MainPage = new NavigationPage(new WoMo.MainPage());
         }
         
         protected override void OnStart()
