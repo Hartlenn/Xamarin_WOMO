@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
 using WoMo.Logik.Listeneinträge;
+using WoMo.Logik.Database;
 
 namespace WoMo.Logik
 {
@@ -69,9 +70,9 @@ namespace WoMo.Logik
             {
                 string xml = "<XML><WoMo>";
 
-                xml += DatenbankAdapter.getInstance().select("DB_Bilderliste","").toXml();
-                xml += DatenbankAdapter.getInstance().select("DB_Checkliste","").toXml();
-                xml += DatenbankAdapter.getInstance().select("DB_Tagebuch","").toXml();
+                xml += DatenbankAdapter.getInstance().select(new DB_Bilderliste().GetType(),"").toXml();
+                xml += DatenbankAdapter.getInstance().select(new DB_Checkliste().GetType(),"").toXml();
+                xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(),"").toXml();
                 xml += "</menue></WoMo></XML>";
                 b = true;
             }catch(Exception e)
@@ -99,28 +100,9 @@ namespace WoMo.Logik
             switch (attribut)
             {
                 case ("id"):
-                    if (elem1.Id > elem2.Id)
-                    {
-                        return 1;
-                    }
-                    else if (elem1.Id == elem2.Id)
-                    {
-                        return 0;
-                    }
-                    return -1;
+                    return elem1.Id.CompareTo(elem2.Id);
                 case ("text"):
-                    int int1 = Convert.ToInt32(elem1.Text);
-                    int int2 = Convert.ToInt32(elem2.Text);
-
-                    if (int1 >  int2)
-                    {
-                        return 1;
-                    }
-                    else if (int1 == int2)
-                    {
-                        return 0;
-                    }
-                    return -1;
+                    return elem1.Text.CompareTo(elem2.Text);
                 case ("datum"):
                     if(elem1 is TbEintrag)
                     {
@@ -147,6 +129,33 @@ namespace WoMo.Logik
                     {
                         throw new MyTypeException("Elemente haben kein Longitude.");
                     }
+                case ("distanz"):
+                    Standort e1, e2;
+
+                    if (elem1 is Standort)
+                    {
+                        e1 = (Standort)elem1; e2 = (Standort) elem2;
+                        
+                    }else if(elem1 is Stellplatz)
+                    {
+                        e1 = ((Stellplatz)elem1).Standort; e2 = ((Stellplatz)elem2).Standort;
+                    }
+                    else
+                    {
+                        throw new MyTypeException("Elemente haben keine Koordinaten.");
+                    }
+
+
+                    double longitude, latitude;
+                    Standort.getHere(out longitude, out latitude);
+
+                    double distanceFromHereToElem1 = (e1.Longitude - longitude) * (e1.Longitude - longitude)
+                        + (e1.Latitude - latitude) * (e1.Latitude - latitude);
+                    double distanceFromHereToElem2 = (e2.Longitude - longitude) * (e2.Longitude - longitude)
+                        + (e2.Latitude - latitude) * (e2.Latitude - latitude);
+
+                    return distanceFromHereToElem1.CompareTo(distanceFromHereToElem2);
+
                 default:
                     throw new NotSupportedException("Kenne das Attribut " + attribut + " nicht!");
 

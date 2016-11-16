@@ -87,6 +87,11 @@ namespace WoMo.Logik
 
         // Methoden
 
+        public List<T> getListe()
+        {
+            return this.liste;
+        }
+
         /// <summary>
         /// Fügt einen Eintrag des akzeptierten Typs der internen Liste hinzu.
         /// </summary>
@@ -139,7 +144,7 @@ namespace WoMo.Logik
         /// <summary>
         /// Sortiert die enthaltenen Listeneinträge nach dem übergebenen Attribut
         /// </summary>
-        public void sortiereEintraegeNachAttribut(string attribut)
+        public Listenklasse<T> sortiereEintraegeNachAttribut(string attribut)
         {
             for(int i = 0; i < liste.Count; i++)
             {
@@ -155,6 +160,7 @@ namespace WoMo.Logik
                 }
 
             }
+            return this;
         }
 
         public IEnumerator<T> GetEnumerator()

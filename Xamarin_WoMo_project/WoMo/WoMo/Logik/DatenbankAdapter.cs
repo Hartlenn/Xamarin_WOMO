@@ -153,51 +153,51 @@ namespace WoMo.Logik
             }
         }
 
-        public Listenklasse<IListeneintrag> select(string Tabelle, string Bedingung)
+        public Listenklasse<IListeneintrag> select(Type Tabelle, string Bedingung)
         {
-            Tabelle = Tabelle.ToLower();
+            string tabelle = Tabelle.ToString().ToLower();
             if (Bedingung.Contains(";"))
             {
                 throw new NotSupportedException("No SQL Injections allowed");
             }
 
             Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
-            if (Tabelle.Equals("stellplatz"))
+            if (tabelle.Equals("stellplatz"))
             {
                 list.addRange(database.Query<Stellplatz>("SELECT * FROM [Stellplatz] " + Bedingung));
                 
             }
-            else if (Tabelle.Equals("cleintrag"))
+            else if (tabelle.Equals("cleintrag"))
             {
                 list.addRange(database.Query<CLEintrag>("SELECT * FROM [CLEintrag] " + Bedingung));
             }
-            else if (Tabelle.Equals("tbeintrag"))
+            else if (tabelle.Equals("tbeintrag"))
             {
                 list.addRange(database.Query<TbEintrag>("SELECT * FROM [TbEintrag] " + Bedingung));
             }
-            else if (Tabelle.Equals("bildereintrag"))
+            else if (tabelle.Equals("bildereintrag"))
             {
                 list.addRange(database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag] " + Bedingung));
             }
-            else if (Tabelle.Equals("db_bilderliste"))
+            else if (tabelle.Equals("db_bilderliste"))
             {
                 foreach(DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste] " + Bedingung))
                 {
-                    list.add(DB_List.toListenklasse("bildereintrag", liste));
+                    list.add(DB_List.toListenklasse(new BilderEintrag().GetType(), liste));
                 }                
             }
-            else if (Tabelle.Equals("db_checkliste"))
+            else if (tabelle.Equals("db_checkliste"))
             {
                 foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Checkliste] " + Bedingung))
                 {
-                    list.add(DB_List.toListenklasse("cleintrag", liste));
+                    list.add(DB_List.toListenklasse(new CLEintrag().GetType(), liste));
                 }
             }
-            else if (Tabelle.Equals("db_tagebuch"))
+            else if (tabelle.Equals("db_tagebuch"))
             {
                 foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Tagebuch] " + Bedingung))
                 {
-                    list.add(DB_List.toListenklasse("tbeintrag", liste));
+                    list.add(DB_List.toListenklasse(new TbEintrag().GetType(), liste));
                 }
             }
             else

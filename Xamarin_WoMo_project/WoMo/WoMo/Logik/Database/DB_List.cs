@@ -27,7 +27,7 @@ namespace WoMo.Logik.Database
 
         // Methoden
 
-        public static Listenklasse<IListeneintrag> toListenklasse(string tabelle, DB_List liste)
+        public static Listenklasse<IListeneintrag> toListenklasse(Type tabelle, DB_List liste)
         {
             return new Listenklasse<IListeneintrag>(liste.Text, DatenbankAdapter.getInstance().select(tabelle, "WHERE [Superior] = " + liste.Id));
 

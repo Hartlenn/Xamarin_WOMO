@@ -79,6 +79,11 @@ namespace WoMo.Logik.Listeneinträge
             throw new NotImplementedException();
         }
 
+        public static void getHere(out double longitude, out double latitude)
+        {
+            throw new NotImplementedException();
+        }
+
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
