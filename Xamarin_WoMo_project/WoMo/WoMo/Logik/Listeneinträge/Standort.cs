@@ -87,13 +87,18 @@ namespace WoMo.Logik.Listeneinträge
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.id = DatenbankAdapter.getInstance().insert(this);
 
         }
 
         public string toXml()
         {
-            throw new NotImplementedException();
+            return "<Standort><Id>"
+                + Id + "</Id><text>"
+                + Text + "</text><Longitude>"
+                + Longitude + "</Longitude><Latitude>"
+                + Latitude + "</Latitude><Superior>"
+                + superior + "</Superior></Standort>";
         }
     }
 }

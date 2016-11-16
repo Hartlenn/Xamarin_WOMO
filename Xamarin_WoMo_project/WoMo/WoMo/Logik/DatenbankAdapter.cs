@@ -84,7 +84,7 @@ namespace WoMo.Logik
         }
         */
 
-        public int insert(IListeneintrag eintrag, String  type)
+        public int insert(IListeneintrag eintrag)
         {
             lock (locker)
             {

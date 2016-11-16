@@ -83,7 +83,7 @@ namespace WoMo.Logik.Listeneinträge
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.id = DatenbankAdapter.getInstance().insert(this);
 
         }
 

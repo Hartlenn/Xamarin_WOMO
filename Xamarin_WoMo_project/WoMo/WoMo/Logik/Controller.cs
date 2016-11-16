@@ -20,7 +20,6 @@ namespace WoMo.Logik
         private Controller()
         {
             this.dba = DatenbankAdapter.getInstance();
-            //menue = (Listenklasse<IListeneintrag>) this.dba.getObject("Listenklasse", 0);
         }
 
         // Singleton
@@ -64,16 +63,23 @@ namespace WoMo.Logik
 
         public bool xmlExportDatenbank(Uri pfad)
         {
-            string xml = "<XML><WoMo>";
+            bool b = false;
+            try
+            {
+                string xml = "<XML><WoMo>";
 
-            xml += DatenbankAdapter.getInstance().select("DB_Bilderliste").toXml();
-            xml += DatenbankAdapter.getInstance().select("DB_Checkliste").toXml();
-            xml += DatenbankAdapter.getInstance().select("DB_Tagebuch").toXml();
-            xml += "</menue></WoMo></XML>";
-
+                xml += DatenbankAdapter.getInstance().select("DB_Bilderliste").toXml();
+                xml += DatenbankAdapter.getInstance().select("DB_Checkliste").toXml();
+                xml += DatenbankAdapter.getInstance().select("DB_Tagebuch").toXml();
+                xml += "</menue></WoMo></XML>";
+                b = true;
+            }catch(Exception e)
+            {
+                b = false;
+            }
             // ToDo: Dateiausgabe
 
-            return false;
+            return b;
         }
 
         /// <summary>
@@ -114,8 +120,8 @@ namespace WoMo.Logik
                         return 0;
                     }
                     return -1;
-                case ("Datum"):
-                    throw new NotImplementedException("Datumssortierung noch nicht verfügbar.");
+                case ("datum"):
+                    if(elem1 is Listeneinträge.TbEintrag)
                 default:
                     throw new NotSupportedException("Kenne das Attribut " + attribut + " nicht!");
 

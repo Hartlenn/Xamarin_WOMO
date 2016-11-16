@@ -105,7 +105,8 @@ namespace WoMo.Logik
         }
 
         /// <summary>
-        /// Fügt eine Liste von Einträgen der internen Liste hinzu.
+        /// Fügt eine Liste von Einträgen der internen Liste hinzu. 
+        /// Einträge von nicht akzeptierten Typen werden nicht in die Liste übertragen.
         /// </summary>
         /// <param name="collection">Eine beliebige Collection des IListenklassen Typs</param>
         public void addRange(IEnumerable<IListeneintrag> collection)
@@ -161,7 +162,7 @@ namespace WoMo.Logik
 
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this, this.GetType().ToString());
+            this.id = DatenbankAdapter.getInstance().insert(this);
         }
 
         public string toXml()
