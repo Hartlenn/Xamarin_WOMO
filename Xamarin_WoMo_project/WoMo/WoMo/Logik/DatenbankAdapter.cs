@@ -5,6 +5,9 @@ using System.Text;
 using SQLite;
 using System.IO;
 using WoMo.Logik.Listeneinträge;
+using WoMo.Logik.Database;
+using WoMo.Logik;
+using Xamarin.Forms;
 
 namespace WoMo.Logik
 {
@@ -15,7 +18,7 @@ namespace WoMo.Logik
         private static DatenbankAdapter singleton;
 
         //device specific maybe not working?
-        string databasePath
+       /* string databasePath
         {
             get
             {
@@ -34,7 +37,7 @@ namespace WoMo.Logik
 #endif
                 return path;
             }
-        }
+        }*/
 
         private DatenbankAdapter()
         {
@@ -54,7 +57,8 @@ namespace WoMo.Logik
         {
             try
             {
-                database = new SQLiteConnection(databasePath);
+                var connection = DependencyService.Get<SQLite_Adapter>();
+                database = connection.GetConnection();
             }
             catch
             {
@@ -117,6 +121,18 @@ namespace WoMo.Logik
                 {
                     return database.Update((BilderEintrag)eintrag) > 0;
                 }
+                else if (eintrag is DB_Bilderliste)
+                {
+                    return database.Update((DB_Bilderliste)eintrag) > 0;
+                }
+                else if (eintrag is DB_Checkliste)
+                {
+                    return database.Update((DB_Checkliste)eintrag) > 0;
+                }
+                else if (eintrag is DB_Tagebuch)
+                {
+                    return database.Update((DB_Tagebuch)eintrag) > 0;
+                }
                 else
                     return false;
             }
@@ -141,6 +157,18 @@ namespace WoMo.Logik
                 else if (eintrag is BilderEintrag)
                 {
                     return database.Delete((BilderEintrag)eintrag) > 0;
+                }
+                else if (eintrag is DB_Tagebuch)
+                {
+                    return database.Delete((DB_Tagebuch)eintrag) > 0;
+                }
+                else if (eintrag is DB_Checkliste)
+                {
+                    return database.Delete((DB_Checkliste)eintrag) > 0;
+                }
+                else if (eintrag is DB_Bilderliste)
+                {
+                    return database.Delete((DB_Bilderliste)eintrag) > 0;
                 }
                 else
                     return false;
@@ -179,8 +207,20 @@ namespace WoMo.Logik
             }
             else if (Tabelle.Equals("db_bilderliste"))
             {
-                List<BilderEintrag> collection;
+                List<DB_Bilderliste> collection;
                 collection = database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste]");
+                list.addRange(collection);
+            }
+            else if (Tabelle.Equals("db_checkliste"))
+            {
+                List<DB_Checkliste> collection;
+                collection = database.Query<DB_Checkliste>("SELECT * FROM [DB_Bilderliste]");
+                list.addRange(collection);
+            }
+            else if (Tabelle.Equals("db_tagebuch"))
+            {
+                List<DB_Tagebuch> collection;
+                collection = database.Query<DB_Tagebuch>("SELECT * FROM [DB_Bilderliste]");
                 list.addRange(collection);
             }
             else
