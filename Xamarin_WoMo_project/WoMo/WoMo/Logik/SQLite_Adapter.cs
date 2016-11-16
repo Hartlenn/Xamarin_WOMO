@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik
 {
-    interface SQLite_Adapter
+    public interface SQLite_Adapter
     {
         SQLiteConnection GetConnection();
     }
