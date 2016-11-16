@@ -8,36 +8,23 @@ using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using Android.Widget; 
+using Android.Widget;
+using SQLite;
 using WoMo.Logik;
 using Xamarin.Forms;
+using System.IO;
 
 [assembly: Dependency(typeof(SQLite_Adapter))]
 namespace WoMo.Droid
 {
-    class Droid_SQLite_Adapter
+    class Droid_SQLite_Adapter : SQLite_Adapter
     {
-        
-        //device specific maybe not working?
-             /* string databasePath
-              {
-                  get
-                  {
-                      var sqlliteFilename = "WoMo.db3";
-      #if __IOS__
-                      string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-                      string libaryPath = Path.Combine(documentsPath, "..", "Libary");
-                      var path = Path.Combine(libaryPath, sqlliteFilename);
-      #else
-      #if __ANDROID__
-                          string documentsPath = Environment.getFolderPath(Environment.SpecialFolder.Personal);
-                          var path = Path.Combine(documentsPath, sqlliteFilename);
-      #else
-                      var path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, sqlliteFilename);
-      #endif
-      #endif
-                      return path;
-                  }
-              }*/
+        public SQLiteConnection GetConnection()
+        {
+            var sqliteFilename = "WoMo.db3";
+            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal); // Documents folder
+            var path = Path.Combine(documentsPath, sqliteFilename);
+            return new SQLite.SQLiteConnection(path);
+        }
     }
 }
