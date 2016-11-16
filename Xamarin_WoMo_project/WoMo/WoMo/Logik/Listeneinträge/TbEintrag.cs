@@ -110,7 +110,6 @@ namespace WoMo.Logik.Listeneinträge
             this.Datum = datum;
             this.Text = text;
             this.superior = superior;
-            aktualisierungenSpeichern();
 
         }
 
@@ -121,7 +120,6 @@ namespace WoMo.Logik.Listeneinträge
             this.Datum = datum;
             this.Text = text;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public TbEintrag(DateTime datum, string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
@@ -130,7 +128,6 @@ namespace WoMo.Logik.Listeneinträge
             this.Datum = datum;
             this.Text = text;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public TbEintrag(string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
@@ -139,7 +136,6 @@ namespace WoMo.Logik.Listeneinträge
             this.Datum = DateTime.Now;
             this.Text = text;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public TbEintrag(Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
@@ -147,7 +143,6 @@ namespace WoMo.Logik.Listeneinträge
             this.Tagebuch = tagebuch;
             this.Datum = DateTime.Now;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         // Methoden
@@ -159,7 +154,6 @@ namespace WoMo.Logik.Listeneinträge
         public void aendereText(string text)
         {
             this.Text = text;
-            aktualisierungenSpeichern();
 
         }
 

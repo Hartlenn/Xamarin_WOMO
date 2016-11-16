@@ -37,7 +37,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 this.text = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -51,7 +50,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 bildId = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -65,7 +63,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 superior = value;
-                aktualisierungenSpeichern();
             }
         }
 

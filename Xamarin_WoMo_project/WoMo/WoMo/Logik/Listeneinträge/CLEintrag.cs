@@ -38,7 +38,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 this.text = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -52,7 +51,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 check = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -64,7 +62,6 @@ namespace WoMo.Logik.Listeneinträge
         public CLEintrag(Listenklasse<CLEintrag> superior)
         {
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public void toggleCheck()

@@ -27,7 +27,6 @@ namespace WoMo.Logik
             set
             {
                 this.text = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -71,12 +70,19 @@ namespace WoMo.Logik
         public Listenklasse(string text, IListeneintrag eintrag)
         {
             this.Text = text;
-
+            this.add(eintrag);
         }
 
         public Listenklasse(string text, List<IListeneintrag> liste)
         {
             this.Text = text;
+            this.addRange(liste);
+        }
+
+        public Listenklasse(string text, Listenklasse<IListeneintrag> liste)
+        {
+            this.Text = text;
+            this.addRange(liste.liste);
         }
 
         // Methoden

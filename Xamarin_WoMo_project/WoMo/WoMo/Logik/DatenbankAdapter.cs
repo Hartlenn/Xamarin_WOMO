@@ -175,58 +175,58 @@ namespace WoMo.Logik
             }
         }
 
-        public Listenklasse<IListeneintrag> select(string Tabelle)
+        public Listenklasse<IListeneintrag> select(string Tabelle, string Bedingung)
         {
             Tabelle = Tabelle.ToLower();
+            if (Bedingung.Contains(";"))
+            {
+                throw new NotSupportedException("No SQL Injections allowed");
+            }
 
             Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
             if (Tabelle.Equals("stellplatz"))
             {
-                List<Stellplatz> collection;
-                collection = database.Query<Stellplatz>("SELECT * FROM [Stellplatz]");
-                list.addRange(collection);
+                list.addRange(database.Query<Stellplatz>("SELECT * FROM [Stellplatz] " + Bedingung));
                 
             }
             else if (Tabelle.Equals("cleintrag"))
             {
-                List<CLEintrag> collection;
-                collection = database.Query<CLEintrag>("SELECT * FROM [CLEintrag]");
-                list.addRange(collection);
+                list.addRange(database.Query<CLEintrag>("SELECT * FROM [CLEintrag] " + Bedingung));
             }
             else if (Tabelle.Equals("tbeintrag"))
             {
-                List<TbEintrag> collection;
-                collection = database.Query<TbEintrag>("SELECT * FROM [TbEintrag]");
-                list.addRange(collection);
+                list.addRange(database.Query<TbEintrag>("SELECT * FROM [TbEintrag] " + Bedingung));
             }
             else if (Tabelle.Equals("bildereintrag"))
             {
-                List<BilderEintrag> collection;
-                collection = database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag]");
-                list.addRange(collection);
+                list.addRange(database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag] " + Bedingung));
             }
             else if (Tabelle.Equals("db_bilderliste"))
             {
-                List<DB_Bilderliste> collection;
-                collection = database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste]");
-                list.addRange(collection);
+                foreach(DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste] " + Bedingung))
+                {
+                    list.add(DB_List.toListenklasse("bildereintrag", liste));
+                }                
             }
             else if (Tabelle.Equals("db_checkliste"))
             {
-                List<DB_Checkliste> collection;
-                collection = database.Query<DB_Checkliste>("SELECT * FROM [DB_Bilderliste]");
-                list.addRange(collection);
+                foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Checkliste] " + Bedingung))
+                {
+                    list.add(DB_List.toListenklasse("cleintrag", liste));
+                }
             }
             else if (Tabelle.Equals("db_tagebuch"))
             {
-                List<DB_Tagebuch> collection;
-                collection = database.Query<DB_Tagebuch>("SELECT * FROM [DB_Bilderliste]");
-                list.addRange(collection);
+                foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Tagebuch] " + Bedingung))
+                {
+                    list.add(DB_List.toListenklasse("tbeintrag", liste));
+                }
             }
             else
             {
                 return null;
             }
+
 
             return list;
         }

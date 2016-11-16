@@ -32,7 +32,6 @@ namespace WoMo.Logik.Listeneinträge
             get { return longitude; }
             set {
                 this.longitude = value;
-                aktualisierungenSpeichern();
             }
         }
         public double Latitude {
@@ -41,7 +40,6 @@ namespace WoMo.Logik.Listeneinträge
             }
             set {
                 this.latitude = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -55,7 +53,6 @@ namespace WoMo.Logik.Listeneinträge
             set
             {
                 text = value;
-                aktualisierungenSpeichern();
             }
         }
 
@@ -68,7 +65,6 @@ namespace WoMo.Logik.Listeneinträge
         {
             setGpsToHere();
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public Standort(double longitude, double latitude, Listenklasse<Standort> superior)
@@ -76,7 +72,6 @@ namespace WoMo.Logik.Listeneinträge
             this.Latitude = latitude;
             this.Longitude = longitude;
             this.superior = superior;
-            aktualisierungenSpeichern();
         }
 
         public void setGpsToHere()

@@ -41,6 +41,7 @@
     <Compile Include="Logik\Controller.cs" />
     <Compile Include="Logik\Database\DB_Bilderliste.cs" />
     <Compile Include="Logik\Database\DB_Checkliste.cs" />
+    <Compile Include="Logik\Database\DB_List.cs" />
     <Compile Include="Logik\Database\DB_Tagebuch.cs" />
     <Compile Include="Logik\Listeneinträge\BilderEintrag.cs" />
     <Compile Include="Logik\Listeneinträge\CLEintrag.cs" />
