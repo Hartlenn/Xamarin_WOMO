@@ -19,7 +19,6 @@ namespace WoMo.Logik
         // Methoden
         void aktualisierungenSpeichern();
         string toXml();
-        ViewCell getListViewEintrag();
 
 
 
