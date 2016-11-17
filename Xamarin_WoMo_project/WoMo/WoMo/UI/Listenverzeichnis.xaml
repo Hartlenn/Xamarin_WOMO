@@ -14,7 +14,7 @@
                  Orientation="Vertical"
                  Spacing="15">
       <Label x:Name="LblTitle" Text="listen"/>
-      <Button x:Name="BtnHinzuEintrag" Clicked="OnHinzuEintragClick" Text="+ Neues Element"/>
+      <Button x:Name="BtnHinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+ Neues Element"/>
       <ListView x:Name="ListAdapter" SeparatorColor="Black" ItemTapped="OnItemTapped"/>
     </StackLayout>
   </ContentPage.Content>

@@ -29,18 +29,23 @@ namespace WoMo.Logik.Listeneinträge
                 throw new NotImplementedException();
             }
         }
-        
-        public double Longitude {
+
+        public double Longitude
+        {
             get { return longitude; }
-            set {
+            set
+            {
                 this.longitude = value;
             }
         }
-        public double Latitude {
-            get {
+        public double Latitude
+        {
+            get
+            {
                 return latitude;
             }
-            set {
+            set
+            {
                 this.latitude = value;
             }
         }
@@ -102,4 +107,5 @@ namespace WoMo.Logik.Listeneinträge
                 + Latitude + "</Latitude><Superior>"
                 + superior + "</Superior></Standort>";
         }
+    }
 }
