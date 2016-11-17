@@ -8,7 +8,8 @@ using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
-    public class Standort : IListeneintrag
+    [Table("Standort")]
+    class Standort : IListeneintrag
     {
         private int id;
         private string text;

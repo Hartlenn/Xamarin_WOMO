@@ -8,7 +8,8 @@ using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
-    public class Stellplatz : IListeneintrag
+    [Table("Stellplatz")]
+    class Stellplatz : IListeneintrag
     {
 
         private int id;

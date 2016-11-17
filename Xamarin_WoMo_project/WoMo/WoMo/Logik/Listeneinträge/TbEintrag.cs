@@ -9,7 +9,8 @@ using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
-    public class TbEintrag : IListeneintrag
+    [Table("TbEintrag")]
+    class TbEintrag : IListeneintrag
     {
         
         private int id;

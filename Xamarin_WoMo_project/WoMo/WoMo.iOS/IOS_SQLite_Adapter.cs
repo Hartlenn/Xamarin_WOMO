@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using Xamarin.Forms;
 using WoMo.Logik;
+using WoMo.iOS;
 
-[assembly: Dependency (typeof(SQLite_Adapter))]
+[assembly: Dependency (typeof(IOS_SQLite_Adapter))]
 namespace WoMo.iOS
 {
     class IOS_SQLite_Adapter : SQLite_Adapter

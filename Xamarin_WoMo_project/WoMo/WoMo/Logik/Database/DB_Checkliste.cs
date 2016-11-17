@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Database
 {
+    [Table("DB_Checkliste")]
     class DB_Checkliste : DB_List
     {
         public String Bezeichner { get; set; }

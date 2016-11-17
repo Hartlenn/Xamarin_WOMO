@@ -13,8 +13,9 @@ using SQLite;
 using WoMo.Logik;
 using Xamarin.Forms;
 using System.IO;
+using WoMo.Droid;
 
-[assembly: Dependency(typeof(SQLite_Adapter))]
+[assembly: Dependency(typeof(Droid_SQLite_Adapter))]
 namespace WoMo.Droid
 {
     class Droid_SQLite_Adapter : SQLite_Adapter

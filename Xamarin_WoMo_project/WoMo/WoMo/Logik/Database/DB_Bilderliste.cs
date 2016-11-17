@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Database
 {
+    [Table("DB_Bilderliste")]
     class DB_Bilderliste : DB_List
     {
         public int StellplatzID { get; set; }

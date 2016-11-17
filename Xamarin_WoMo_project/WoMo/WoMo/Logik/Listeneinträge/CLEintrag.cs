@@ -8,7 +8,8 @@ using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
-    public class CLEintrag : BindableObject, IListeneintrag
+    [Table("CLEintrag")]
+    class CLEintrag : IListeneintrag
     {
         private int id;
         private string text;
@@ -77,11 +78,6 @@ namespace WoMo.Logik.Listeneinträge
 
         }
 
-        public override string ToString()
-        {
-            return this.text + "\t\t\t" + Checked;
-        }
-
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
@@ -96,6 +92,10 @@ namespace WoMo.Logik.Listeneinträge
                 + Checked + "</checked><Superior>"
                 + superior + "</Superior></CLEintrag>";
         }
-        
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
