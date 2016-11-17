@@ -9,6 +9,27 @@
                 WinPhone="20, 20, 20, 20" />
   </ContentPage.Padding>
   <ContentPage.Content>
-    </StackLayout>
+    <ScrollPane>
+      <StackPane>
+        <Label x:Name="Title"/>
+        <StackPane Orientation="Horizontal">
+          <Label Text="Bezeichnung:"/>
+          <Entry x:Name="Bezeichnung"/>
+        </StackPane>
+        <StackPane Orientation="Horizontal">
+          <Label Text="Position:"/>
+          <Entry x:Name="Entry"/>
+        </StackPane>
+        <StackPane Orientation="Horizontal">
+          <Label Text="Bilder:"/>
+          <Button x:Name="BtnHinzuBild" Clicked="OnBtnHinzuBildClicked" Text="+"/>
+        </StackPane>
+        <Grid>
+          
+        </Grid>
+        <ListView x:Name="ListAdapter"/>
+        <Button x:Name="HinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+"/>
+      </StackPane>
+    </ScrollPane>
   </ContentPage.Content>
 </ContentPage>

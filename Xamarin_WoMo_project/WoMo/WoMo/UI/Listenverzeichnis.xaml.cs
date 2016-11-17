@@ -13,8 +13,8 @@ namespace WoMo.UI
 {
     public partial class Listenverzeichnis : ContentPage
     {
-        private ListView ListAdapter = new ListView();
-        private Label Title;
+       private ListView ListAdapter = new ListView();
+       private Label Title;
 
 
         public Listenverzeichnis(string verzeichnis)

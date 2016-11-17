@@ -17,22 +17,21 @@ namespace WoMo
 
         async void OnStellplatzClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Stellplatz_Uebersicht());
+            await Navigation.PushAsync(new Listenverzeichnis("stellplätze"));
         }
 
         async void OnChecklistClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Checklist());
+            await Navigation.PushAsync(new Listenverzeichnis("checklisten"));
         }
 
         async void OnTagebuchClick(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Tagebuch());
+            await Navigation.PushAsync(new Listenverzeichnis("tagebücher"));
         }
 
         async void OnXMLVerwaltungClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
     }
 }
