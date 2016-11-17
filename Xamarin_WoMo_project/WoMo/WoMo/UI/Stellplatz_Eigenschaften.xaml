@@ -11,14 +11,14 @@
   <ContentPage.Content>
     <ScrollPane>
       <StackPane>
-        <Label x:Name="Title"/>
+        <Label x:Name="LblTitle"/>
         <StackPane Orientation="Horizontal">
           <Label Text="Bezeichnung:"/>
-          <Entry x:Name="Bezeichnung"/>
+          <Entry x:Name="TxtBezeichnung"/>
         </StackPane>
         <StackPane Orientation="Horizontal">
           <Label Text="Position:"/>
-          <Entry x:Name="Entry"/>
+          <Entry x:Name="TxtPosition"/>
         </StackPane>
         <StackPane Orientation="Horizontal">
           <Label Text="Bilder:"/>

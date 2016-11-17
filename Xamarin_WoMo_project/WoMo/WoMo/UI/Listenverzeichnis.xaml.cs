@@ -11,13 +11,19 @@ using Xamarin.Forms;
 
 namespace WoMo.UI
 {
-    public partial class Listenverzeichnis : ContentPage
+    public partial class Listenverzeichnis : ContentPage, IElementverwaltung
     {
         private IListeneintrag aktuellesElement;
 
-        private ListView ListAdapter = new ListView();
-        private Label LblTitle = new Label();
+        public IListeneintrag AktuellesElement
+        {
+            get
+            {
+                return this.aktuellesElement;
+            }
 
+            set { }
+        }
 
         public Listenverzeichnis(string verzeichnis)
         {
@@ -39,7 +45,7 @@ namespace WoMo.UI
                     Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe());
                     break;
             }
-            ListAdapter.ItemsSource = Verzeichnis.getListe();
+            ListAdapter.ItemsSource = Verzeichnis.getListViewList();
             InitializeComponent();
         }
 
@@ -48,22 +54,11 @@ namespace WoMo.UI
 
         public Listenverzeichnis(Listenklasse<IListeneintrag> liste)
         {
-            this.aktuellesElement = liste;
+            this.AktuellesElement = liste;
 
             // Baue die Liste individuell nach Eintragsart auf.
             // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
-            switch (liste.Akzeptiert.ToString().ToLower())
-            {
-                case ("tbeintrag"):
-                    
-                    break;
-                case ("cleintrag"):
-
-                    break;
-                case ("stellplatz"):
-
-                    break;                
-            }
+            ListAdapter.ItemsSource = liste.getListViewList();
 
             InitializeComponent();
         }
@@ -86,7 +81,7 @@ namespace WoMo.UI
             else if (item is CLEintrag)
                 ((CLEintrag)item).toggleCheck();
             else if (item is Stellplatz)
-                await Navigation.PushAsync(new Stellplatz_Eigenschaften());
+                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz) item);
 
         }
     }

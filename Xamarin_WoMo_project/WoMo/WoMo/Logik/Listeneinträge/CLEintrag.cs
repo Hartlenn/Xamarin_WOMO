@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
-    class CLEintrag : IListeneintrag
+    public class CLEintrag : IListeneintrag
     {
         private int id;
         private string text;
@@ -89,6 +90,11 @@ namespace WoMo.Logik.Listeneinträge
                 + Text + "</text><checked>"
                 + Checked + "</checked><Superior>"
                 + superior + "</Superior></CLEintrag>";
+        }
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
         }
     }
 }

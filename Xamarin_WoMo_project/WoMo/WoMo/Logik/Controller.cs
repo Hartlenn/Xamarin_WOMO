@@ -13,7 +13,7 @@ namespace WoMo.Logik
     /// <summary>
     /// Ein Singleton Controller, um logikweite Funktionen auszuführen. Z.B.: XML Export
     /// </summary>
-    class Controller
+    public class Controller
     {
         private Listenklasse<IListeneintrag> menue;
         private static Controller controller;
