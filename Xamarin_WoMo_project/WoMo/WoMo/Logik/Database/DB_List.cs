@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 using WoMo.Logik.Listeneinträge;
+using Xamarin.Forms;
 
 namespace WoMo.Logik.Database
 {
@@ -36,6 +37,11 @@ namespace WoMo.Logik.Database
         // Interface Methoden
 
         public abstract void aktualisierungenSpeichern();
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
+        }
 
         public abstract string toXml();
     }

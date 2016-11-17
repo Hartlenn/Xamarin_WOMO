@@ -81,7 +81,7 @@ namespace WoMo.UI
             else if (item is CLEintrag)
                 ((CLEintrag)item).toggleCheck();
             else if (item is Stellplatz)
-                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz) item);
+                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz) item));
 
         }
 

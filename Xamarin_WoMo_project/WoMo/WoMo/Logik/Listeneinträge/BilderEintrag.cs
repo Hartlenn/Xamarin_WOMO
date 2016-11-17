@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace WoMo.Logik.Listeneinträge
 {
     [Table("BilderEintrag")]
-    class BilderEintrag : IListeneintrag
+    public class BilderEintrag : IListeneintrag
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -18,6 +18,9 @@ namespace WoMo.Logik.Listeneinträge
         public int BildId { get; set; }
         [Ignore]
         public Listenklasse<BilderEintrag> Superior { get; set; }
+
+        private int superiorId;
+
 
         public BilderEintrag()
         {

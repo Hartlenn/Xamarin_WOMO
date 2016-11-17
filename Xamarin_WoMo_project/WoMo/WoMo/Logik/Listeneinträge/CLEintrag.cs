@@ -9,12 +9,13 @@ using Xamarin.Forms;
 namespace WoMo.Logik.Listeneinträge
 {
     [Table("CLEintrag")]
-    class CLEintrag : IListeneintrag
+    public class CLEintrag : IListeneintrag
     {
         private int id;
         private string text;
         private bool check = false;
-        private Listenklasse<CLEintrag> superior;
+        [Ignore]
+        public Listenklasse<CLEintrag> superior { get; set; }
 
         [PrimaryKey, AutoIncrement]
         public int Id

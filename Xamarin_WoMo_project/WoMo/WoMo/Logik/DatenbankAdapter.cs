@@ -53,6 +53,9 @@ namespace WoMo.Logik
             database.CreateTable<Standort>();
             database.CreateTable<Stellplatz>();
             database.CreateTable<TbEintrag>();
+            database.CreateTable<DB_Bilderliste>();
+            database.CreateTable<DB_Checkliste>();
+            database.CreateTable<DB_Tagebuch>();
         }
 
         public int insert(IListeneintrag eintrag)
@@ -163,38 +166,38 @@ namespace WoMo.Logik
             }
 
             Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
-            if (tabelle.Equals("stellplatz"))
+            if (tabelle.Equals("womo.logik.listeneinträge.stellplatz"))
             {
                 list.addRange(database.Query<Stellplatz>("SELECT * FROM [Stellplatz] " + Bedingung));
                 
             }
-            else if (tabelle.Equals("cleintrag"))
+            else if (tabelle.Equals("womo.logik.listeneinträge.cleintrag"))
             {
                 list.addRange(database.Query<CLEintrag>("SELECT * FROM [CLEintrag] " + Bedingung));
             }
-            else if (tabelle.Equals("tbeintrag"))
+            else if (tabelle.Equals("womo.logik.listeneinträge.tbeintrag"))
             {
                 list.addRange(database.Query<TbEintrag>("SELECT * FROM [TbEintrag] " + Bedingung));
             }
-            else if (tabelle.Equals("bildereintrag"))
+            else if (tabelle.Equals("womo.logik.listeneinträge.bildereintrag"))
             {
                 list.addRange(database.Query<BilderEintrag>("SELECT * FROM [BilderEintrag] " + Bedingung));
             }
-            else if (tabelle.Equals("db_bilderliste"))
+            else if (tabelle.Equals("womo.logik.database.db_bilderliste"))
             {
                 foreach(DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste] " + Bedingung))
                 {
                     list.add(DB_List.toListenklasse(new BilderEintrag().GetType(), liste));
                 }                
             }
-            else if (tabelle.Equals("db_checkliste"))
+            else if (tabelle.Equals("womo.logik.database.db_checkliste"))
             {
                 foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Checkliste] " + Bedingung))
                 {
                     list.add(DB_List.toListenklasse(new CLEintrag().GetType(), liste));
                 }
             }
-            else if (tabelle.Equals("db_tagebuch"))
+            else if (tabelle.Equals("womo.logik.database.db_tagebuch"))
             {
                 foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Tagebuch] " + Bedingung))
                 {

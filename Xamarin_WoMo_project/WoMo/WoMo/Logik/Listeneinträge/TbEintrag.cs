@@ -12,92 +12,20 @@ namespace WoMo.Logik.Listeneinträge
     [Table("TbEintrag")]
     class TbEintrag : IListeneintrag
     {
-        
-        private int id;
-        private string text;
-        private DateTime datum;
-        private Standort standort;
-        private Stellplatz stellplatz;
-        private Listenklasse<TbEintrag> superior;
-
         [PrimaryKey, AutoIncrement]
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
-            set { }
-        }
-
-        public string Text
-        {
-            get
-            {
-                return text;
-            }
-
-            set
-            {
-                text = value;
-            }
-        }
-
-        /// <summary>
-        /// Nur wichtig für SQLLite, damit in der Datenbank der Verweis zum Tagebuch richtig stattfindet.
-        /// </summary>
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public DateTime Datum { get; set; }
+        [Ignore]
+        public Standort Standort { get; set; }
+        [Ignore]
+        public Stellplatz Stellplatz { get; set; }
+        [Ignore]
+        public Listenklasse<TbEintrag> superior { get; set; }
+        [Ignore]
         public Listenklasse<TbEintrag> Tagebuch { get; set; }
 
-        public DateTime Datum
-        {
-            get
-            {
-                return datum;
-            }
-
-            set
-            {
-                if(value <= DateTime.Now)
-                    datum = value;
-            }
-        }
-
-        /// <summary>
-        /// Der Standort an dem der Tagebucheintrag erstellt wurde. 
-        /// Schließt einen Stellplatz aus.
-        /// </summary>
-        public Standort Standort
-        {
-            get
-            {
-                return standort;
-            }
-
-            set
-            {
-                stellplatz = null;
-                standort = value;
-            }
-        }
-
-        /// <summary>
-        /// Der Stellplatz an dem der Tagebucheintrag erstellt wurde. 
-        /// Schließt einen Standort aus, da er bereits im Stellplatz enthalten ist.
-        /// </summary>
-        public Stellplatz Stellplatz
-        {
-            get
-            {
-                return stellplatz;
-            }
-
-            set
-            {
-                standort = null;
-                stellplatz = value;
-            }
-        }
-
+        //add linking only standort or stellplatz allowed
         // Konstruktoren
 
         public TbEintrag()
@@ -108,7 +36,7 @@ namespace WoMo.Logik.Listeneinträge
         public TbEintrag(Standort standort, DateTime datum, string text, Listenklasse<TbEintrag> tagebuch, Listenklasse<TbEintrag> superior)
         {
             this.Tagebuch = tagebuch;
-            this.Stellplatz = stellplatz;
+            this.Standort = standort;
             this.Datum = datum;
             this.Text = text;
             this.superior = superior;
@@ -164,7 +92,7 @@ namespace WoMo.Logik.Listeneinträge
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this);
+            this.Id = DatenbankAdapter.getInstance().insert(this);
 
         }
 
