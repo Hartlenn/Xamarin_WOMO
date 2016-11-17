@@ -13,8 +13,6 @@ namespace WoMo.UI
 {
     public partial class Listenverzeichnis : ContentPage
     {
-       private ListView ListAdapter = new ListView();
-       private Label Title;
 
 
         public Listenverzeichnis(string verzeichnis)
@@ -32,7 +30,6 @@ namespace WoMo.UI
                     break;
                 case ("stellplätze"):
                     ListAdapter.ItemsSource = dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe();
-                    ((Listenklasse<Stellplatz>)ListAdapter.ItemsSource).;
                     break;
             }
             
@@ -42,20 +39,28 @@ namespace WoMo.UI
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
         // Tagebuchverzeichnis, Stellplätze und Checklisten, sodass auch die jeweiligen Einträge verwaltet werden können
 
-        public Listenverzeichnis(Type liste)
+        public Listenverzeichnis(Listenklasse<IListeneintrag> liste)
         {
+            switch (liste.Akzeptiert.ToString().ToLower())
+            {
+                case (""):
+                    break;
+            }
+
             InitializeComponent();
         }
 
         async void OnItemTapped(object sender, EventArgs e)
         {
-            IListeneintrag item = (IListeneintrag)((ListView)sender).SelectedItem;
+            ListView Sender = (ListView)sender;
+
+            IListeneintrag item = (IListeneintrag)Sender.SelectedItem;
             if (item is Listenklasse<TbEintrag>)
-                await Navigation.PushAsync(new Tagebuch());
+                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<TbEintrag>) item).getAsGeneral()));
             else if (item is Listenklasse<CLEintrag>)
-                await Navigation.PushAsync(new Checklist());
+                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<CLEintrag>) item).getAsGeneral()));
             else if (item is Listenklasse<Stellplatz>)
-                await Navigation.PushAsync(new Stellplatz_Uebersicht());
+                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<Stellplatz>) item).getAsGeneral()));
         }
     }
 }
