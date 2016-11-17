@@ -27,6 +27,8 @@ namespace WoMo.UI
 
         public Listenverzeichnis(string verzeichnis)
         {
+            InitializeComponent();
+
             LblTitle.Text = verzeichnis;
             DatenbankAdapter dba = DatenbankAdapter.getInstance();
 
@@ -46,7 +48,6 @@ namespace WoMo.UI
                     break;
             }
             ListAdapter.ItemsSource = Verzeichnis.getListe();
-            InitializeComponent();
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -88,6 +89,11 @@ namespace WoMo.UI
 
         }
 
+        public void OnBtnHinzuEintragClicked(object sender, EventArgs e)
+        {
+            // Öffne Texteditor zum Schreiben der Checkliste
+            
 
+        }
     }
 }
