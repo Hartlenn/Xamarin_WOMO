@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 
 namespace WoMo.Logik.Listeneinträge
 {
+    [Table("TbEintrag")]
     class TbEintrag : IListeneintrag
     {
         

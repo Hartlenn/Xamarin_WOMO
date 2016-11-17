@@ -12,10 +12,11 @@
     <StackLayout VerticalOptions="FillAndExpand"
                  HorizontalOptions="FillAndExpand"
                  Orientation="Vertical"
-                 Spacing="15">>
+                 Spacing="15">
       <Label x:Name="LblTitle" Text="listen"/>
       <Button x:Name="BtnHinzuEintrag" Clicked="OnHinzuEintragClick" Text="+ Neues Element"/>
-      <ListView x:Name="ListAdapter" SeparatorColor="Black" SeparatorVisibility="Default" ItemTapped="OnItemTapped"/>
+      <ListView x:Name="ListAdapter" SeparatorColor="Black" ItemTapped="OnItemTapped"/>
     </StackLayout>
   </ContentPage.Content>
+
 </ContentPage>

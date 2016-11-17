@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Listeneinträge
 {
+    [Table("CLEintrag")]
     class CLEintrag : IListeneintrag
     {
         private int id;

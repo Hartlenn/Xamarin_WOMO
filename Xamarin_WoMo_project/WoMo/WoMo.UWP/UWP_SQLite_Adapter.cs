@@ -7,11 +7,13 @@ using SQLite;
 using Xamarin.Forms;
 using System.IO;
 using Windows.Storage;
+using WoMo.Logik;
+using WoMo.UWP;
 
-[assembly: Dependency (typeof (WoMo.Logik.SQLite_Adapter))]
+[assembly: Dependency (typeof (UWP_SQLite_Adapter))]
 namespace WoMo.UWP
 {
-    class UWP_SQLite_Adapter : WoMo.Logik.SQLite_Adapter
+    class UWP_SQLite_Adapter : SQLite_Adapter
     {
         public SQLiteConnection GetConnection()
         {

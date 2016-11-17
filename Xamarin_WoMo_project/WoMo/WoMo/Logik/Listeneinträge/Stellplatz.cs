@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Listeneinträge
 {
+    [Table("Stellplatz")]
     class Stellplatz : IListeneintrag
     {
 

@@ -37,10 +37,11 @@ namespace WoMo.Logik
             {
                 var connection = DependencyService.Get<SQLite_Adapter>();
                 database = connection.GetConnection();
+                erstelleObjekte();
             }
-            catch
+            catch(Exception e)
             {
-                return false;
+                
             }
             return true;
         }

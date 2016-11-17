@@ -7,64 +7,16 @@ using System.Threading.Tasks;
 
 namespace WoMo.Logik.Listeneinträge
 {
+    [Table("BilderEintrag")]
     class BilderEintrag : IListeneintrag
     {
-        private int id;
-        private string text;
-        private int bildId;
-        private Listenklasse<BilderEintrag> superior;
-
         [PrimaryKey, AutoIncrement]
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
+        public int Id { get; set; }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public string Text
-        {
-            get
-            {
-                return this.text;
-            }
-
-            set
-            {
-                this.text = value;
-            }
-        }
-
-        public int BildId
-        {
-            get
-            {
-                return bildId;
-            }
-
-            set
-            {
-                bildId = value;
-            }
-        }
-
-        public Listenklasse<BilderEintrag> Superior
-        {
-            get
-            {
-                return superior;
-            }
-
-            set
-            {
-                superior = value;
-            }
-        }
+        public string Text { get; set; }
+        public int BildId { get; set; }
+        [Ignore]
+        public Listenklasse<BilderEintrag> Superior { get; set; }
 
         public BilderEintrag()
         {
@@ -80,7 +32,7 @@ namespace WoMo.Logik.Listeneinträge
         // Interface Methoden
         public void aktualisierungenSpeichern()
         {
-            this.id = DatenbankAdapter.getInstance().insert(this);
+            this.Id = DatenbankAdapter.getInstance().insert(this);
 
         }
 

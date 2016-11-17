@@ -13,10 +13,9 @@ namespace WoMo.UI
 {
     public partial class Listenverzeichnis : ContentPage
     {
-
-
         public Listenverzeichnis(string verzeichnis)
         {
+            InitializeComponent();
             LblTitle.Text = verzeichnis;
             verzeichnis = verzeichnis.ToLower();
             DatenbankAdapter dba = DatenbankAdapter.getInstance();
@@ -33,7 +32,6 @@ namespace WoMo.UI
                     break;
             }
             
-            InitializeComponent();
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -61,6 +59,10 @@ namespace WoMo.UI
                 await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<CLEintrag>) item).getAsGeneral()));
             else if (item is Listenklasse<Stellplatz>)
                 await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<Stellplatz>) item).getAsGeneral()));
+        }
+
+        void OnHinzuEintragClick(object sender, EventArgs e)
+        {
         }
     }
 }
