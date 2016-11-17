@@ -16,12 +16,12 @@ namespace WoMo.UI
         private IListeneintrag aktuellesElement;
 
         private ListView ListAdapter = new ListView();
-        private new Label Title = new Label();
+        private Label LblTitle = new Label();
 
 
         public Listenverzeichnis(string verzeichnis)
         {
-            Title.Text = verzeichnis;
+            LblTitle.Text = verzeichnis;
             DatenbankAdapter dba = DatenbankAdapter.getInstance();
 
             Listenklasse<IListeneintrag> Verzeichnis = new Listenklasse<IListeneintrag>(verzeichnis);
