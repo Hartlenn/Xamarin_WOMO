@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Xamarin.Forms;
 
 namespace WoMo.Logik
 {
@@ -18,7 +19,10 @@ namespace WoMo.Logik
         // Methoden
         void aktualisierungenSpeichern();
         string toXml();
+        ViewCell getListViewEintrag();
 
-        
+
+
+
     }
 }

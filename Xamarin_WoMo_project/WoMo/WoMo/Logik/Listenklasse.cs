@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Xamarin.Forms;
 
 namespace WoMo.Logik
 {
@@ -90,6 +91,17 @@ namespace WoMo.Logik
         public List<T> getListe()
         {
             return this.liste;
+        }
+
+        public List<ViewCell> getListViewList()
+        {
+            List<ViewCell> liste = new List<ViewCell>();
+            foreach(T eintrag in this.liste)
+            {
+                liste.Add(eintrag.getListViewEintrag());
+            }
+
+            return liste;
         }
 
         /// <summary>
@@ -203,9 +215,10 @@ namespace WoMo.Logik
             return xml;
         }
 
-
-
-
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class MyTypeException : Exception

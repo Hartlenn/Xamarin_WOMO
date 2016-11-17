@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
@@ -176,6 +177,11 @@ namespace WoMo.Logik.Listeneinträge
                 + Standort.Id + "</Standort><Stellplatz>"
                 + Stellplatz.Id + "</Stellplatz><Superior>"
                 + superior + "</Superior></TbEintrag>";
+        }
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -55,6 +55,7 @@
     <Compile Include="UI\Checklist.xaml.cs">
       <DependentUpon>Checklist.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\IElementverwaltung.cs" />
     <Compile Include="UI\Listenverzeichnis.xaml.cs">
       <DependentUpon>Listenverzeichnis.xaml</DependentUpon>
     </Compile>

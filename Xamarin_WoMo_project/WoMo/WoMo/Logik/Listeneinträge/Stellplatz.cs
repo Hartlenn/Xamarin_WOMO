@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
@@ -156,6 +157,11 @@ namespace WoMo.Logik.Listeneinträge
                 + EigenschaftsListe.Id + "</eigenschaftsListe><bilderListe>"
                 + bilderListe.Id + "</bilderListe><Superior>"
                 + superior + "</Superior></Stellplatz>";
+        }
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
         }
     }
 }

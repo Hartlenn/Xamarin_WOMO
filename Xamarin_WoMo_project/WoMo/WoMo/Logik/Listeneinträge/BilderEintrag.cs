@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
@@ -42,6 +43,11 @@ namespace WoMo.Logik.Listeneinträge
                 + Text + "</text><bildId>"
                 + BildId + "</bildId><Superior>"
                 + Superior + "</Superior></BilderEintrag>";
+        }
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
         }
     }
 }

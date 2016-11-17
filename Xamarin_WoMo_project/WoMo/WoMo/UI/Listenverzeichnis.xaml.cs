@@ -11,27 +11,42 @@ using Xamarin.Forms;
 
 namespace WoMo.UI
 {
-    public partial class Listenverzeichnis : ContentPage
+    public partial class Listenverzeichnis : ContentPage, IElementverwaltung
     {
+        private IListeneintrag aktuellesElement;
+
+        public IListeneintrag AktuellesElement
+        {
+            get
+            {
+                return this.aktuellesElement;
+            }
+
+            set { }
+        }
+
         public Listenverzeichnis(string verzeichnis)
         {
             InitializeComponent();
             LblTitle.Text = verzeichnis;
-            verzeichnis = verzeichnis.ToLower();
             DatenbankAdapter dba = DatenbankAdapter.getInstance();
+
+            Listenklasse<IListeneintrag> Verzeichnis = new Listenklasse<IListeneintrag>(verzeichnis);
+
+            verzeichnis = verzeichnis.ToLower();
             switch (verzeichnis)
             {
                 case ("checklisten"):
-                    ListAdapter.ItemsSource = dba.select(new DB_Checkliste().GetType(), "").getListe();
+                    Verzeichnis.addRange(dba.select(new DB_Checkliste().GetType(), "").getListe());
                     break;
                 case ("tagebücher"):
-                    ListAdapter.ItemsSource = dba.select(new DB_Tagebuch().GetType(), "").getListe();
+                    Verzeichnis.addRange(dba.select(new DB_Tagebuch().GetType(), "").getListe());
                     break;
                 case ("stellplätze"):
-                    ListAdapter.ItemsSource = dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe();
+                    Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe());
                     break;
             }
-            
+            ListAdapter.ItemsSource = Verzeichnis.getListViewList();
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -39,11 +54,11 @@ namespace WoMo.UI
 
         public Listenverzeichnis(Listenklasse<IListeneintrag> liste)
         {
-            switch (liste.Akzeptiert.ToString().ToLower())
-            {
-                case (""):
-                    break;
-            }
+            this.AktuellesElement = liste;
+
+            // Baue die Liste individuell nach Eintragsart auf.
+            // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
+            ListAdapter.ItemsSource = liste.getListViewList();
 
             InitializeComponent();
         }
@@ -54,11 +69,20 @@ namespace WoMo.UI
 
             IListeneintrag item = (IListeneintrag)Sender.SelectedItem;
             if (item is Listenklasse<TbEintrag>)
-                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<TbEintrag>) item).getAsGeneral()));
+                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<TbEintrag>)item).getAsGeneral()));
             else if (item is Listenklasse<CLEintrag>)
-                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<CLEintrag>) item).getAsGeneral()));
+                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<CLEintrag>)item).getAsGeneral()));
             else if (item is Listenklasse<Stellplatz>)
-                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<Stellplatz>) item).getAsGeneral()));
+                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<Stellplatz>)item).getAsGeneral()));
+            else if (item is TbEintrag)
+            {
+                // Öffne Editor
+            }
+            else if (item is CLEintrag)
+                ((CLEintrag)item).toggleCheck();
+            else if (item is Stellplatz)
+                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz) item);
+
         }
 
         void OnHinzuEintragClick(object sender, EventArgs e)

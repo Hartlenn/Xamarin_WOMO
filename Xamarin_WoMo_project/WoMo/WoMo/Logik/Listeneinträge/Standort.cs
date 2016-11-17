@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
 {
@@ -100,6 +101,11 @@ namespace WoMo.Logik.Listeneinträge
                 + Longitude + "</Longitude><Latitude>"
                 + Latitude + "</Latitude><Superior>"
                 + superior + "</Superior></Standort>";
+        }
+
+        public ViewCell getListViewEintrag()
+        {
+            throw new NotImplementedException();
         }
     }
 }
