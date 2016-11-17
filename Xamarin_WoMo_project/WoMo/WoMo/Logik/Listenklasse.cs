@@ -92,18 +92,6 @@ namespace WoMo.Logik
         {
             return this.liste;
         }
-
-        public List<ViewCell> getListViewList()
-        {
-            List<ViewCell> liste = new List<ViewCell>();
-            foreach(T eintrag in this.liste)
-            {
-                liste.Add(eintrag.getListViewEintrag());
-            }
-
-            return liste;
-        }
-
         /// <summary>
         /// Fügt einen Eintrag des akzeptierten Typs der internen Liste hinzu.
         /// </summary>

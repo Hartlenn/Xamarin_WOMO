@@ -102,10 +102,4 @@ namespace WoMo.Logik.Listeneinträge
                 + Latitude + "</Latitude><Superior>"
                 + superior + "</Superior></Standort>";
         }
-
-        public ViewCell getListViewEintrag()
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

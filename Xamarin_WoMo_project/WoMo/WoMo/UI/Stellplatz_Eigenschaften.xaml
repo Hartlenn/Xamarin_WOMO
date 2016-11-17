@@ -8,6 +8,17 @@
                 Android="20, 20, 20, 20"
                 WinPhone="20, 20, 20, 20" />
   </ContentPage.Padding>
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <!-- This is only an issue on the iPhone; Android and
+           WinPhone auto size the row height to the contents. -->
+      <OnPlatform x:Key="rowHeight"
+                  x:TypeArguments="x:Int32"
+                  iOS="60"
+                  Android="60"
+                  WinPhone="85" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
   <ContentPage.Content>
     <ScrollPane>
       <StackPane>
@@ -25,7 +36,7 @@
           <Button x:Name="BtnHinzuBild" Clicked="OnBtnHinzuBildClicked" Text="+"/>
         </StackPane>
         <Grid>
-          
+          <ListView x:Name="BildListAdapter"/>
         </Grid>
         <ListView x:Name="ListAdapter"/>
         <Button x:Name="HinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+"/>

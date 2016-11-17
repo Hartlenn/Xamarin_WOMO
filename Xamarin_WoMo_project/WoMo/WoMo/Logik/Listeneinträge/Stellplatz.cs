@@ -81,10 +81,6 @@ namespace WoMo.Logik.Listeneinträge
                 + BilderListe.Id + "</bilderListe><Superior>"
                 + Superior + "</Superior></Stellplatz>";
         }
-
-        public ViewCell getListViewEintrag()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

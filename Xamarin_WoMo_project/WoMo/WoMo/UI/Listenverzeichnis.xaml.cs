@@ -28,6 +28,7 @@ namespace WoMo.UI
         public Listenverzeichnis(string verzeichnis)
         {
             InitializeComponent();
+
             LblTitle.Text = verzeichnis;
             DatenbankAdapter dba = DatenbankAdapter.getInstance();
 
@@ -46,7 +47,7 @@ namespace WoMo.UI
                     Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe());
                     break;
             }
-            ListAdapter.ItemsSource = Verzeichnis.getListViewList();
+            ListAdapter.ItemsSource = Verzeichnis.getListe();
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -58,7 +59,7 @@ namespace WoMo.UI
 
             // Baue die Liste individuell nach Eintragsart auf.
             // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
-            ListAdapter.ItemsSource = liste.getListViewList();
+            ListAdapter.ItemsSource = liste.getListe();
 
             InitializeComponent();
         }
@@ -76,17 +77,23 @@ namespace WoMo.UI
                 await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<Stellplatz>)item).getAsGeneral()));
             else if (item is TbEintrag)
             {
-                // Öffne Editor
+                
             }
             else if (item is CLEintrag)
+            {
                 ((CLEintrag)item).toggleCheck();
+                OnPropertyChanged();
+            }
             else if (item is Stellplatz)
-                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz) item));
+                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz)item));
 
         }
 
-        void OnHinzuEintragClick(object sender, EventArgs e)
+        public void OnBtnHinzuEintragClicked(object sender, EventArgs e)
         {
+            // Öffne Texteditor zum Schreiben der Checkliste
+            
+
         }
     }
 }

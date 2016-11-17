@@ -106,10 +106,6 @@ namespace WoMo.Logik.Listeneinträge
                 + Stellplatz.Id + "</Stellplatz><Superior>"
                 + superior + "</Superior></TbEintrag>";
         }
-
-        public ViewCell getListViewEintrag()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
