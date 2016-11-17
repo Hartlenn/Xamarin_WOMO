@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace WoMo.Logik
 {
-    interface IListeneintrag
+    public interface IListeneintrag
     {
         // Properties
         [PrimaryKey, AutoIncrement]

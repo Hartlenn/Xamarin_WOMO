@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace WoMo.Logik
 {
-    class Listenklasse<T> : IListeneintrag where T: IListeneintrag
+    public class Listenklasse<T> : IListeneintrag where T: IListeneintrag
     {
         private List<T> liste = new List<T>();
         private Type akzeptiert;
@@ -166,6 +166,17 @@ namespace WoMo.Logik
         public IEnumerator<T> GetEnumerator()
         {
             return this.liste.GetEnumerator();
+        }
+
+        public Listenklasse<IListeneintrag> getAsGeneral()
+        {
+            List<IListeneintrag> liste = new List<IListeneintrag>();
+            foreach(IListeneintrag eintrag in this)
+            {
+                liste.Add(eintrag);
+            }
+
+            return new Listenklasse<IListeneintrag>(this.Text, liste);
         }
 
 
