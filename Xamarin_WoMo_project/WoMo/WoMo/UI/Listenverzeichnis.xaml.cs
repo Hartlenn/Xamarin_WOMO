@@ -17,7 +17,7 @@ namespace WoMo.UI
 
         public Listenverzeichnis(string verzeichnis)
         {
-            Title.Text = verzeichnis;
+            LblTitle.Text = verzeichnis;
             verzeichnis = verzeichnis.ToLower();
             DatenbankAdapter dba = DatenbankAdapter.getInstance();
             switch (verzeichnis)
