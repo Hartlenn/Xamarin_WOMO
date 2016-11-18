@@ -12,6 +12,9 @@ namespace WoMo.Logik.Listeneinträge
         public int BildId { get; set; }
 
         [Ignore]
+        public ImageSource ImageSource { get; set; }
+
+        [Ignore]
         public Listenklasse<BilderEintrag> Superior { get; set; }
         private int superiorid;
         public int superiorId { get { return this.superiorid; } set { this.superiorid = value; } }

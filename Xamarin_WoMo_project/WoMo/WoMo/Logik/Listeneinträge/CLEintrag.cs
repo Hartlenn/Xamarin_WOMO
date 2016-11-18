@@ -34,7 +34,7 @@ namespace WoMo.Logik.Listeneinträge
         {
             get
             {
-                return text;
+                return this.text;
             }
 
             set
@@ -42,12 +42,11 @@ namespace WoMo.Logik.Listeneinträge
                 this.text = value;
             }
         }
-
         public bool Checked
         {
             get
             {
-                return check;
+                return this.check;
             }
 
             set

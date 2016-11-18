@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace WoMo.Logik
 {
-    public class Listenklasse<T> : IListeneintrag where T: IListeneintrag
+    public class Listenklasse<T> : BindableObject,IListeneintrag where T: IListeneintrag
     {
-        private List<T> liste = new List<T>();
+        private ObservableCollection<T> liste = new ObservableCollection<T>();
         private Type akzeptiert;
         private Listenklasse<Listenklasse<T>> superior;
 
@@ -22,7 +23,7 @@ namespace WoMo.Logik
         {
             get
             {
-                return this.text;
+                return this.text
             }
 
             set
@@ -88,7 +89,7 @@ namespace WoMo.Logik
 
         // Methoden
 
-        public List<T> getListe()
+        public ObservableCollection<T> getListe()
         {
             return this.liste;
         }

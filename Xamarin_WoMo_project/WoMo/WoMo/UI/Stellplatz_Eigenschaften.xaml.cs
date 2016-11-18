@@ -14,6 +14,11 @@ namespace WoMo.UI
     {
         private Stellplatz aktuellesElement;
 
+        public static readonly BindableProperty TextProperty =
+            BindableProperty.Create("Text", typeof(string), typeof(Stellplatz), null);
+        public static readonly BindableProperty CLTextProperty =
+            BindableProperty.Create("Text", typeof(string), typeof(CLEintrag), null);
+
         public IListeneintrag AktuellesElement
         {
             get
@@ -30,6 +35,7 @@ namespace WoMo.UI
 
         public Stellplatz_Eigenschaften(Stellplatz stellplatz)
         {
+            InitializeComponent();
             this.aktuellesElement = stellplatz;
 
             TxtBezeichnung.Text = this.aktuellesElement.Text;
@@ -37,7 +43,6 @@ namespace WoMo.UI
             ListAdapter.ItemsSource = this.aktuellesElement.EigenschaftsListe.getListe();
             BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
             
-            InitializeComponent();
         }
 
         public void OnBtnHinzuBildClicked(object sender, EventArgs e)
@@ -46,7 +51,6 @@ namespace WoMo.UI
 
             int bildid = 0;
             new BilderEintrag(bildid, aktuellesElement.BilderListe);
-            OnPropertyChanged();
         }
 
         public void OnBtnHinzuEintragClicked(object sender, EventArgs e)
@@ -54,7 +58,6 @@ namespace WoMo.UI
             // Öffne Texteditor zum Schreiben der Checkliste
             string text = "";
             new CLEintrag(aktuellesElement.EigenschaftsListe).Text = text;
-            OnPropertyChanged();
 
 
         }

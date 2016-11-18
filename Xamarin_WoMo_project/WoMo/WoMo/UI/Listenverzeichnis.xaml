@@ -14,8 +14,28 @@
                  Orientation="Vertical"
                  Spacing="15">
       <Label x:Name="LblTitle" Text="listen"/>
-      <Button x:Name="BtnHinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+ Neues Element"/>
-      <ListView x:Name="ListAdapter" SeparatorColor="Black" ItemTapped="OnItemTapped"/>
+      <Button x:Name="BtnHinzuEintrag" Clicked="OnHinzuEintragClick" Text="+ Neues Element"/>
+      <ListView x:Name="CheckListAdapter" SeparatorColor="Black" ItemTapped="OnSwitchTapped">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <SwitchCell On="{Binding Checked}" Text="{Binding Text}"/>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <ListView x:Name="ImageListAdapter" SeparatorColor="Black" ItemTapped="OnImageTapped">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ImageCell ImageSource ="{Binding ImageSource}"/>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    <ListView x:Name="ListAdapter" SeparatorColor="Black" ItemTapped="OnItemTapped">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextCell Text="{Binding Text}"/>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
     </StackLayout>
   </ContentPage.Content>
 
