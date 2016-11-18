@@ -53,7 +53,7 @@ namespace WoMo.Logik
                     + menue.toXml()
                     + "</menue></WoMo></XML>";
                 b = true;
-            }catch(Exception e)
+            }catch
             {
                 b = false;
             }
@@ -75,7 +75,7 @@ namespace WoMo.Logik
                 xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(),"").toXml();
                 xml += "</menue></WoMo></XML>";
                 b = true;
-            }catch(Exception e)
+            }catch
             {
                 b = false;
             }

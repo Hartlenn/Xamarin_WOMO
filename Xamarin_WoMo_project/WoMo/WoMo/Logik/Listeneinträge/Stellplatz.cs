@@ -14,16 +14,31 @@ namespace WoMo.Logik.Listeneinträge
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Text { get; set; }
+
         [Ignore]
         public Standort Standort { get; set; }
+        private int standortid;
+        public int StandortID { get { return standortid; } set { this.standortid = value; } }
+
         [Ignore]
         public Listenklasse<CLEintrag> EigenschaftsListe { get; set; }
+        private int eigenschaftslisteid;
+        public int EigenschaftsListeId { get { return eigenschaftslisteid; } set { eigenschaftslisteid = value; } }
+
         [Ignore]
         public Listenklasse<BilderEintrag> BilderListe { get; set; }
+        private int bilderlisteid;
+        public int BilderListeId { get { return bilderlisteid; } set { bilderlisteid = value; } }
+
         [Ignore]
         public Listenklasse<Stellplatz> Superior { get; set; }
+        private int superiorid;
+        public int SuperiorId { get { return bilderlisteid; } set { superiorid = value; }}
+
         [Ignore]
         public static Listenklasse<CLEintrag> StandardListe { get; set; }
+        private int standardlisteid;    
+        public int StandardListeId { get { return bilderlisteid; } set { standardlisteid = value; } }
 
 
         public static void addToStandardListe(CLEintrag eintrag)
@@ -35,7 +50,6 @@ namespace WoMo.Logik.Listeneinträge
         {
             StandardListe.remove(index);
         }
-        
 
         public Stellplatz()
         {
@@ -48,6 +62,11 @@ namespace WoMo.Logik.Listeneinträge
             this.EigenschaftsListe = eigenschaftsListe;
             this.BilderListe = bilderListe;
             this.Superior = superior;
+
+            eigenschaftslisteid = eigenschaftsListe.Id;
+            bilderlisteid = bilderListe.Id;
+            standortid = standort.Id;
+            superiorid = superior.Id;
         }
 
         public Stellplatz(Standort standort, Listenklasse<BilderEintrag> bilderListe, Listenklasse<Stellplatz> superior)
@@ -55,12 +74,19 @@ namespace WoMo.Logik.Listeneinträge
             this.Standort = standort;
             this.BilderListe = bilderListe;
             this.Superior = superior;
+            
+            bilderlisteid = bilderListe.Id;
+            standortid = standort.Id;
+            superiorid = superior.Id;
         }
 
         public Stellplatz(Standort standort, Listenklasse<Stellplatz> superior)
         {
             this.Standort = standort;
             this.Superior = superior;
+
+            standortid = standort.Id;
+            superiorid = superior.Id;
         }
 
 

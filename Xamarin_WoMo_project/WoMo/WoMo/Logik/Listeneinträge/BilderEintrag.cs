@@ -1,10 +1,4 @@
-﻿using System;
-using SQLite;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using SQLite;
 
 namespace WoMo.Logik.Listeneinträge
 {
@@ -16,10 +10,11 @@ namespace WoMo.Logik.Listeneinträge
 
         public string Text { get; set; }
         public int BildId { get; set; }
+
         [Ignore]
         public Listenklasse<BilderEintrag> Superior { get; set; }
-
-        private int superiorId;
+        private int superiorid;
+        public int superiorId { get { return this.superiorid; } set { this.superiorid = value; } }
 
 
         public BilderEintrag()
@@ -31,6 +26,8 @@ namespace WoMo.Logik.Listeneinträge
         {
             this.BildId = bildId;
             this.Superior = superior;
+
+            this.superiorid = superior.Id;
         }
 
         // Interface Methoden
