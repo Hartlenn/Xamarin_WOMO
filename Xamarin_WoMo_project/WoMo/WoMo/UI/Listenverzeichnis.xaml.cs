@@ -63,6 +63,7 @@ namespace WoMo.UI
                 Label lbl = new Label();
                 lbl.BindingContext = eintrag;
                 lbl.SetBinding(Label.TextProperty, "Text");
+                lbl.Text = eintrag.Text;
                 Celllist.Add(lbl);
             }
 
