@@ -9,13 +9,13 @@ using Xamarin.Forms;
 namespace WoMo.Logik.Listeneinträge
 {
     [Table("CLEintrag")]
-    public class CLEintrag : BindableObject, IListeneintrag
+    public class CLEintrag : IListeneintrag
     {
         private int id;
         private string text;
         private bool check = false;
         [Ignore]
-        public Listenklasse<CLEintrag> superior { get; set; }
+        public Listenklasse<CLEintrag> superior { get; set; }        
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -35,7 +35,7 @@ namespace WoMo.Logik.Listeneinträge
         {
             get
             {
-                return text;
+                return this.text;
             }
 
             set
@@ -43,19 +43,16 @@ namespace WoMo.Logik.Listeneinträge
                 this.text = value;
             }
         }
-
-        public static readonly BindableProperty CheckedProperty =
-            BindableProperty.Create("Checked", typeof(bool), typeof(CLEintrag), null);
         public bool Checked
         {
             get
             {
-                return (bool)GetValue(CheckedProperty);
+                return this.check;
             }
 
             set
             {
-                SetValue(CheckedProperty, value);
+                check = value;
             }
         }
 

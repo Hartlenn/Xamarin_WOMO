@@ -16,6 +16,12 @@ namespace WoMo.UI
     {
         private IListeneintrag aktuellesElement;
 
+        /*
+        public static readonly BindableProperty TextProperty =
+            BindableProperty.Create("Text", typeof(string), typeof(Listenklasse<IListeneintrag>), null);
+        public static readonly BindableProperty CheckedProperty =
+            BindableProperty.Create("Checked", typeof(bool), typeof(CLEintrag), null);
+            */
         public IListeneintrag AktuellesElement
         {
             get
@@ -48,10 +54,8 @@ namespace WoMo.UI
                     Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe());
                     break;
             }
-            ObservableCollection<IListeneintrag> observableList = 
-                new ObservableCollection<IListeneintrag>(Verzeichnis.getListe());
 
-            ListAdapter.ItemsSource = observableList;
+            ListAdapter.ItemsSource = Verzeichnis.getListe();
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -65,8 +69,19 @@ namespace WoMo.UI
 
             // Baue die Liste individuell nach Eintragsart auf.
             // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
-           
-            ListAdapter.ItemsSource = liste.getListe();
+
+            if (liste.Akzeptiert.ToString() == "CLEintrag")
+            {
+                CheckListAdapter.ItemsSource = liste.getListe();
+            }
+            else if (liste.Akzeptiert.ToString().Equals("BilderEintrag"))
+            {
+                ImageListAdapter.ItemsSource = liste.getListe();
+            }
+            else
+            {
+                ListAdapter.ItemsSource = liste.getListe();
+            }
 
         }
 
@@ -88,7 +103,6 @@ namespace WoMo.UI
             else if (item is CLEintrag)
             {
                 ((CLEintrag)item).toggleCheck();
-                OnPropertyChanged();
             }
             else if (item is Stellplatz)
                 await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz)item));
@@ -100,6 +114,11 @@ namespace WoMo.UI
             // Öffne Texteditor zum Schreiben der Checkliste
             
 
+        }
+
+        public void OnSwitchTapped(object sender, EventArgs e)
+        {
+            ((CLEintrag)sender).toggleCheck();
         }
     }
 }

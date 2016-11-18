@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace WoMo.Logik
 {
-    public class Listenklasse<T> : IListeneintrag where T: IListeneintrag
+    public class Listenklasse<T> : BindableObject,IListeneintrag where T: IListeneintrag
     {
         private ObservableCollection<T> liste = new ObservableCollection<T>();
         private Type akzeptiert;
@@ -23,7 +23,7 @@ namespace WoMo.Logik
         {
             get
             {
-                return this.text;
+                return this.text
             }
 
             set

@@ -22,10 +22,10 @@
   <ContentPage.Content>
     <ScrollPane>
       <StackPane>
-        <Label x:Name="LblTitle"/>
+        <Label x:Name="LblTitle" Text ="Eigenschaften"/>
         <StackPane Orientation="Horizontal">
           <Label Text="Bezeichnung:"/>
-          <Entry x:Name="TxtBezeichnung"/>
+          <Entry x:Name="TxtBezeichnung" Text ="{Binding Text}"/>
         </StackPane>
         <StackPane Orientation="Horizontal">
           <Label Text="Position:"/>
@@ -36,9 +36,21 @@
           <Button x:Name="BtnHinzuBild" Clicked="OnBtnHinzuBildClicked" Text="+"/>
         </StackPane>
         <Grid>
-          <ListView x:Name="BildListAdapter"/>
+          <ListView x:Name="BildListAdapter">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ImageCell ImageSource="{Binding ImageSource}"/>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
         </Grid>
-        <ListView x:Name="ListAdapter"/>
+        <ListView x:Name="ListAdapter">
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <SwitchCell On="{Binding Checked}" Text="{Binding Text}"/>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
         <Button x:Name="HinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+"/>
       </StackPane>
     </ScrollPane>
