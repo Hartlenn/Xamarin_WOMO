@@ -55,7 +55,18 @@ namespace WoMo.UI
                     break;
             }
 
-            ListAdapter.ItemsSource = Verzeichnis.getListe();
+            ObservableCollection<Element> Celllist = new ObservableCollection<Element>();
+            ListAdapter.ItemTemplate = new DataTemplate(typeof(Label));
+
+            foreach (IListeneintrag eintrag in Verzeichnis)
+            {
+                Label lbl = new Label();
+                lbl.BindingContext = eintrag;
+                lbl.SetBinding(Label.TextProperty, "Text");
+                Celllist.Add(lbl);
+            }
+
+            ListAdapter.ItemsSource = Celllist;
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -67,21 +78,52 @@ namespace WoMo.UI
 
             this.AktuellesElement = liste;
 
+
             // Baue die Liste individuell nach Eintragsart auf.
             // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
 
-            if (liste.Akzeptiert.ToString() == "CLEintrag")
+
+            DataTemplate cell;
+            ObservableCollection<Element> Celllist = new ObservableCollection<Element>();
+
+            if (liste.Akzeptiert == typeof(CLEintrag))
             {
-                CheckListAdapter.ItemsSource = liste.getListe();
-            }
-            else if (liste.Akzeptiert.ToString().Equals("BilderEintrag"))
+                cell = new DataTemplate(typeof(SwitchCell));
+                foreach (IListeneintrag eintrag in liste)
+                {
+                    SwitchCell cel = new SwitchCell();
+                    cel.BindingContext = eintrag;
+                    cel.SetBinding(SwitchCell.TextProperty, "Text");
+                    cel.SetBinding(SwitchCell.OnProperty, "Checked");
+                    Celllist.Add(cel);
+                }
+            }else if(liste.Akzeptiert == typeof(TbEintrag))
             {
-                ImageListAdapter.ItemsSource = liste.getListe();
-            }
-            else
+                cell = new DataTemplate(typeof(Editor));
+                foreach (IListeneintrag eintrag in liste)
+                {
+                    Editor cel = new Editor();
+                    cel.BindingContext = eintrag;
+                    cel.SetBinding(Editor.TextProperty, "Text");
+                    Celllist.Add(cel);
+                }
+            }else
             {
-                ListAdapter.ItemsSource = liste.getListe();
+                cell = new DataTemplate(typeof(Label));
+                foreach (IListeneintrag eintrag in liste)
+                {
+                    Label cel = new Label();
+                    cel.BindingContext = eintrag;
+                    cel.SetBinding(Label.TextProperty, "Text");
+                    Celllist.Add(cel);
+                }
             }
+
+            
+
+
+            ListAdapter.ItemTemplate = cell;
+            ListAdapter.ItemsSource = Celllist;
 
         }
 

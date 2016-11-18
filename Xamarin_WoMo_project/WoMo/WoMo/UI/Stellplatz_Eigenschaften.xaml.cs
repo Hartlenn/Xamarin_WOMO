@@ -43,6 +43,7 @@ namespace WoMo.UI
             ListAdapter.ItemsSource = this.aktuellesElement.EigenschaftsListe.getListe();
             BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
             
+            
         }
 
         public void OnBtnHinzuBildClicked(object sender, EventArgs e)
@@ -50,14 +51,16 @@ namespace WoMo.UI
             // Öffne Bildexplorer des Geräts
 
             int bildid = 0;
-            new BilderEintrag(bildid, aktuellesElement.BilderListe);
+            aktuellesElement.BilderListe.add(new BilderEintrag(bildid, aktuellesElement.BilderListe));
         }
 
         public void OnBtnHinzuEintragClicked(object sender, EventArgs e)
         {
             // Öffne Texteditor zum Schreiben der Checkliste
             string text = "";
-            new CLEintrag(aktuellesElement.EigenschaftsListe).Text = text;
+            CLEintrag eintrag = new CLEintrag(aktuellesElement.EigenschaftsListe);
+            eintrag.Text = text;
+            aktuellesElement.EigenschaftsListe.add(eintrag);
 
 
         }
