@@ -55,14 +55,14 @@ namespace WoMo.UI
                     break;
             }
 
-            ObservableCollection<Element> Celllist = new ObservableCollection<Element>();
+            ObservableCollection<Cell> Celllist = new ObservableCollection<Cell>();
             ListAdapter.ItemTemplate = new DataTemplate(typeof(Label));
 
             foreach (IListeneintrag eintrag in Verzeichnis)
             {
-                Label lbl = new Label();
+                TextCell lbl = new TextCell();
                 lbl.BindingContext = eintrag;
-                lbl.SetBinding(Label.TextProperty, "Text");
+                lbl.SetBinding(TextCell.TextProperty, "Text");
                 lbl.Text = eintrag.Text;
                 Celllist.Add(lbl);
             }
