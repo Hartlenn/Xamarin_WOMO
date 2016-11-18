@@ -23,7 +23,7 @@ namespace WoMo.Logik
         {
             get
             {
-                return this.text
+                return this.text;
             }
 
             set
