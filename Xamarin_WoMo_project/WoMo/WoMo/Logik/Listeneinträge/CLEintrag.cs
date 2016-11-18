@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace WoMo.Logik.Listeneinträge
 {
     [Table("CLEintrag")]
-    public class CLEintrag : IListeneintrag
+    public class CLEintrag : BindableObject, IListeneintrag
     {
         private int id;
         private string text;
@@ -44,16 +44,18 @@ namespace WoMo.Logik.Listeneinträge
             }
         }
 
+        public static readonly BindableProperty CheckedProperty =
+            BindableProperty.Create("Checked", typeof(bool), typeof(CLEintrag), null);
         public bool Checked
         {
             get
             {
-                return check;
+                return (bool)GetValue(CheckedProperty);
             }
 
             set
             {
-                check = value;
+                SetValue(CheckedProperty, value);
             }
         }
 

@@ -8,6 +8,7 @@ using WoMo.Logik;
 using WoMo.Logik.Listeneinträge;
 using WoMo.Logik.Database;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace WoMo.UI
 {
@@ -47,7 +48,10 @@ namespace WoMo.UI
                     Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe());
                     break;
             }
-            ListAdapter.ItemsSource = Verzeichnis.getListe();
+            ObservableCollection<IListeneintrag> observableList = 
+                new ObservableCollection<IListeneintrag>(Verzeichnis.getListe());
+
+            ListAdapter.ItemsSource = observableList;
         }
 
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
@@ -55,13 +59,15 @@ namespace WoMo.UI
 
         public Listenverzeichnis(Listenklasse<IListeneintrag> liste)
         {
+            InitializeComponent();
+
             this.AktuellesElement = liste;
 
             // Baue die Liste individuell nach Eintragsart auf.
             // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
+           
             ListAdapter.ItemsSource = liste.getListe();
 
-            InitializeComponent();
         }
 
         async void OnItemTapped(object sender, EventArgs e)
