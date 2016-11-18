@@ -39,15 +39,16 @@ namespace WoMo.Logik
                 database = connection.GetConnection();
                 erstelleObjekte();
             }
-            catch(Exception e)
+            catch
             {
-                
+                return false;
             }
             return true;
         }
 
         public void erstelleObjekte()
         {
+            //leere();
             database.CreateTable<BilderEintrag>();
             database.CreateTable<CLEintrag>();
             database.CreateTable<Standort>();
@@ -56,6 +57,18 @@ namespace WoMo.Logik
             database.CreateTable<DB_Bilderliste>();
             database.CreateTable<DB_Checkliste>();
             database.CreateTable<DB_Tagebuch>();
+        }
+
+        private void leere()
+        {
+            database.DropTable<BilderEintrag>();
+            database.DropTable<CLEintrag>();
+            database.DropTable<Standort>();
+            database.DropTable<Stellplatz>();
+            database.DropTable<TbEintrag>();
+            database.DropTable<DB_Bilderliste>();
+            database.DropTable<DB_Checkliste>();
+            database.DropTable<DB_Tagebuch>();
         }
 
         public int insert(IListeneintrag eintrag)
@@ -168,8 +181,13 @@ namespace WoMo.Logik
             Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
             if (tabelle.Equals("womo.logik.listeneinträge.stellplatz"))
             {
-                list.addRange(database.Query<Stellplatz>("SELECT * FROM [Stellplatz] " + Bedingung));
-                
+                foreach (Stellplatz platz in database.Query<Stellplatz>("SELECT * FROM [Stellplatz] " + Bedingung))
+                {
+                    platz.Standort = ((Standort)select(new Standort().GetType(), "WHERE [ID] = " + platz.StandortID.ToString()).getListe().First());
+                    platz.EigenschaftsListe.addRange(select(new CLEintrag().GetType(), "WHERE [ID] = " + platz.EigenschaftsListeId.ToString()).getListe());
+                    platz.BilderListe.addRange(select(new BilderEintrag().GetType(), "WHERE [ID] = " + platz.BilderListeId.ToString()).getListe());
+                    list.add(platz);
+                }                 
             }
             else if (tabelle.Equals("womo.logik.listeneinträge.cleintrag"))
             {
@@ -177,7 +195,18 @@ namespace WoMo.Logik
             }
             else if (tabelle.Equals("womo.logik.listeneinträge.tbeintrag"))
             {
-                list.addRange(database.Query<TbEintrag>("SELECT * FROM [TbEintrag] " + Bedingung));
+                foreach(TbEintrag eintrag in database.Query<TbEintrag>("SELECT * FROM [TbEintrag] " + Bedingung))
+                {
+                    if(eintrag.StandortID != -1)
+                    {
+                        eintrag.Standort = ((Standort)select(new Standort().GetType(), "WHERE [ID] = " + eintrag.StandortID.ToString()).getListe().First());
+                    }
+                    else if(eintrag.StellplatzID != -1)
+                    {
+                        eintrag.Stellplatz = ((Stellplatz)select(new Stellplatz().GetType(), "WHERE [ID] = " + eintrag.StellplatzID.ToString()).getListe().First());
+                    }
+                    list.add(eintrag);
+                }
             }
             else if (tabelle.Equals("womo.logik.listeneinträge.bildereintrag"))
             {

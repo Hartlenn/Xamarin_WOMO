@@ -1,9 +1,5 @@
 ﻿using System;
 using SQLite;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace WoMo.Logik.Listeneinträge
@@ -14,8 +10,11 @@ namespace WoMo.Logik.Listeneinträge
         private int id;
         private string text;
         private bool check = false;
+
         [Ignore]
-        public Listenklasse<CLEintrag> superior { get; set; }        
+        public Listenklasse<CLEintrag> superior { get; set; }
+        private int superiorid;
+        public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -27,7 +26,7 @@ namespace WoMo.Logik.Listeneinträge
 
             set
             {
-                throw new NotImplementedException();
+                id = value;
             }
         }
 
@@ -64,6 +63,7 @@ namespace WoMo.Logik.Listeneinträge
         public CLEintrag(Listenklasse<CLEintrag> superior)
         {
             this.superior = superior;
+            this.superiorid = superior.Id;
         }
 
         public void toggleCheck()

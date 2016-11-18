@@ -14,7 +14,11 @@ namespace WoMo.Logik.Listeneinträge
         private int id;
         private string text;
         private double longitude, latitude;
-        private Listenklasse<Standort> superior;
+
+        [Ignore]
+        private Listenklasse<Standort> superior { get; set; }
+        private int superiorid;
+        public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         [PrimaryKey, AutoIncrement]
         public int Id
@@ -29,18 +33,23 @@ namespace WoMo.Logik.Listeneinträge
                 throw new NotImplementedException();
             }
         }
-        
-        public double Longitude {
+
+        public double Longitude
+        {
             get { return longitude; }
-            set {
+            set
+            {
                 this.longitude = value;
             }
         }
-        public double Latitude {
-            get {
+        public double Latitude
+        {
+            get
+            {
                 return latitude;
             }
-            set {
+            set
+            {
                 this.latitude = value;
             }
         }
@@ -67,6 +76,7 @@ namespace WoMo.Logik.Listeneinträge
         {
             setGpsToHere();
             this.superior = superior;
+            this.superiorid = this.superior.Id;
         }
 
         public Standort(double longitude, double latitude, Listenklasse<Standort> superior)
@@ -74,6 +84,7 @@ namespace WoMo.Logik.Listeneinträge
             this.Latitude = latitude;
             this.Longitude = longitude;
             this.superior = superior;
+            this.superiorid = this.superior.Id;
         }
 
         public void setGpsToHere()
@@ -102,4 +113,5 @@ namespace WoMo.Logik.Listeneinträge
                 + Latitude + "</Latitude><Superior>"
                 + superior + "</Superior></Standort>";
         }
+    }
 }
