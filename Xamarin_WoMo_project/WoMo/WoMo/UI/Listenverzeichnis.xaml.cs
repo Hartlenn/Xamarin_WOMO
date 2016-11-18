@@ -63,7 +63,7 @@ namespace WoMo.UI
                 TextCell lbl = new TextCell();
                 lbl.BindingContext = eintrag;
                 lbl.SetBinding(TextCell.TextProperty, "Text");
-                lbl.Text = eintrag.Text;
+                //lbl.Text = eintrag.Text;
                 Celllist.Add(lbl);
             }
 
