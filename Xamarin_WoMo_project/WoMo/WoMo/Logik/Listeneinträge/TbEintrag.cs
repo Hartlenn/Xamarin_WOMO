@@ -20,16 +20,19 @@ namespace WoMo.Logik.Listeneinträge
         [Ignore]
         public Standort Standort { get; set; }
         private int standortid;
+        [Column("Standort")]
         public int StandortID{ get { return standortid;} set { standortid = value; } }
 
         [Ignore]
         public Stellplatz Stellplatz { get; set; }
         private int stellplatzid;
+        [Column("Stellplatz")]
         public int StellplatzID { get { return stellplatzid; } set { stellplatzid = value; } }
 
         [Ignore]
         public Listenklasse<TbEintrag> superior { get; set; }
         private int superiorid;
+        [Column("superior")]
         public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         /*

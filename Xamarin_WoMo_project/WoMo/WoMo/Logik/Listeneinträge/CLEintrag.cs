@@ -14,6 +14,7 @@ namespace WoMo.Logik.Listeneinträge
         [Ignore]
         public Listenklasse<CLEintrag> superior { get; set; }
         private int superiorid;
+        [Column("superior")]
         public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         [PrimaryKey, AutoIncrement]

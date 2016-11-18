@@ -109,12 +109,19 @@ namespace WoMo.UI
 
         }
 
-        public void OnBtnHinzuEintragClicked(object sender, EventArgs e)
+        public void OnHinzuEintragClick(object sender, EventArgs e)
         {
             // Öffne Texteditor zum Schreiben der Checkliste
             
 
         }
+
+        public void OnImageTapped(object sender, EventArgs e)
+        {
+
+        }
+
+
 
         public void OnSwitchTapped(object sender, EventArgs e)
         {

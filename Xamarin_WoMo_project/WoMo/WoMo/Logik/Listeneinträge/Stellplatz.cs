@@ -18,26 +18,31 @@ namespace WoMo.Logik.Listeneinträge
         [Ignore]
         public Standort Standort { get; set; }
         private int standortid;
+        [Column("Standort")]
         public int StandortID { get { return standortid; } set { this.standortid = value; } }
 
         [Ignore]
         public Listenklasse<CLEintrag> EigenschaftsListe { get; set; }
         private int eigenschaftslisteid;
+        [Column("EigenschaftsListe")]
         public int EigenschaftsListeId { get { return eigenschaftslisteid; } set { eigenschaftslisteid = value; } }
 
         [Ignore]
         public Listenklasse<BilderEintrag> BilderListe { get; set; }
         private int bilderlisteid;
+        [Column("BilderListe")]
         public int BilderListeId { get { return bilderlisteid; } set { bilderlisteid = value; } }
 
         [Ignore]
         public Listenklasse<Stellplatz> Superior { get; set; }
         private int superiorid;
+        [Column("Superior")]
         public int SuperiorId { get { return bilderlisteid; } set { superiorid = value; }}
 
         [Ignore]
         public static Listenklasse<CLEintrag> StandardListe { get; set; }
-        private int standardlisteid;    
+        private int standardlisteid;
+        [Column("StandardListe")]
         public int StandardListeId { get { return bilderlisteid; } set { standardlisteid = value; } }
 
 
