@@ -8,10 +8,11 @@ using WoMo.Logik.Listeneinträge;
 using WoMo.Logik.Database;
 using WoMo.Logik;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace WoMo.Logik
 {
-    class DatenbankAdapter
+    public class DatenbankAdapter
     {
         static object locker = new object();
         SQLiteConnection database;
@@ -91,6 +92,14 @@ namespace WoMo.Logik
                 {
                     return database.Insert((BilderEintrag)eintrag);
                 }
+                else if (eintrag is Standort)
+                {
+                    return database.Insert((Standort)eintrag);
+                }
+                else if (eintrag is DB_Checkliste)
+                    return database.Insert((DB_Checkliste)eintrag);
+                else if (eintrag is DB_Tagebuch)
+                    return database.Insert((DB_Tagebuch)eintrag);
                 else
                     return 0;
             }
@@ -193,17 +202,19 @@ namespace WoMo.Logik
                     platz.Standort = ((Standort)select(new Standort().GetType(), "WHERE [ID] = " + platz.StandortID.ToString()).getListe().First());
                     try
                     {
+                        //cleinträge
                         zwili = select(new CLEintrag().GetType(), "WHERE [Superior] = " + platz.EigenschaftsListeId.ToString());
-                        if (zwili.getListe() != null)
-                            platz.EigenschaftsListe.addRange(zwili.getListe());
+                        if (zwili.getList() != null)
+                            platz.EigenschaftsListe.addRange(zwili.getList());
 
+                        //bilderliste
                         zwili = select(new BilderEintrag().GetType(), "WHERE [Id] = " + platz.BilderListeId.ToString());
                         if (zwili.getListe() != null)
                             platz.BilderListe.addRange(zwili.getListe());
                     }
-                    catch
+                    catch(Exception e)
                     {
-
+                        Debug.WriteLine(e.Message);
                     }
                     finally
                     {
@@ -219,11 +230,11 @@ namespace WoMo.Logik
             {
                 foreach(TbEintrag eintrag in database.Query<TbEintrag>("SELECT * FROM [TbEintrag] " + Bedingung))
                 {
-                    if(eintrag.StandortID != -1)
+                    if(eintrag.StandortID != 0)
                     {
                         eintrag.Standort = ((Standort)select(new Standort().GetType(), "WHERE [ID] = " + eintrag.StandortID.ToString()).getListe().First());
                     }
-                    else if(eintrag.StellplatzID != -1)
+                    else if(eintrag.StellplatzID != 0)
                     {
                         eintrag.Stellplatz = ((Stellplatz)select(new Stellplatz().GetType(), "WHERE [ID] = " + eintrag.StellplatzID.ToString()).getListe().First());
                     }

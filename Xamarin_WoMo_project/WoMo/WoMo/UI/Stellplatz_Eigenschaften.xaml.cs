@@ -13,12 +13,15 @@ namespace WoMo.UI
     public partial class Stellplatz_Eigenschaften : ContentPage, IElementverwaltung
     {
         private Stellplatz aktuellesElement;
+        DatenbankAdapter dba;
+        bool isEdit;
 
+        /*
         public static readonly BindableProperty TextProperty =
             BindableProperty.Create("Text", typeof(string), typeof(Stellplatz), null);
         public static readonly BindableProperty CLTextProperty =
             BindableProperty.Create("Text", typeof(string), typeof(CLEintrag), null);
-
+            */
         public IListeneintrag AktuellesElement
         {
             get
@@ -28,29 +31,41 @@ namespace WoMo.UI
 
             set
             {
-                // this.aktuellesElement = value;
+                 this.aktuellesElement = (Stellplatz)value;
             }
         }
 
         /// <summary>
         /// Konstruktor für neue Elemente
         /// </summary>
-        public Stellplatz_Eigenschaften()
+        public Stellplatz_Eigenschaften(DatenbankAdapter dba)
         {
+            this.aktuellesElement = new Stellplatz();
+            this.dba = dba;
+            isEdit = false;
+
+            InitializeComponent();
 
         }
 
-        public Stellplatz_Eigenschaften(Stellplatz stellplatz)
+        public Stellplatz_Eigenschaften(Stellplatz stellplatz, DatenbankAdapter dba)
         {
+            this.aktuellesElement = stellplatz;
+            this.dba = dba;
+            isEdit = true;
+
+
+
             InitializeComponent();
             this.aktuellesElement = stellplatz;
 
-            TxtBezeichnung.Text = this.aktuellesElement.Text;
-            TxtPosition.Text = this.aktuellesElement.Standort.Longitude + ";" + this.aktuellesElement.Standort.Latitude;
+            Bezeichnung.Text = this.aktuellesElement.Text;
+            Latitude.Text = this.aktuellesElement.Standort.Latitude.ToString();
+            Longitude.Text = this.aktuellesElement.Standort.Longitude.ToString();
             try
             {
                 ListAdapter.ItemsSource = this.aktuellesElement.EigenschaftsListe.getListe();
-                BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
+                //BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
             }
             catch
             {
@@ -60,6 +75,36 @@ namespace WoMo.UI
             
         }
 
+        async void OnBtnSaveClick(object sender, EventArgs e)
+        {
+            if (!isEdit)
+                aktuellesElement.Standort = new Standort();
+            try
+            {
+                aktuellesElement.Standort.Latitude = Double.Parse(Latitude.Text);
+            }
+            catch { }
+            try
+            {
+                aktuellesElement.Standort.Longitude = Double.Parse(Longitude.Text);
+            }
+            catch { }
+            aktuellesElement.Text = Bezeichnung.Text;
+
+            if (isEdit)
+            {
+                dba.update(aktuellesElement.Standort);
+                dba.update(aktuellesElement);
+            }
+            else
+            {
+                aktuellesElement.StandortID = dba.insert(aktuellesElement.Standort);
+                dba.insert(aktuellesElement);
+            }
+            await Navigation.PopAsync();
+        }
+
+        /*
         public void OnBtnHinzuBildClicked(object sender, EventArgs e)
         {
             // Öffne Bildexplorer des Geräts
@@ -78,6 +123,7 @@ namespace WoMo.UI
 
 
         }
+        */
 
     }
 }

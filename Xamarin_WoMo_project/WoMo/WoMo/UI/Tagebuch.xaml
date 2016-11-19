@@ -13,9 +13,9 @@
                  HorizontalOptions="FillAndExpand"
                  Orientation="Vertical"
                  Spacing="15">
-      <Label x:Name="Title" Text="listen"/>
-      <Button x:Name="HinzuEintrag" Clicked="OnHinzuEintragClick" Text="+ Neues Element"/>
-      <ListView x:Name="ListAdapter" SeparatorColor="Black" SeparatorVisibility="Default" ItemTapped="OnItemTapped"/>
+      <DatePicker x:Name="EntryDate"/>
+      <Editor x:Name="Entry"/>
+      <Button x:Name="OK" Clicked="OnBtnOKClick" Text="OK"/>
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

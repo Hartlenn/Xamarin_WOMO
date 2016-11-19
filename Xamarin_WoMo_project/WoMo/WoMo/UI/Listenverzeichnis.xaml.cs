@@ -19,12 +19,9 @@ namespace WoMo.UI
         DatenbankAdapter dba;
         ObservableCollection<IListeneintrag> Celllist;
         private string aktliste;
-        /*
-        public static readonly BindableProperty TextProperty =
-            BindableProperty.Create("Text", typeof(string), typeof(Listenklasse<IListeneintrag>), null);
-        public static readonly BindableProperty CheckedProperty =
-            BindableProperty.Create("Checked", typeof(bool), typeof(CLEintrag), null);
-            */
+        private Type contains;
+        private IListeneintrag superior;
+
         public IListeneintrag AktuellesElement
         {
             get
@@ -42,89 +39,94 @@ namespace WoMo.UI
 
             LblTitle.Text = verzeichnis;
             dba = DatenbankAdapter.getInstance();
-
-            Listenklasse<IListeneintrag> Verzeichnis = new Listenklasse<IListeneintrag>(verzeichnis);
-
-            verzeichnis = verzeichnis.ToLower();
-            switch (verzeichnis)
-            {
-                case ("checklisten"):
-                    Verzeichnis.addRange(dba.select(new DB_Checkliste().GetType(), "").getListe());
-                    break;
-                case ("tagebücher"):
-                    Verzeichnis.addRange(dba.select(new DB_Tagebuch().GetType(), "").getListe());
-                    break;
-                case ("stellplätze"):
-                    Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "")/*.sortiereEintraegeNachAttribut("distance")*/.getListe());
-                    break;
-            }
-            Celllist = new ObservableCollection<IListeneintrag>();
-            DataTemplate template = new DataTemplate(typeof(TextCell));
-            template.SetBinding(TextCell.TextProperty, "Text");
-            ListAdapter.ItemTemplate = template;
-            
-            foreach (IListeneintrag eintrag in Verzeichnis)
-            {
-                Celllist.Add(eintrag);
-            }
-
-            ListAdapter.ItemsSource = Celllist;
         }
 
-        // Todo: Listenverzeichnis für alle Listen deklarieren. 
-        // Tagebuchverzeichnis, Stellplätze und Checklisten, sodass auch die jeweiligen Einträge verwaltet werden können
-
-        public Listenverzeichnis(Listenklasse<IListeneintrag> liste, string header, Type contains)
+        public Listenverzeichnis(Listenklasse<IListeneintrag> liste, IListeneintrag superior, Type contains)
         {
+            this.contains = contains;
+            this.superior = superior;
             InitializeComponent();
             dba = DatenbankAdapter.getInstance();
 
-            LblTitle.Text = header;
+            LblTitle.Text = superior.Text;
 
             this.AktuellesElement = liste;
+        }
 
-
-            // Baue die Liste individuell nach Eintragsart auf.
-            // Bsp.: Tagebücher enthalten Tagebucheinträge, welche anders aussehen als Checklisteneinträge
-
-
-            DataTemplate cell;
-            Celllist = new ObservableCollection<IListeneintrag>();
-
-            if (liste.Akzeptiert == typeof(CLEintrag) || contains == typeof(CLEintrag))
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if(aktliste != null)
             {
-                cell = new DataTemplate(typeof(SwitchCell));
-                cell.SetBinding(SwitchCell.TextProperty, "Text");
-                cell.SetBinding(SwitchCell.IsEnabledProperty, "Checked");
-                //add methode for onChanged
-                foreach (IListeneintrag eintrag in liste)
+                Listenklasse<IListeneintrag> Verzeichnis = new Listenklasse<IListeneintrag>(LblTitle.Text);
+
+                String verzeichnis = LblTitle.Text.ToLower();
+                switch (verzeichnis)
+                {
+                    case ("checklisten"):
+                        Verzeichnis.addRange(dba.select(new DB_Checkliste().GetType(), "").getListe());
+                        break;
+                    case ("tagebücher"):
+                        Verzeichnis.addRange(dba.select(new DB_Tagebuch().GetType(), "").getListe());
+                        break;
+                    case ("stellplätze"):
+                        Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "")/*.sortiereEintraegeNachAttribut("distance")*/.getListe());
+                        break;
+                }
+                Celllist = new ObservableCollection<IListeneintrag>();
+                DataTemplate template = new DataTemplate(typeof(TextCell));
+                template.SetBinding(TextCell.TextProperty, "Text");
+                ListAdapter.ItemTemplate = template;
+
+                foreach (IListeneintrag eintrag in Verzeichnis)
                 {
                     Celllist.Add(eintrag);
-                    
                 }
+
+                ListAdapter.ItemsSource = Celllist;
+
             }
-            else if(liste.Akzeptiert == typeof(TbEintrag) || contains == typeof(TbEintrag))
+            else if(aktuellesElement != null)
             {
-                cell = new DataTemplate(typeof(Editor));
-                cell.SetBinding(Editor.TextProperty, "Text");
-                foreach (IListeneintrag eintrag in liste)
-                {
-                    Celllist.Add(eintrag);
-                }
-            }else
-            {
-                cell = new DataTemplate(typeof(Label));
-                cell.SetBinding(Label.TextProperty, "Text");
-                foreach (IListeneintrag eintrag in liste)
-                {
-                    Celllist.Add(eintrag);
-                }
-            }
+                DataTemplate cell;
+                Celllist = new ObservableCollection<IListeneintrag>();
 
+                if (((Listenklasse<IListeneintrag>)aktuellesElement).Akzeptiert == typeof(CLEintrag) || contains == typeof(CLEintrag))
+                {
+                    cell = new DataTemplate(typeof(SwitchCell));
+                    cell.SetBinding(SwitchCell.TextProperty, "Text");
+                    cell.SetBinding(SwitchCell.OnProperty, "Checked");
+                    //add methode for onChanged
+                    foreach (IListeneintrag eintrag in ((Listenklasse<IListeneintrag>)aktuellesElement))
+                    {
+                        Celllist.Add(eintrag);
+
+                    }
+                }
+                else if (((Listenklasse<IListeneintrag>)aktuellesElement).Akzeptiert == typeof(TbEintrag) || contains == typeof(TbEintrag))
+                {
+                    cell = new DataTemplate(typeof(TextCell));
+                    cell.SetBinding(TextCell.DetailProperty, "Text");
+                    cell.SetBinding(TextCell.TextProperty, "Datum");
+                    foreach (IListeneintrag eintrag in ((Listenklasse<IListeneintrag>)aktuellesElement))
+                    {
+                        Celllist.Add(eintrag);
+                    }
+                }
+                else
+                {
+                    cell = new DataTemplate(typeof(Label));
+                    cell.SetBinding(Label.TextProperty, "Text");
+                    foreach (IListeneintrag eintrag in ((Listenklasse<IListeneintrag>)aktuellesElement))
+                    {
+                        Celllist.Add(eintrag);
+                    }
+                }
+
+                ListAdapter.ItemTemplate = cell;
+                ListAdapter.ItemsSource = Celllist;
+            }
             
-            ListAdapter.ItemTemplate = cell;
-            ListAdapter.ItemsSource = Celllist;
-
         }
 
         async void OnItemTapped(object sender, EventArgs e)
@@ -140,15 +142,14 @@ namespace WoMo.UI
                     {
                         case ("checklisten"):
                             list = dba.select(new CLEintrag().GetType(), "WHERE [Superior] = " + item.Id);
-                            await Navigation.PushAsync(new Listenverzeichnis(list, item.Text, typeof(Checklist)));
+                            await Navigation.PushAsync(new Listenverzeichnis(list, item, typeof(CLEintrag)));
                             break;
                         case ("tagebücher"):
                             list = dba.select(new TbEintrag().GetType(), "WHERE [Superior] =" + item.Id);
-                            await Navigation.PushAsync(new Listenverzeichnis(list, item.Text, typeof(TbEintrag)));
+                            await Navigation.PushAsync(new Listenverzeichnis(list, item, typeof(TbEintrag)));
                             break;
                         case ("stellplätze"):
-                            //nur eigenschaften erstmal
-                            await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz)item));
+                            await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz)item, dba));
                             break;
                     }
                 }
@@ -160,6 +161,10 @@ namespace WoMo.UI
                     else
                         eintrag.Checked = true;
                 }
+                else if(item is TbEintrag)
+                {
+                    await Navigation.PushAsync(new Tagebuch((TbEintrag)item, dba, ((TbEintrag)item).SuperiorId));
+                }
             }
         }
 
@@ -167,50 +172,30 @@ namespace WoMo.UI
 
         async void OnHinzuEintragClick(object sender, EventArgs e)
         {
-            if (sender is ListView)
+            if (aktliste != null)
             {
-                ListView Sender = (ListView)sender;
-                IListeneintrag item = (IListeneintrag)Sender.SelectedItem;
-                if (aktliste != null)
+                switch (aktliste)
                 {
-                    Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
-                    switch (aktliste)
-                    {
-                        case ("checklisten"):
-                            //erstellen neuer checkliste
-                            break;
-                        case ("tagebücher"):
-                            break;
-                        case ("stellplätze"):
-                            await Navigation.PushAsync(new Stellplatz_Eigenschaften());
-                            break;
-                    }
-                }
-                else if (item is CLEintrag)
-                {
-                    ((CLEintrag)item).toggleCheck();
-                }
-                else if (item is Stellplatz)
-                {
-
-                }
-                else if (item is Tagebuch)
-                {
-
+                    case ("checklisten"):
+                        await Navigation.PushAsync(new NewList(false, dba));
+                        break;
+                    case ("tagebücher"):
+                        await Navigation.PushAsync(new NewList(true, dba));
+                        break;
+                    case ("stellplätze"):
+                        await Navigation.PushAsync(new Stellplatz_Eigenschaften(dba));
+                        break;
                 }
             }
-        }
+            else if (contains == typeof(CLEintrag))
+            {
 
-        public void OnImageTapped(object sender, EventArgs e)
-        {
+            }
+            else if (contains == typeof(TbEintrag))
+            {
 
-        }
-
-
-
-        public void OnSwitchTapped(object sender, EventArgs e)
-        {
-            ((CLEintrag)sender).toggleCheck();
+                await Navigation.PushAsync(new Tagebuch(dba, superior.Id));
+            }
         }
 
         private void saveChanges()

@@ -22,17 +22,17 @@
   <ContentPage.Content>
     <ScrollView>
       <StackLayout>
-        <Label x:Name="LblTitle" Text ="Eigenschaften"/>
-        <StackLayout Orientation="Horizontal">
-          <Label Text="Bezeichnung:"/>
-          <Entry x:Name="TxtBezeichnung" Text ="{Binding Text}"/>
-        </StackLayout>
-        <StackLayout Orientation="Horizontal">
-          <Label Text="Position:"/>
-          <Entry x:Name="TxtPosition"/>
-        
-      </StackLayout>
-        <StackLayout Orientation="Horizontal">
+        <Label Text="Stellplatz Eigenschaften"/>
+        <Grid>
+          <Label Grid.Row="0" Grid.Column="0" Text="Bezeichnung:"/>
+          <Entry Grid.Row="0" Grid.Column="1" x:Name="Bezeichnung"/>
+          <Label Grid.Row="1" Grid.Column="0" Text="Longitude:"/>
+          <Entry Grid.Row="1" Grid.Column="1" x:Name="Longitude" />
+          <Label Grid.Row="2" Grid.Column="0" Text="Latitude:"/>
+          <Entry Grid.Row="2" Grid.Column="1" x:Name="Latitude"/>
+        </Grid>
+        <Button Text="Save" x:Name="BtnSave" Clicked="OnBtnSaveClick"/>
+        <!--<StackLayout Orientation="Horizontal">
           <Label Text="Bilder:"/>
           <Button x:Name="BtnHinzuBild" Clicked="OnBtnHinzuBildClicked" Text="+"/>
         </StackLayout>
@@ -44,15 +44,15 @@
               </DataTemplate>
             </ListView.ItemTemplate>
           </ListView>
-        </Grid>
+        </Grid>-->
         <ListView x:Name="ListAdapter">
-          <ListView.ItemTemplate>
+          <!--<ListView.ItemTemplate>
             <DataTemplate>
               <SwitchCell On="{Binding Checked}" Text="{Binding Text}"/>
             </DataTemplate>
-          </ListView.ItemTemplate>
+          </ListView.ItemTemplate>-->
         </ListView>
-        <Button x:Name="HinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+"/>
+        <!--<Button x:Name="HinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+"/>-->
       </StackLayout>
     
   </ScrollView>

@@ -60,7 +60,7 @@ namespace WoMo.Logik.Listeneinträge
             //tagebuchid = this.Tagebuch.Id;
             standortid = this.Standort.Id;
             superiorid = this.superior.Id;
-            stellplatzid = -1;
+            stellplatzid = 0;
 
         }
 
@@ -76,7 +76,7 @@ namespace WoMo.Logik.Listeneinträge
             //tagebuchid = this.Tagebuch.Id;
             stellplatzid = this.Stellplatz.Id;
             superiorid = this.superior.Id;
-            standortid = -1;
+            standortid = 0;
         }
 
         public TbEintrag(DateTime datum, string text,/* Listenklasse<TbEintrag> tagebuch , */Listenklasse<TbEintrag> superior)

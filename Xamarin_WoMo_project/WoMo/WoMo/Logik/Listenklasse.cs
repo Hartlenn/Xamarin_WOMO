@@ -94,6 +94,11 @@ namespace WoMo.Logik
             return this.liste;
         }
 
+        public List<T> getList()
+        {
+            return new List<T>(this.liste);
+        }
+
         /// <summary>
         /// Fügt einen Eintrag des akzeptierten Typs der internen Liste hinzu.
         /// </summary>
