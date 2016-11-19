@@ -22,18 +22,7 @@ namespace WoMo.Logik.Listeneinträge
         public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         [PrimaryKey, AutoIncrement]
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int Id { get; set; }
 
         public double Longitude
         {

@@ -11,20 +11,8 @@ namespace WoMo.Logik.Database
 {
     abstract class DB_List : IListeneintrag
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id
-        {
-            get;
-
-            set;
-        }
-
-        public string Text
-        {
-            get;
-
-            set;
-        }
+        public abstract int Id { get; set; }
+        public abstract string Text { get; set; }
 
         // Methoden
 

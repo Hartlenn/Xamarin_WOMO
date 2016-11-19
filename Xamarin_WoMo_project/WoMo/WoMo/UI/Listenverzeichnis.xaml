@@ -9,17 +9,18 @@
                 WinPhone="20, 20, 20, 20" />
   </ContentPage.Padding>
   <ContentPage.Content>
+    <ScrollView>
     <StackLayout VerticalOptions="FillAndExpand"
                  HorizontalOptions="FillAndExpand"
                  Orientation="Vertical"
                  Spacing="15">
-      <Label x:Name="LblTitle" Text="listen"/>
+      <Label x:Name="LblTitle" Text="listen" HorizontalTextAlignment="Center"/>
       <Button x:Name="BtnHinzuEintrag" Clicked="OnHinzuEintragClick" Text="+ Neues Element"/>
-      
-    <ListView x:Name="ListAdapter" SeparatorColor="Black" ItemTapped="OnItemTapped">
+    <ListView x:Name="ListAdapter" ItemTapped="OnItemTapped">
         
       </ListView>
     </StackLayout>
+    </ScrollView>
   </ContentPage.Content>
 
 </ContentPage>

@@ -32,6 +32,13 @@ namespace WoMo.UI
             }
         }
 
+        /// <summary>
+        /// Konstruktor für neue Elemente
+        /// </summary>
+        public Stellplatz_Eigenschaften()
+        {
+
+        }
 
         public Stellplatz_Eigenschaften(Stellplatz stellplatz)
         {
@@ -40,8 +47,15 @@ namespace WoMo.UI
 
             TxtBezeichnung.Text = this.aktuellesElement.Text;
             TxtPosition.Text = this.aktuellesElement.Standort.Longitude + ";" + this.aktuellesElement.Standort.Latitude;
-            ListAdapter.ItemsSource = this.aktuellesElement.EigenschaftsListe.getListe();
-            BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
+            try
+            {
+                ListAdapter.ItemsSource = this.aktuellesElement.EigenschaftsListe.getListe();
+                BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
+            }
+            catch
+            {
+
+            }
             
             
         }

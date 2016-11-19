@@ -9,7 +9,7 @@ namespace WoMo.Logik.Listeneinträge
     {
         private int id;
         private string text;
-        private bool check = false;
+        private bool check;
 
         [Ignore]
         public Listenklasse<CLEintrag> superior { get; set; }

@@ -14,7 +14,8 @@ namespace WoMo.Logik.Database
 
         
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        public override int Id { get; set; }
+        public override String Text { get;set; }
         public override void aktualisierungenSpeichern()
         {
             throw new NotImplementedException();

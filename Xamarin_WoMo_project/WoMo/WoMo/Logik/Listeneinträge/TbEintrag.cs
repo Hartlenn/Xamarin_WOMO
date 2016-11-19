@@ -10,7 +10,7 @@ using Xamarin.Forms;
 namespace WoMo.Logik.Listeneinträge
 {
     [Table("TbEintrag")]
-    class TbEintrag : IListeneintrag
+    public class TbEintrag : IListeneintrag
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

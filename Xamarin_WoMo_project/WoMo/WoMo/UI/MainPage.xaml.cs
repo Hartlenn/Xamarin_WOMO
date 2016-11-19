@@ -30,7 +30,7 @@ namespace WoMo
             await Navigation.PushAsync(new Listenverzeichnis("tagebücher"));
         }
 
-        async void OnXMLVerwaltungClick(object sender, EventArgs e)
+        void OnXMLVerwaltungClick(object sender, EventArgs e)
         {
 
         }

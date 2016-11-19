@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace WoMo.Logik
 {
@@ -42,7 +43,7 @@ namespace WoMo.Logik
 
             set
             {
-                throw new NotImplementedException();
+                this.id = value;
             }
         }
 
@@ -61,7 +62,6 @@ namespace WoMo.Logik
         }
 
         public Listenklasse(){
-            
         }
 
         public Listenklasse(string text)
@@ -93,6 +93,7 @@ namespace WoMo.Logik
         {
             return this.liste;
         }
+
         /// <summary>
         /// Fügt einen Eintrag des akzeptierten Typs der internen Liste hinzu.
         /// </summary>
@@ -103,16 +104,13 @@ namespace WoMo.Logik
             {
                 this.Akzeptiert = eintrag.GetType();
             }
+            if (eintrag.GetType().Equals(this.Akzeptiert))
+            {
+                this.liste.Add((T)eintrag);
+            }
             else
             {
-                if (eintrag.GetType().Equals(this.Akzeptiert))
-                {
-                    this.liste.Add((T) eintrag);
-                }
-                else
-                {
-                    throw new MyTypeException("Type " + eintrag.GetType().ToString() + " not allowed in this list. Only " + this.Akzeptiert.ToString() + " is accepted.");
-                }
+                throw new MyTypeException("Type " + eintrag.GetType().ToString() + " not allowed in this list. Only " + this.Akzeptiert.ToString() + " is accepted.");
             }
         }
 
@@ -128,7 +126,7 @@ namespace WoMo.Logik
                 try
                 {
                     this.add(eintrag);
-                } catch (MyTypeException mte) { }
+                } catch (MyTypeException mte) {  Debug.WriteLine(mte.Message); }
             }
         }
 

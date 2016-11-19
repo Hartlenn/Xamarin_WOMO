@@ -9,13 +9,16 @@ using WoMo.Logik.Listeneinträge;
 using WoMo.Logik.Database;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace WoMo.UI
 {
     public partial class Listenverzeichnis : ContentPage, IElementverwaltung
     {
         private IListeneintrag aktuellesElement;
-
+        DatenbankAdapter dba;
+        ObservableCollection<IListeneintrag> Celllist;
+        private string aktliste;
         /*
         public static readonly BindableProperty TextProperty =
             BindableProperty.Create("Text", typeof(string), typeof(Listenklasse<IListeneintrag>), null);
@@ -29,15 +32,16 @@ namespace WoMo.UI
                 return this.aktuellesElement;
             }
 
-            set { }
+            set { this.aktuellesElement = value; }
         }
 
         public Listenverzeichnis(string verzeichnis)
         {
+            aktliste = verzeichnis;
             InitializeComponent();
 
             LblTitle.Text = verzeichnis;
-            DatenbankAdapter dba = DatenbankAdapter.getInstance();
+            dba = DatenbankAdapter.getInstance();
 
             Listenklasse<IListeneintrag> Verzeichnis = new Listenklasse<IListeneintrag>(verzeichnis);
 
@@ -51,20 +55,17 @@ namespace WoMo.UI
                     Verzeichnis.addRange(dba.select(new DB_Tagebuch().GetType(), "").getListe());
                     break;
                 case ("stellplätze"):
-                    Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "").sortiereEintraegeNachAttribut("distance").getListe());
+                    Verzeichnis.addRange(dba.select(new Stellplatz().GetType(), "")/*.sortiereEintraegeNachAttribut("distance")*/.getListe());
                     break;
             }
-
-            ObservableCollection<Cell> Celllist = new ObservableCollection<Cell>();
-            ListAdapter.ItemTemplate = new DataTemplate(typeof(Label));
-
+            Celllist = new ObservableCollection<IListeneintrag>();
+            DataTemplate template = new DataTemplate(typeof(TextCell));
+            template.SetBinding(TextCell.TextProperty, "Text");
+            ListAdapter.ItemTemplate = template;
+            
             foreach (IListeneintrag eintrag in Verzeichnis)
             {
-                TextCell lbl = new TextCell();
-                lbl.BindingContext = eintrag;
-                lbl.SetBinding(TextCell.TextProperty, "Text");
-                lbl.Text = eintrag.Text;
-                Celllist.Add(lbl);
+                Celllist.Add(eintrag);
             }
 
             ListAdapter.ItemsSource = Celllist;
@@ -73,9 +74,12 @@ namespace WoMo.UI
         // Todo: Listenverzeichnis für alle Listen deklarieren. 
         // Tagebuchverzeichnis, Stellplätze und Checklisten, sodass auch die jeweiligen Einträge verwaltet werden können
 
-        public Listenverzeichnis(Listenklasse<IListeneintrag> liste)
+        public Listenverzeichnis(Listenklasse<IListeneintrag> liste, string header, Type contains)
         {
             InitializeComponent();
+            dba = DatenbankAdapter.getInstance();
+
+            LblTitle.Text = header;
 
             this.AktuellesElement = liste;
 
@@ -85,44 +89,39 @@ namespace WoMo.UI
 
 
             DataTemplate cell;
-            ObservableCollection<Element> Celllist = new ObservableCollection<Element>();
+            Celllist = new ObservableCollection<IListeneintrag>();
 
-            if (liste.Akzeptiert == typeof(CLEintrag))
+            if (liste.Akzeptiert == typeof(CLEintrag) || contains == typeof(CLEintrag))
             {
                 cell = new DataTemplate(typeof(SwitchCell));
+                cell.SetBinding(SwitchCell.TextProperty, "Text");
+                cell.SetBinding(SwitchCell.IsEnabledProperty, "Checked");
+                //add methode for onChanged
                 foreach (IListeneintrag eintrag in liste)
                 {
-                    SwitchCell cel = new SwitchCell();
-                    cel.BindingContext = eintrag;
-                    cel.SetBinding(SwitchCell.TextProperty, "Text");
-                    cel.SetBinding(SwitchCell.OnProperty, "Checked");
-                    Celllist.Add(cel);
+                    Celllist.Add(eintrag);
+                    
                 }
-            }else if(liste.Akzeptiert == typeof(TbEintrag))
+            }
+            else if(liste.Akzeptiert == typeof(TbEintrag) || contains == typeof(TbEintrag))
             {
                 cell = new DataTemplate(typeof(Editor));
+                cell.SetBinding(Editor.TextProperty, "Text");
                 foreach (IListeneintrag eintrag in liste)
                 {
-                    Editor cel = new Editor();
-                    cel.BindingContext = eintrag;
-                    cel.SetBinding(Editor.TextProperty, "Text");
-                    Celllist.Add(cel);
+                    Celllist.Add(eintrag);
                 }
             }else
             {
                 cell = new DataTemplate(typeof(Label));
+                cell.SetBinding(Label.TextProperty, "Text");
                 foreach (IListeneintrag eintrag in liste)
                 {
-                    Label cel = new Label();
-                    cel.BindingContext = eintrag;
-                    cel.SetBinding(Label.TextProperty, "Text");
-                    Celllist.Add(cel);
+                    Celllist.Add(eintrag);
                 }
             }
 
             
-
-
             ListAdapter.ItemTemplate = cell;
             ListAdapter.ItemsSource = Celllist;
 
@@ -130,33 +129,76 @@ namespace WoMo.UI
 
         async void OnItemTapped(object sender, EventArgs e)
         {
-            ListView Sender = (ListView)sender;
-
-            IListeneintrag item = (IListeneintrag)Sender.SelectedItem;
-            if (item is Listenklasse<TbEintrag>)
-                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<TbEintrag>)item).getAsGeneral()));
-            else if (item is Listenklasse<CLEintrag>)
-                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<CLEintrag>)item).getAsGeneral()));
-            else if (item is Listenklasse<Stellplatz>)
-                await Navigation.PushAsync(new Listenverzeichnis(((Listenklasse<Stellplatz>)item).getAsGeneral()));
-            else if (item is TbEintrag)
+            if (sender is ListView)
             {
-                
+                ListView Sender = (ListView)sender;
+                IListeneintrag item = (IListeneintrag)Sender.SelectedItem;
+                if (aktliste != null)
+                {
+                    Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
+                    switch (aktliste)
+                    {
+                        case ("checklisten"):
+                            list = dba.select(new CLEintrag().GetType(), "WHERE [Superior] = " + item.Id);
+                            await Navigation.PushAsync(new Listenverzeichnis(list, item.Text, typeof(Checklist)));
+                            break;
+                        case ("tagebücher"):
+                            list = dba.select(new TbEintrag().GetType(), "WHERE [Superior] =" + item.Id);
+                            await Navigation.PushAsync(new Listenverzeichnis(list, item.Text, typeof(TbEintrag)));
+                            break;
+                        case ("stellplätze"):
+                            //nur eigenschaften erstmal
+                            await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz)item));
+                            break;
+                    }
+                }
+                else if(item is CLEintrag)
+                {
+                    CLEintrag eintrag = (CLEintrag)item;
+                    if (eintrag.Checked)
+                        eintrag.Checked = false;
+                    else
+                        eintrag.Checked = true;
+                }
             }
-            else if (item is CLEintrag)
-            {
-                ((CLEintrag)item).toggleCheck();
-            }
-            else if (item is Stellplatz)
-                await Navigation.PushAsync(new Stellplatz_Eigenschaften((Stellplatz)item));
-
         }
 
-        public void OnHinzuEintragClick(object sender, EventArgs e)
-        {
-            // Öffne Texteditor zum Schreiben der Checkliste
-            
+        public void switching(object sender, EventArgs e) { }
 
+        async void OnHinzuEintragClick(object sender, EventArgs e)
+        {
+            if (sender is ListView)
+            {
+                ListView Sender = (ListView)sender;
+                IListeneintrag item = (IListeneintrag)Sender.SelectedItem;
+                if (aktliste != null)
+                {
+                    Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
+                    switch (aktliste)
+                    {
+                        case ("checklisten"):
+                            //erstellen neuer checkliste
+                            break;
+                        case ("tagebücher"):
+                            
+                            break;
+                        case ("stellplätze"):
+                            await Navigation.PushAsync(new Stellplatz_Eigenschaften());
+                            break;
+                    }
+                }
+                else if (item is CLEintrag)
+                {
+                }
+                else if (item is Stellplatz)
+                {
+
+                }
+                else if (item is Tagebuch)
+                {
+
+                }
+            }
         }
 
         public void OnImageTapped(object sender, EventArgs e)
@@ -169,6 +211,27 @@ namespace WoMo.UI
         public void OnSwitchTapped(object sender, EventArgs e)
         {
             ((CLEintrag)sender).toggleCheck();
+        }
+
+        private void saveChanges()
+        {
+            if (Celllist != null)
+            {
+                foreach (IListeneintrag item in Celllist)
+                {
+                    if (item is CLEintrag)
+                    {
+                        if (!dba.update(((CLEintrag)item)))
+                            dba.insert((CLEintrag)item);
+                    }
+                }
+            }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            saveChanges();
+            return base.OnBackButtonPressed();
         }
     }
 }

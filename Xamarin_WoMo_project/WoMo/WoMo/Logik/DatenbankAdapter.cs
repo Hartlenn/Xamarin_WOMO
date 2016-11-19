@@ -170,6 +170,12 @@ namespace WoMo.Logik
             }
         }
 
+        /// <summary>
+        /// Stellplatz does not like eigenschaftslisten
+        /// </summary>
+        /// <param name="Tabelle"></param>
+        /// <param name="Bedingung"></param>
+        /// <returns></returns>
         public Listenklasse<IListeneintrag> select(Type Tabelle, string Bedingung)
         {
             string tabelle = Tabelle.ToString().ToLower();
@@ -181,12 +187,28 @@ namespace WoMo.Logik
             Listenklasse<IListeneintrag> list = new Listenklasse<IListeneintrag>();
             if (tabelle.Equals("womo.logik.listeneinträge.stellplatz"))
             {
+                Listenklasse<IListeneintrag> zwili;
                 foreach (Stellplatz platz in database.Query<Stellplatz>("SELECT * FROM [Stellplatz] " + Bedingung))
                 {
                     platz.Standort = ((Standort)select(new Standort().GetType(), "WHERE [ID] = " + platz.StandortID.ToString()).getListe().First());
-                    platz.EigenschaftsListe.addRange(select(new CLEintrag().GetType(), "WHERE [ID] = " + platz.EigenschaftsListeId.ToString()).getListe());
-                    platz.BilderListe.addRange(select(new BilderEintrag().GetType(), "WHERE [ID] = " + platz.BilderListeId.ToString()).getListe());
-                    list.add(platz);
+                    try
+                    {
+                        zwili = select(new CLEintrag().GetType(), "WHERE [Superior] = " + platz.EigenschaftsListeId.ToString());
+                        if (zwili.getListe() != null)
+                            platz.EigenschaftsListe.addRange(zwili.getListe());
+
+                        zwili = select(new BilderEintrag().GetType(), "WHERE [Id] = " + platz.BilderListeId.ToString());
+                        if (zwili.getListe() != null)
+                            platz.BilderListe.addRange(zwili.getListe());
+                    }
+                    catch
+                    {
+
+                    }
+                    finally
+                    {
+                        list.add(platz);
+                    }
                 }                 
             }
             else if (tabelle.Equals("womo.logik.listeneinträge.cleintrag"))
@@ -214,24 +236,19 @@ namespace WoMo.Logik
             }
             else if (tabelle.Equals("womo.logik.database.db_bilderliste"))
             {
-                foreach(DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste] " + Bedingung))
-                {
-                    list.add(DB_List.toListenklasse(new BilderEintrag().GetType(), liste));
-                }                
+                list.addRange(database.Query<DB_Bilderliste>("SELECT * FROM [DB_Bilderliste]" + Bedingung));
             }
             else if (tabelle.Equals("womo.logik.database.db_checkliste"))
             {
-                foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Checkliste] " + Bedingung))
-                {
-                    list.add(DB_List.toListenklasse(new CLEintrag().GetType(), liste));
-                }
+                list.addRange(database.Query<DB_Checkliste>("SELECT * FROM [DB_Checkliste]" + Bedingung));
             }
             else if (tabelle.Equals("womo.logik.database.db_tagebuch"))
             {
-                foreach (DB_List liste in database.Query<DB_Bilderliste>("SELECT * FROM [DB_Tagebuch] " + Bedingung))
-                {
-                    list.add(DB_List.toListenklasse(new TbEintrag().GetType(), liste));
-                }
+                list.addRange(database.Query<DB_Tagebuch>("SELECT * FROM [DB_Tagebuch]" + Bedingung));
+            }
+            else if (tabelle.Equals("womo.logik.listeneinträge.standort"))
+            {
+                list.addRange(database.Query<Standort>("SELECT * FROM [Standort]" + Bedingung));
             }
             else
             {

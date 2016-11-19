@@ -11,11 +11,16 @@ namespace WoMo.Logik.Database
     class DB_Checkliste : DB_List
     {
         public String Bezeichner { get; set; }
+
+        public override int Id  {get;set;}
+
+        public override string Text { get; set; }
+
         /*
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string Text{ get;set; }
-        */
+[PrimaryKey, AutoIncrement]
+public int Id { get; set; }
+public string Text{ get;set; }
+*/
         public override void aktualisierungenSpeichern()
         {
             throw new NotImplementedException();
