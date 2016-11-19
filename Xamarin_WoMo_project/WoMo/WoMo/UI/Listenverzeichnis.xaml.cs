@@ -180,7 +180,6 @@ namespace WoMo.UI
                             //erstellen neuer checkliste
                             break;
                         case ("tagebücher"):
-                            
                             break;
                         case ("stellplätze"):
                             await Navigation.PushAsync(new Stellplatz_Eigenschaften());
@@ -189,6 +188,7 @@ namespace WoMo.UI
                 }
                 else if (item is CLEintrag)
                 {
+                    ((CLEintrag)item).toggleCheck();
                 }
                 else if (item is Stellplatz)
                 {
