@@ -11,6 +11,7 @@ namespace WoMo.Logik.Database
     class DB_Bilderliste : DB_List
     {
         public int StellplatzID { get; set; }
+        [PrimaryKey, AutoIncrement]
         public override int Id { get; set; }
         public override String Text { get; set; }
         /*

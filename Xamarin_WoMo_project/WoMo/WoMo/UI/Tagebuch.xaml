@@ -15,7 +15,10 @@
                  Spacing="15">
       <DatePicker x:Name="EntryDate"/>
       <Editor x:Name="Entry"/>
-      <Button x:Name="OK" Clicked="OnBtnOKClick" Text="OK"/>
+      <StackLayout Orientation="Horizontal">
+        <Button x:Name="OK" Clicked="OnBtnOKClick" Text="OK"/>
+        <Button x:Name="DELETE" Clicked="OnBtnDeleteClick" Text="Delete"/>
+      </StackLayout>
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

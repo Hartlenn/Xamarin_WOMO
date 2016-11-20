@@ -90,9 +90,18 @@ namespace WoMo.UI
             {
                 DataTemplate cell;
                 Celllist = new ObservableCollection<IListeneintrag>();
+                List<IListeneintrag> aktElementList = ((Listenklasse<IListeneintrag>)aktuellesElement).getList();
 
                 if (((Listenklasse<IListeneintrag>)aktuellesElement).Akzeptiert == typeof(CLEintrag) || contains == typeof(CLEintrag))
                 {
+                    try
+                    {
+                        aktuellesElement = dba.select(typeof(CLEintrag), "WHERE [Superior] =" + superior.Id);
+                    }
+                    catch
+                    {
+
+                    }
                     cell = new DataTemplate(typeof(SwitchCell));
                     cell.SetBinding(SwitchCell.TextProperty, "Text");
                     cell.SetBinding(SwitchCell.OnProperty, "Checked");
@@ -105,7 +114,15 @@ namespace WoMo.UI
                 }
                 else if (((Listenklasse<IListeneintrag>)aktuellesElement).Akzeptiert == typeof(TbEintrag) || contains == typeof(TbEintrag))
                 {
-                    cell = new DataTemplate(typeof(TextCell));
+                    try
+                    {
+                        aktuellesElement = dba.select(typeof(TbEintrag), "WHERE [Superior] =" + superior.Id);
+                    }
+                    catch
+                    {
+
+                    }
+                cell = new DataTemplate(typeof(TextCell));
                     cell.SetBinding(TextCell.DetailProperty, "Text");
                     cell.SetBinding(TextCell.TextProperty, "Datum");
                     foreach (IListeneintrag eintrag in ((Listenklasse<IListeneintrag>)aktuellesElement))
@@ -115,6 +132,13 @@ namespace WoMo.UI
                 }
                 else
                 {
+                    try
+                    {
+                        aktuellesElement = dba.select(typeof(Stellplatz), "WHERE [Superior] =" + superior.Id);
+                    }
+                    catch
+                    {
+                    }
                     cell = new DataTemplate(typeof(Label));
                     cell.SetBinding(Label.TextProperty, "Text");
                     foreach (IListeneintrag eintrag in ((Listenklasse<IListeneintrag>)aktuellesElement))
@@ -155,11 +179,8 @@ namespace WoMo.UI
                 }
                 else if(item is CLEintrag)
                 {
-                    CLEintrag eintrag = (CLEintrag)item;
-                    if (eintrag.Checked)
-                        eintrag.Checked = false;
-                    else
-                        eintrag.Checked = true;
+                    ((CLEintrag)item).Checked = !((CLEintrag)item).Checked;
+                    dba.update((CLEintrag)item);
                 }
                 else if(item is TbEintrag)
                 {
@@ -168,8 +189,6 @@ namespace WoMo.UI
             }
         }
 
-        public void switching(object sender, EventArgs e) { }
-
         async void OnHinzuEintragClick(object sender, EventArgs e)
         {
             if (aktliste != null)
@@ -177,10 +196,10 @@ namespace WoMo.UI
                 switch (aktliste)
                 {
                     case ("checklisten"):
-                        await Navigation.PushAsync(new NewList(false, dba));
+                        await Navigation.PushAsync(new NewList(typeof(DB_Checkliste), dba));
                         break;
                     case ("tagebücher"):
-                        await Navigation.PushAsync(new NewList(true, dba));
+                        await Navigation.PushAsync(new NewList(typeof(DB_Tagebuch), dba));
                         break;
                     case ("stellplätze"):
                         await Navigation.PushAsync(new Stellplatz_Eigenschaften(dba));
@@ -189,7 +208,7 @@ namespace WoMo.UI
             }
             else if (contains == typeof(CLEintrag))
             {
-
+                await Navigation.PushAsync(new NewList(typeof(CLEintrag), dba, superior.Id));
             }
             else if (contains == typeof(TbEintrag))
             {

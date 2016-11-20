@@ -12,6 +12,21 @@ namespace WoMo.Logik.Database
     abstract class DB_List : IListeneintrag
     {
         public abstract int Id { get; set; }
+
+        [Ignore]
+        public int SuperiorId
+        {
+            get
+            {
+                return this.SuperiorId;
+            }
+
+            set
+            {
+                this.SuperiorId = value;
+            }
+        }
+
         public abstract string Text { get; set; }
 
         // Methoden

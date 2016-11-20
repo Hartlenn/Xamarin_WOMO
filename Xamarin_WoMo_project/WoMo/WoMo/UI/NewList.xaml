@@ -5,6 +5,9 @@
   <StackLayout>
     <Label x:Name="Title"/>
     <Entry x:Name="Input"/>
-    <Button x:Name="OK" Text="Save" Clicked="OnBtnOKClick"/>
+    <StackLayout Orientation="Horizontal" >
+      <Button x:Name="OK" Text="Save" Clicked="OnBtnOKClick"/>
+      <Button x:Name="Delete" Text="Delete" Clicked="OnBtnDeleteClick"></Button>
+    </StackLayout>
   </StackLayout>
 </ContentPage>

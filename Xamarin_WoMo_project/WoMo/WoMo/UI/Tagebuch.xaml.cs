@@ -19,11 +19,13 @@ namespace WoMo.UI
         public Tagebuch(DatenbankAdapter dba, int superiorid)
         {
             this.eintrag = new TbEintrag();
-            InitializeComponent();
-            EntryDate.Date = DateTime.Today;
             this.dba = dba;
             isEdit = false;
             this.superiorid = superiorid;
+
+            InitializeComponent();
+            EntryDate.Date = DateTime.Today;
+            DELETE.IsEnabled = false;
         }
 
         public Tagebuch(TbEintrag eintrag, DatenbankAdapter dba, int superiorid)
@@ -45,6 +47,12 @@ namespace WoMo.UI
                 dba.update(eintrag);
             else
                 dba.insert(eintrag);
+            await Navigation.PopAsync();
+        }
+
+        async void OnBtnDeleteClick(object sender, EventArgs e)
+        {
+            dba.delete(eintrag);
             await Navigation.PopAsync();
         }
     }

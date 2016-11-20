@@ -31,7 +31,10 @@
           <Label Grid.Row="2" Grid.Column="0" Text="Latitude:"/>
           <Entry Grid.Row="2" Grid.Column="1" x:Name="Latitude"/>
         </Grid>
-        <Button Text="Save" x:Name="BtnSave" Clicked="OnBtnSaveClick"/>
+        <StackLayout Orientation="Horizontal">
+          <Button Text="Save" x:Name="BtnSave" Clicked="OnBtnSaveClick"/>
+          <Button Text="Delete" x:Name="BtnDelete" Clicked="OnBtnDeleteClick"/>
+        </StackLayout>
         <!--<StackLayout Orientation="Horizontal">
           <Label Text="Bilder:"/>
           <Button x:Name="BtnHinzuBild" Clicked="OnBtnHinzuBildClicked" Text="+"/>

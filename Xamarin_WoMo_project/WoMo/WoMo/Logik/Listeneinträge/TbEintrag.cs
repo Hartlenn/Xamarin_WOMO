@@ -32,7 +32,7 @@ namespace WoMo.Logik.Listeneinträge
         [Ignore]
         public Listenklasse<TbEintrag> superior { get; set; }
         private int superiorid;
-        [Column("superior")]
+        [Column("Superior")]
         public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         /*

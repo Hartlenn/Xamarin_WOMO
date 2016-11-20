@@ -45,7 +45,7 @@ namespace WoMo.UI
             isEdit = false;
 
             InitializeComponent();
-
+            BtnDelete.IsEnabled = false;
         }
 
         public Stellplatz_Eigenschaften(Stellplatz stellplatz, DatenbankAdapter dba)
@@ -104,6 +104,12 @@ namespace WoMo.UI
             await Navigation.PopAsync();
         }
 
+
+        async void OnBtnDeleteClick(object sender, EventArgs e)
+        {
+            dba.delete(aktuellesElement);
+            await Navigation.PopAsync();
+        }
         /*
         public void OnBtnHinzuBildClicked(object sender, EventArgs e)
         {

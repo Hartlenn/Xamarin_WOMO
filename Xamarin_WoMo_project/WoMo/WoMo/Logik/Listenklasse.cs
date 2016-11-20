@@ -61,6 +61,19 @@ namespace WoMo.Logik
             }
         }
 
+        public int SuperiorId
+        {
+            get
+            {
+                return this.superior.Id;
+            }
+
+            set
+            {
+                this.SuperiorId = value;
+            }
+        }
+
         public Listenklasse(){
         }
 

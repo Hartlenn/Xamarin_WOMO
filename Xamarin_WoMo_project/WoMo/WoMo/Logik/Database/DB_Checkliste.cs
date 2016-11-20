@@ -11,7 +11,7 @@ namespace WoMo.Logik.Database
     class DB_Checkliste : DB_List
     {
         public String Bezeichner { get; set; }
-
+        [PrimaryKey, AutoIncrement]
         public override int Id  {get;set;}
 
         public override string Text { get; set; }

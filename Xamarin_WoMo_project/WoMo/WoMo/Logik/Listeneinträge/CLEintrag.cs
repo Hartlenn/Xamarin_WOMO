@@ -12,9 +12,9 @@ namespace WoMo.Logik.Listeneinträge
         private bool check;
 
         [Ignore]
-        public Listenklasse<CLEintrag> superior { get; set; }
+        public Listenklasse<CLEintrag> Superior { get; set; }
         private int superiorid;
-        [Column("superior")]
+        [Column("Superior")]
         public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
 
         [PrimaryKey, AutoIncrement]
@@ -63,7 +63,7 @@ namespace WoMo.Logik.Listeneinträge
 
         public CLEintrag(Listenklasse<CLEintrag> superior)
         {
-            this.superior = superior;
+            this.Superior = superior;
             this.superiorid = superior.Id;
         }
 
@@ -91,7 +91,7 @@ namespace WoMo.Logik.Listeneinträge
                 + Id + "</Id><text>"
                 + Text + "</text><checked>"
                 + Checked + "</checked><Superior>"
-                + superior + "</Superior></CLEintrag>";
+                + Superior + "</Superior></CLEintrag>";
         }
 
         public ViewCell getListViewEintrag()

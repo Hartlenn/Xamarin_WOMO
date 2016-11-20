@@ -15,6 +15,7 @@ namespace WoMo.Logik
         [PrimaryKey, AutoIncrement]
         int Id { get; set; }
         string Text { get; set; }
+        int SuperiorId { get; set; }
 
         // Methoden
         void aktualisierungenSpeichern();

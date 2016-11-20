@@ -18,8 +18,8 @@ namespace WoMo.Logik.Listeneinträge
         [Ignore]
         public Listenklasse<BilderEintrag> Superior { get; set; }
         private int superiorid;
-        [Column("superior")]
-        public int superiorId { get { return this.superiorid; } set { this.superiorid = value; } }
+        [Column("Superior")]
+        public int SuperiorId { get { return this.superiorid; } set { this.superiorid = value; } }
 
 
         public BilderEintrag()
