@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 using System.IO;
 using WoMo.Logik.Listeneinträge;
 using WoMo.Logik.Database;
+using Xamarin.Forms;
+
 
 namespace WoMo.Logik
 {
@@ -52,7 +54,7 @@ namespace WoMo.Logik
                 string xml = "<XML><WoMo><menue>"
                     + menue.toXml()
                     + "</menue></WoMo></XML>";
-                b = true;
+                b = true; 
             }catch
             {
                 b = false;
@@ -70,16 +72,27 @@ namespace WoMo.Logik
             {
                 string xml = "<XML><WoMo>";
 
-                xml += DatenbankAdapter.getInstance().select(new DB_Bilderliste().GetType(),"").toXml();
-                xml += DatenbankAdapter.getInstance().select(new DB_Checkliste().GetType(),"").toXml();
-                xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(),"").toXml();
+                xml += DatenbankAdapter.getInstance().select(new DB_Bilderliste().GetType(), "").toXml();
+                xml += DatenbankAdapter.getInstance().select(new DB_Checkliste().GetType(), "").toXml();
+                xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(), "").toXml();
                 xml += "</menue></WoMo></XML>";
+
+                char[] CharArray = xml.ToCharArray();
+                byte[] ByteArray = new byte[CharArray.Length];
+
+                for(int i = 0; i < CharArray.Length; i++) {
+                    ByteArray[i] = Convert.ToByte(CharArray[i]);
+
+                    DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
+                        .GetWriteStream(DateTime.Now + ".xml")
+                        .WriteAsync(ByteArray, 0, ByteArray.Length);
+                }
                 b = true;
             }catch
             {
                 b = false;
             }
-            // ToDo: Dateiausgabe
+
 
             return b;
         }
