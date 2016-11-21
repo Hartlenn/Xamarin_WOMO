@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WoMo.UI;
 using Xamarin.Forms;
+using WoMo.Logik;
 
 namespace WoMo
 {
@@ -32,7 +33,7 @@ namespace WoMo
 
         void OnXMLVerwaltungClick(object sender, EventArgs e)
         {
-
+            Controller.getInstance().xmlExportDatenbank();
         }
     }
 }

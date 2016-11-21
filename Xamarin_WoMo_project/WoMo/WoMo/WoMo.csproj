@@ -45,6 +45,7 @@
     <Compile Include="Logik\Database\DB_Tagebuch.cs" />
     <Compile Include="Logik\FileReadWrite\FileReadWrite_Android.cs" />
     <Compile Include="Logik\FileReadWrite\FileReadWrite_IOS.cs" />
+    <Compile Include="Logik\FileReadWrite\FileReadWrite_Universal.cs" />
     <Compile Include="Logik\FileReadWrite\FileReadWrite_WindowsPhone.cs" />
     <Compile Include="Logik\FileReadWrite\IFileReadWrite.cs" />
     <Compile Include="Logik\Listeneinträge\BilderEintrag.cs" />

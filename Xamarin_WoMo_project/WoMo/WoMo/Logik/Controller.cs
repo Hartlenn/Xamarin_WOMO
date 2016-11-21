@@ -28,7 +28,7 @@ namespace WoMo.Logik
         }
 
         // Singleton
-        public Controller getInstance()
+        public static Controller getInstance()
         {
             if(controller == null)
             {
@@ -46,29 +46,22 @@ namespace WoMo.Logik
         /// </summary>
         /// <param name="pfad"></param>
         /// <returns></returns>
-        public bool xmlExportLogik(Uri pfad)
+        public void xmlExportLogik()
         {
-            bool b = false;
-
             try
             {
                 string xml = "<XML><WoMo><menue>"
                     + menue.toXml()
                     + "</menue></WoMo></XML>";
-                b = true; 
+
+                this.exportFile(xml);
             }catch
             {
-                b = false;
             }
-
-            // ToDo: Dateiausgabe
-
-            return b;
         }
 
-        public async Task<bool> xmlExportDatenbank(Uri pfad)
+        public void xmlExportDatenbank()
         {
-            bool b = false;
             try
             {
                 string xml = "<XML><WoMo>";
@@ -78,31 +71,34 @@ namespace WoMo.Logik
                 xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(), "").toXml();
                 xml += "</menue></WoMo></XML>";
 
-                char[] CharArray = xml.ToCharArray();
-                byte[] ByteArray = new byte[CharArray.Length];
-
-                for (int i = 0; i < CharArray.Length; i++)
-                {
-                    ByteArray[i] = Convert.ToByte(CharArray[i]);
-                    string filename = "WoMo_" + DateTime.Now + ".xml";
-                    try
-                    {
-                        await DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
-                            .GetWriteStream(filename)
-                            .WriteAsync(ByteArray, 0, ByteArray.Length);
-                    }catch(MyWindowsPhoneFileSystemException mwpfse)
-                    {
-                        await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
-                    }
-                }
-                b = true;
+                this.exportFile(xml);
             }
             catch (Exception e)
             {
-                b = false;
             }
 
-            return b;
+        }
+
+        private async void exportFile(string xml)
+        {
+            char[] CharArray = xml.ToCharArray();
+            byte[] ByteArray = new byte[CharArray.Length];
+
+            for (int i = 0; i < CharArray.Length; i++)
+            {
+                ByteArray[i] = Convert.ToByte(CharArray[i]);
+                string filename = "WoMo_" + DateTime.Now + ".xml";
+                try
+                {
+                    await DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
+                        .GetWriteStream(filename)
+                        .WriteAsync(ByteArray, 0, ByteArray.Length);
+                }
+                catch (MyWindowsPhoneFileSystemException mwpfse)
+                {
+                    await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
+                }
+            }
         }
 
         /// <summary>
