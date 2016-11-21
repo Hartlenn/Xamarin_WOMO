@@ -15,7 +15,7 @@ namespace WoMo.UI
         Type type;
         DatenbankAdapter dba;
         int superior;
-        IListeneintrag eintrag;
+        IListeneintrag aktuellerEintrag;
 
         public NewList(Type type, DatenbankAdapter dba)
         {
@@ -62,19 +62,19 @@ namespace WoMo.UI
 
         async void OnBtnOKClick(object sender, EventArgs e)
         {
-            if (type.ToString().Equals(typeof(DB_Tagebuch).ToString()))
+            if (type.Equals(typeof(DB_Tagebuch)))
             {
                 DB_Tagebuch buch = new DB_Tagebuch();
                 buch.Text = Input.Text;
                 dba.insert(buch);
             }
-            else if (type.ToString().Equals(typeof(DB_Checkliste).ToString()))
+            else if (type.Equals(typeof(DB_Checkliste)))
             {
                 DB_Checkliste list = new DB_Checkliste();
                 list.Text = Input.Text;
                 dba.insert(list);
             }
-            else if (type.ToString().Equals(typeof(CLEintrag).ToString()))
+            else if (type.Equals(typeof(CLEintrag)))
             {
                 CLEintrag eintrag = new CLEintrag();
                 eintrag.SuperiorId = superior;
@@ -86,8 +86,8 @@ namespace WoMo.UI
         
         async void OnBtnDeleteClick(object sender, EventArgs e)
         {
-            dba.delete(eintrag);
-            await Navigation.PopToRootAsync();
+            dba.delete(aktuellerEintrag);
+            await Navigation.PopAsync();
         }
     }
 }
