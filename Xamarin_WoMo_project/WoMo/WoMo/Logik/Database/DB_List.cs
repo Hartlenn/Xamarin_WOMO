@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace WoMo.Logik.Database
 {
-    abstract class DB_List : IListeneintrag
+    public abstract class DB_List : IListeneintrag
     {
         public abstract int Id { get; set; }
 

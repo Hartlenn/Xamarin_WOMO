@@ -21,7 +21,7 @@
   </ContentPage.Resources>
   <ContentPage.Content>
     <ScrollView>
-      <StackLayout>
+      <StackLayout x:Name="StackLayout">
         <Label Text="Stellplatz Eigenschaften"/>
         <Grid>
           <Label Grid.Row="0" Grid.Column="0" Text="Bezeichnung:"/>
@@ -48,14 +48,8 @@
             </ListView.ItemTemplate>
           </ListView>
         </Grid>-->
-        <ListView x:Name="ListAdapter">
-          <!--<ListView.ItemTemplate>
-            <DataTemplate>
-              <SwitchCell On="{Binding Checked}" Text="{Binding Text}"/>
-            </DataTemplate>
-          </ListView.ItemTemplate>-->
-        </ListView>
-        <!--<Button x:Name="HinzuEintrag" Clicked="OnBtnHinzuEintragClicked" Text="+"/>-->
+
+        
       </StackLayout>
     
   </ScrollView>

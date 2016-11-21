@@ -58,7 +58,8 @@ namespace WoMo.Logik.Listeneinträge
 
         public Stellplatz()
         {
-
+            EigenschaftsListe = new Listenklasse<CLEintrag>();
+            BilderListe = new Listenklasse<BilderEintrag>();
         }
 
         public Stellplatz(Standort standort, Listenklasse<CLEintrag> eigenschaftsListe, Listenklasse<BilderEintrag> bilderListe, Listenklasse<Stellplatz> superior)

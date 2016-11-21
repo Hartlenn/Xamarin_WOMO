@@ -48,8 +48,9 @@ namespace WoMo.UI
             InitializeComponent();
             this.dba = dba;
             this.type = type;
-            this.superior = eintrag.SuperiorId;
+            this.superior = eintrag.Id;
             Input.Text = eintrag.Text;
+            this.eintrag = eintrag;
             if (this.type.Equals(typeof(CLEintrag)))
                 Title.Text = "Bearbeite den Checklisteneintrag:";
             else if (this.type.Equals(typeof(DB_Checkliste)))
@@ -85,19 +86,8 @@ namespace WoMo.UI
         
         async void OnBtnDeleteClick(object sender, EventArgs e)
         {
-            if (type.ToString().Equals(typeof(DB_Tagebuch).ToString()))
-            {
-                dba.delete(eintrag);
-            }
-            else if (type.ToString().Equals(typeof(DB_Checkliste).ToString()))
-            {
-                dba.delete(eintrag);
-            }
-            else if (type.ToString().Equals(typeof(CLEintrag).ToString()))
-            {
-                dba.delete(eintrag);
-            }
-            await Navigation.PopAsync();
+            dba.delete(eintrag);
+            await Navigation.PopToRootAsync();
         }
     }
 }

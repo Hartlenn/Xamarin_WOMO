@@ -21,6 +21,7 @@ namespace WoMo.Logik
         private DatenbankAdapter()
         {
             initialisiereDatenbank();
+            
         }
 
         // Singleton
@@ -32,7 +33,7 @@ namespace WoMo.Logik
             return singleton;
         }
 
-        public bool initialisiereDatenbank()
+        private bool initialisiereDatenbank()
         {
             try
             {
@@ -104,7 +105,7 @@ namespace WoMo.Logik
                     return 0;
             }
         }
-
+        
         public bool update(IListeneintrag eintrag)
         {
             lock (locker)
@@ -164,14 +165,26 @@ namespace WoMo.Logik
                 }
                 else if (eintrag is DB_Tagebuch)
                 {
+                    foreach(TbEintrag child in select(typeof(TbEintrag), "WHERE [Superior] = " + eintrag.Id))
+                    {
+                        delete(child);
+                    }
                     return database.Delete((DB_Tagebuch)eintrag) > 0;
                 }
                 else if (eintrag is DB_Checkliste)
                 {
+                    foreach (CLEintrag child in select(typeof(CLEintrag), "WHERE [Superior] = " + eintrag.Id))
+                    {
+                        delete(child);
+                    }
                     return database.Delete((DB_Checkliste)eintrag) > 0;
                 }
                 else if (eintrag is DB_Bilderliste)
                 {
+                    foreach (BilderEintrag child in select(typeof(BilderEintrag), "WHERE [Superior] = " + eintrag.Id))
+                    {
+                        delete(child);
+                    }
                     return database.Delete((DB_Bilderliste)eintrag) > 0;
                 }
                 else
@@ -202,10 +215,7 @@ namespace WoMo.Logik
                     platz.Standort = ((Standort)select(new Standort().GetType(), "WHERE [ID] = " + platz.StandortID.ToString()).getListe().First());
                     try
                     {
-                        //cleinträge
-                        zwili = select(new CLEintrag().GetType(), "WHERE [Superior] = " + platz.EigenschaftsListeId.ToString());
-                        if (zwili.getList() != null)
-                            platz.EigenschaftsListe.addRange(zwili.getList());
+                        platz.EigenschaftsListe.addRange(select(new CLEintrag().GetType(), "WHERE [Superior] = " + platz.EigenschaftsListeId.ToString()).getList());
 
                         //bilderliste
                         zwili = select(new BilderEintrag().GetType(), "WHERE [Id] = " + platz.BilderListeId.ToString());

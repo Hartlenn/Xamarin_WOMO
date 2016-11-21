@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using WoMo.Logik;
+using WoMo.Logik.Database;
 using WoMo.Logik.Listeneinträge;
 using Xamarin.Forms;
 
@@ -15,6 +17,11 @@ namespace WoMo.UI
         private Stellplatz aktuellesElement;
         DatenbankAdapter dba;
         bool isEdit;
+        Picker pick = new Picker();
+        ListView ListAdapter;
+        Button AddCLeintrag;
+        ObservableCollection<IListeneintrag> list;
+        DataTemplate cell;
 
         /*
         public static readonly BindableProperty TextProperty =
@@ -46,6 +53,13 @@ namespace WoMo.UI
 
             InitializeComponent();
             BtnDelete.IsEnabled = false;
+
+            Listenklasse<IListeneintrag> checklists = dba.select(typeof(DB_Checkliste), "");
+            foreach(IListeneintrag cleintrag in checklists)
+            {
+                pick.Items.Add(cleintrag.Id + ": " + cleintrag.Text);
+            }
+            StackLayout.Children.Insert(StackLayout.Children.Count -1 , pick);
         }
 
         public Stellplatz_Eigenschaften(Stellplatz stellplatz, DatenbankAdapter dba)
@@ -54,7 +68,7 @@ namespace WoMo.UI
             this.dba = dba;
             isEdit = true;
 
-
+            list = new ObservableCollection<IListeneintrag>();
 
             InitializeComponent();
             this.aktuellesElement = stellplatz;
@@ -62,9 +76,19 @@ namespace WoMo.UI
             Bezeichnung.Text = this.aktuellesElement.Text;
             Latitude.Text = this.aktuellesElement.Standort.Latitude.ToString();
             Longitude.Text = this.aktuellesElement.Standort.Longitude.ToString();
+
+            AddCLeintrag = new Button();
+            AddCLeintrag.Text = "Checklisteneintrag hinzufügen";
+            AddCLeintrag.Clicked += OnBtnHinzuEintragClicked;
+
+            StackLayout.Children.Add(AddCLeintrag);
+
+            ListAdapter = new ListView();
+
+            StackLayout.Children.Add(ListAdapter);
+  
             try
             {
-                ListAdapter.ItemsSource = this.aktuellesElement.EigenschaftsListe.getListe();
                 //BildListAdapter.ItemsSource = this.aktuellesElement.BilderListe.getListe();
             }
             catch
@@ -75,6 +99,28 @@ namespace WoMo.UI
             
         }
 
+        protected override void OnAppearing()
+        {
+            if (isEdit)
+            {
+                cell = new DataTemplate(typeof(SwitchCell));
+                cell.SetBinding(SwitchCell.TextProperty, "Text");
+                cell.SetBinding(SwitchCell.OnProperty, "Checked");
+                foreach (CLEintrag eintrag in dba.select(typeof(CLEintrag), "WHERE [Superior] =" + aktuellesElement.EigenschaftsListeId))
+                {   
+                    list.Add(eintrag);
+                }
+                ListAdapter.ItemsSource = list;
+                ListAdapter.ItemTemplate = cell;
+            }
+            base.OnAppearing();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            saveChecklistChanges();
+            return base.OnBackButtonPressed();
+        }
         async void OnBtnSaveClick(object sender, EventArgs e)
         {
             if (!isEdit)
@@ -93,12 +139,14 @@ namespace WoMo.UI
 
             if (isEdit)
             {
+                saveChecklistChanges();
                 dba.update(aktuellesElement.Standort);
                 dba.update(aktuellesElement);
             }
             else
             {
                 aktuellesElement.StandortID = dba.insert(aktuellesElement.Standort);
+                aktuellesElement.EigenschaftsListeId = int.Parse(pick.Items[pick.SelectedIndex].Split(':')[0]);
                 dba.insert(aktuellesElement);
             }
             await Navigation.PopAsync();
@@ -110,6 +158,21 @@ namespace WoMo.UI
             dba.delete(aktuellesElement);
             await Navigation.PopAsync();
         }
+
+
+        private void saveChecklistChanges() {
+            if (list != null)
+            {
+                foreach (IListeneintrag item in list)
+                {
+                    if (item is CLEintrag)
+                    {
+                        if (!dba.update(((CLEintrag)item)))
+                            dba.insert((CLEintrag)item);
+                    }
+                }
+            }
+        }
         /*
         public void OnBtnHinzuBildClicked(object sender, EventArgs e)
         {
@@ -118,18 +181,13 @@ namespace WoMo.UI
             int bildid = 0;
             aktuellesElement.BilderListe.add(new BilderEintrag(bildid, aktuellesElement.BilderListe));
         }
-
-        public void OnBtnHinzuEintragClicked(object sender, EventArgs e)
-        {
-            // Öffne Texteditor zum Schreiben der Checkliste
-            string text = "";
-            CLEintrag eintrag = new CLEintrag(aktuellesElement.EigenschaftsListe);
-            eintrag.Text = text;
-            aktuellesElement.EigenschaftsListe.add(eintrag);
-
-
-        }
         */
 
+        async void OnBtnHinzuEintragClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewList(typeof(CLEintrag), dba, aktuellesElement.EigenschaftsListeId));
+
+        }
+        
     }
 }
