@@ -88,6 +88,15 @@ namespace WoMo.UI
             }
             else if(aktuellesElement != null)
             {
+                Button Edit = new Button();
+                Edit.Text = "Liste bearbeiten";
+                Edit.Clicked += OnBtnEditClick;
+                //this line should be changed if you change layout ..
+                // only a quick fix because list.contains only refers to id
+                // => always new button added so does not work
+                if(StackLayout.Children.Count != 4)
+                    StackLayout.Children.Insert(1,Edit);
+
                 DataTemplate cell;
                 Celllist = new ObservableCollection<IListeneintrag>();
                 List<IListeneintrag> aktElementList = ((Listenklasse<IListeneintrag>)aktuellesElement).getList();
@@ -179,13 +188,24 @@ namespace WoMo.UI
                 }
                 else if(item is CLEintrag)
                 {
-                    ((CLEintrag)item).Checked = !((CLEintrag)item).Checked;
-                    dba.update((CLEintrag)item);
+                    await Navigation.PushAsync(new NewList(typeof(CLEintrag), dba, item));
                 }
                 else if(item is TbEintrag)
                 {
                     await Navigation.PushAsync(new Tagebuch((TbEintrag)item, dba, ((TbEintrag)item).SuperiorId));
                 }
+            }
+        }
+
+        async void OnBtnEditClick(object sender, EventArgs e)
+        {
+            if(contains == typeof(CLEintrag))
+            {
+                await Navigation.PushAsync(new NewList(typeof(DB_Checkliste), dba, superior));
+            }
+            else if(contains == typeof(TbEintrag))
+            {
+                await Navigation.PushAsync(new NewList(typeof(DB_Tagebuch), dba, superior));
             }
         }
 

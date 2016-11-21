@@ -48,8 +48,9 @@ namespace WoMo.UI
             InitializeComponent();
             this.dba = dba;
             this.type = type;
-            this.superior = eintrag.SuperiorId;
+            this.superior = eintrag.Id;
             Input.Text = eintrag.Text;
+            this.eintrag = eintrag;
             if (this.type.Equals(typeof(CLEintrag)))
                 Title.Text = "Bearbeite den Checklisteneintrag:";
             else if (this.type.Equals(typeof(DB_Checkliste)))
