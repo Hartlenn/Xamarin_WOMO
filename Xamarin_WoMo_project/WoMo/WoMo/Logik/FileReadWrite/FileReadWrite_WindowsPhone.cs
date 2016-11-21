@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(WoMo.Logik.FileReadWrite.FileReadWrite_WindowsPhone))]
@@ -13,27 +14,31 @@ namespace WoMo.Logik.FileReadWrite
     {
         public Stream GetReadStream(string fileName)
         {
-            var filePath = GetFilePath(fileName);
-            return File.OpenRead(filePath);
+            throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
         }
 
         public Stream GetWriteStream(string fileName)
         {
-            var filePath = GetFilePath(fileName);
-            var stream = File.OpenWrite(filePath);
-            return stream;
+            throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
         }
 
         public bool FileExists(string fileName)
         {
-            var filePath = GetFilePath(fileName);
-            return File.Exists(filePath);
+            throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
         }
 
         private string GetFilePath(string fileName)
         {
-            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            return Path.Combine(documentsPath, fileName);
+            throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
+        }
+
+        public static async Task WriteFile(string filename, string text)
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sampleFile = await localFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(sampleFile, text);
         }
     }
+
+    
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
+using WoMo.Logik.FileReadWrite;
 using WoMo.Logik.Listeneinträge;
 using WoMo.Logik.Database;
 using Xamarin.Forms;
@@ -65,7 +66,7 @@ namespace WoMo.Logik
             return b;
         }
 
-        public bool xmlExportDatenbank(Uri pfad)
+        public async Task<bool> xmlExportDatenbank(Uri pfad)
         {
             bool b = false;
             try
@@ -80,19 +81,26 @@ namespace WoMo.Logik
                 char[] CharArray = xml.ToCharArray();
                 byte[] ByteArray = new byte[CharArray.Length];
 
-                for(int i = 0; i < CharArray.Length; i++) {
+                for (int i = 0; i < CharArray.Length; i++)
+                {
                     ByteArray[i] = Convert.ToByte(CharArray[i]);
-
-                    DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
-                        .GetWriteStream(DateTime.Now + ".xml")
-                        .WriteAsync(ByteArray, 0, ByteArray.Length);
+                    string filename = "WoMo_" + DateTime.Now + ".xml";
+                    try
+                    {
+                        await DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
+                            .GetWriteStream(filename)
+                            .WriteAsync(ByteArray, 0, ByteArray.Length);
+                    }catch(MyWindowsPhoneFileSystemException mwpfse)
+                    {
+                        await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
+                    }
                 }
                 b = true;
-            }catch
+            }
+            catch (Exception e)
             {
                 b = false;
             }
-
 
             return b;
         }

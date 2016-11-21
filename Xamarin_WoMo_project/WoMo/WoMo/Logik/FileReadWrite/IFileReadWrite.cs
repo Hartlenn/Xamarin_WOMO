@@ -13,4 +13,11 @@ namespace WoMo.Logik.FileReadWrite
         Stream GetReadStream(string fileName);
         bool FileExists(string fileName);
     }
+
+    class MyWindowsPhoneFileSystemException : IOException
+    {
+        public MyWindowsPhoneFileSystemException(string message) : base(message)
+        {
+        }
+    }
 }
