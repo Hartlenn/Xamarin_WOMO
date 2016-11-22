@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Xamarin.Forms;
+using WoMo.Logik.FileReadWrite;
+using WoMo.WinPhone;
 
-[assembly: Dependency(typeof(WoMo.Logik.FileReadWrite.FileReadWrite_WindowsPhone))]
-namespace WoMo.Logik.FileReadWrite
+[assembly: Dependency(typeof(FileReadWrite_WindowsPhone))]
+namespace WoMo.WinPhone
 {
     public class FileReadWrite_WindowsPhone : IFileReadWrite
     {

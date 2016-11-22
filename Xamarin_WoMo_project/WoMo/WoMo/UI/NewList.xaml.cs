@@ -50,7 +50,7 @@ namespace WoMo.UI
             this.type = type;
             this.superior = eintrag.Id;
             Input.Text = eintrag.Text;
-            this.eintrag = eintrag;
+            this.aktuellerEintrag = eintrag;
             if (this.type.Equals(typeof(CLEintrag)))
                 Title.Text = "Bearbeite den Checklisteneintrag:";
             else if (this.type.Equals(typeof(DB_Checkliste)))
@@ -64,22 +64,31 @@ namespace WoMo.UI
         {
             if (type.Equals(typeof(DB_Tagebuch)))
             {
-                DB_Tagebuch buch = new DB_Tagebuch();
-                buch.Text = Input.Text;
-                dba.insert(buch);
+                if (aktuellerEintrag == null)
+                    aktuellerEintrag = new DB_Tagebuch();
+                
+                aktuellerEintrag.Text = Input.Text;
+
+                if(!dba.update(aktuellerEintrag))
+                    dba.insert(aktuellerEintrag);
             }
             else if (type.Equals(typeof(DB_Checkliste)))
             {
-                DB_Checkliste list = new DB_Checkliste();
-                list.Text = Input.Text;
-                dba.insert(list);
+                if (aktuellerEintrag == null)
+                    aktuellerEintrag = new DB_Checkliste();
+
+                aktuellerEintrag.Text = Input.Text;
+                if(!dba.update(aktuellerEintrag))
+                    dba.insert(aktuellerEintrag);
             }
             else if (type.Equals(typeof(CLEintrag)))
             {
-                CLEintrag eintrag = new CLEintrag();
-                eintrag.SuperiorId = superior;
-                eintrag.Text = Input.Text;
-                dba.insert(eintrag);
+                if(aktuellerEintrag == null)
+                    aktuellerEintrag = new CLEintrag();
+                aktuellerEintrag.SuperiorId = superior;
+                aktuellerEintrag.Text = Input.Text;
+                if(!dba.update(aktuellerEintrag))
+                    dba.insert(aktuellerEintrag);
             }
             await Navigation.PopAsync();
         }
@@ -87,7 +96,7 @@ namespace WoMo.UI
         async void OnBtnDeleteClick(object sender, EventArgs e)
         {
             dba.delete(aktuellerEintrag);
-            await Navigation.PopAsync();
+            await Navigation.PopToRootAsync();
         }
     }
 }

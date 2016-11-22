@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using WoMo.Logik.FileReadWrite;
+using WoMo.Droid;
 
-[assembly: Dependency(typeof(WoMo.Logik.FileReadWrite.FileReadWrite_IOS))]
-namespace WoMo.Logik.FileReadWrite
+[assembly: Dependency(typeof(FileReadWrite_Android))]
+namespace WoMo.Droid
 {
-    public class FileReadWrite_IOS : IFileReadWrite
+    public class FileReadWrite_Android : IFileReadWrite
     {
         public Stream GetReadStream(string fileName)
         {
@@ -32,7 +34,7 @@ namespace WoMo.Logik.FileReadWrite
 
         private string GetFilePath(string fileName)
         {
-            var documentsPath = NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0];
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             return Path.Combine(documentsPath, fileName);
         }
     }

@@ -88,6 +88,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FileReadWrite_IOS.cs" />
     <Compile Include="IOS_SQLite_Adapter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

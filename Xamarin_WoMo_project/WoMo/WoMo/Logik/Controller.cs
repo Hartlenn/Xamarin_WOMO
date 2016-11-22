@@ -110,13 +110,13 @@ namespace WoMo.Logik
                 string filename = "WoMo_" + DateTime.Now + ".xml";
                 try
                 {
-                    await DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
+                    await DependencyService.Get<IFileReadWrite>()
                         .GetWriteStream(filename)
                         .WriteAsync(ByteArray, 0, ByteArray.Length);
                 }
                 catch (MyWindowsPhoneFileSystemException mwpfse)
                 {
-                    await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
+                    //await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
                 }
             }
         }

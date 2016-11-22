@@ -7,14 +7,14 @@ using System.IO;
 
 namespace WoMo.Logik.FileReadWrite
 {
-    interface IFileReadWrite
+    public interface IFileReadWrite
     {
         Stream GetWriteStream(string fileName);
         Stream GetReadStream(string fileName);
         bool FileExists(string fileName);
     }
 
-    class MyWindowsPhoneFileSystemException : IOException
+    public class MyWindowsPhoneFileSystemException : IOException
     {
         public MyWindowsPhoneFileSystemException(string message) : base(message)
         {

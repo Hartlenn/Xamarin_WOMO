@@ -4,7 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using WoMo.Logik.FileReadWrite;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(FileReadWrite_Universal))]
 namespace WoMo.Logik.FileReadWrite
 {
     class FileReadWrite_Universal : IFileReadWrite
@@ -30,8 +34,9 @@ namespace WoMo.Logik.FileReadWrite
 
         private string GetFilePath(string fileName)
         {
-            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            return Path.Combine(documentsPath, fileName);
+            var sqliteFilename = "WoMo.db3";
+            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, sqliteFilename);
+            return path;
         }
     }
 }
