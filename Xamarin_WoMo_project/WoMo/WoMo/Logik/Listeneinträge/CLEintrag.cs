@@ -91,7 +91,7 @@ namespace WoMo.Logik.Listeneinträge
                 + Id + "</Id><text>"
                 + Text + "</text><checked>"
                 + Checked + "</checked><Superior>"
-                + Superior + "</Superior></CLEintrag>";
+                + SuperiorId + "</Superior></CLEintrag>";
         }
 
         public ViewCell getListViewEintrag()

@@ -140,7 +140,7 @@ namespace WoMo.Logik.Listeneinträge
                 + this.Datum.ToString() + "</Datum><Standort>"
                 + Standort.Id + "</Standort><Stellplatz>"
                 + Stellplatz.Id + "</Stellplatz><Superior>"
-                + superior + "</Superior></TbEintrag>";
+                + SuperiorId + "</Superior></TbEintrag>";
         }
         
     }

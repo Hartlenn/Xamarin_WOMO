@@ -21,8 +21,17 @@ namespace WoMo.Logik.Listeneinträge
         [Column("Standort")]
         public int StandortID { get { return standortid; } set { this.standortid = value; } }
 
+        private Listenklasse<CLEintrag> eigenschaftsliste;
         [Ignore]
-        public Listenklasse<CLEintrag> EigenschaftsListe { get; set; }
+        public Listenklasse<CLEintrag> EigenschaftsListe { get {
+                if(this.eigenschaftsliste == null)
+                {
+                    eigenschaftsliste = StandardListe;
+                }
+                return eigenschaftsliste;
+            } set {
+                eigenschaftsliste = value;
+            } }
         private int eigenschaftslisteid;
         [Column("EigenschaftsListe")]
         public int EigenschaftsListeId { get { return eigenschaftslisteid; } set { eigenschaftslisteid = value; } }
@@ -41,9 +50,7 @@ namespace WoMo.Logik.Listeneinträge
 
         [Ignore]
         public static Listenklasse<CLEintrag> StandardListe { get; set; }
-        private int standardlisteid;
-        [Column("StandardListe")]
-        public int StandardListeId { get { return bilderlisteid; } set { standardlisteid = value; } }
+        
 
 
         public static void addToStandardListe(CLEintrag eintrag)
@@ -111,7 +118,7 @@ namespace WoMo.Logik.Listeneinträge
                 + Standort.Id + "</Standort><eigenschaftsListe>"
                 + EigenschaftsListe.Id + "</eigenschaftsListe><bilderListe>"
                 + BilderListe.Id + "</bilderListe><Superior>"
-                + Superior + "</Superior></Stellplatz>";
+                + SuperiorId + "</Superior></Stellplatz>";
         }
         
     }

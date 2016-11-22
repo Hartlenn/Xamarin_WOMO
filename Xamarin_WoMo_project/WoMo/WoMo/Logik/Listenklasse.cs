@@ -208,7 +208,7 @@ namespace WoMo.Logik
         public string toXml()
         {
             string xml = "<Listenklasse>" + "<Akzeptiert>" + Akzeptiert + "</Akzeptiert><Id>"
-                + Id + "</Id><text>" + Text + "</text><Superior>" + superior.Id + "</Superior>"
+                + Id + "</Id><text>" + Text + "</text><Superior>" + SuperiorId + "</Superior>"
                 + "<Eintraege>";
 
             foreach(T eintrag in liste)
@@ -218,11 +218,6 @@ namespace WoMo.Logik
             xml += "</Eintraege></Listenklasse>";
 
             return xml;
-        }
-
-        public ViewCell getListViewEintrag()
-        {
-            throw new NotImplementedException();
         }
     }
 

@@ -16,7 +16,7 @@ namespace WoMo.Logik.Listeneinträge
         private double longitude, latitude;
 
         [Ignore]
-        private Listenklasse<Standort> superior { get; set; }
+        public Listenklasse<Standort> superior { get; set; }
         private int superiorid;
         [Column("Superior")]
         public int SuperiorId { get { return superiorid; } set { superiorid = value; } }
@@ -101,7 +101,7 @@ namespace WoMo.Logik.Listeneinträge
                 + Text + "</text><Longitude>"
                 + Longitude + "</Longitude><Latitude>"
                 + Latitude + "</Latitude><Superior>"
-                + superior + "</Superior></Standort>";
+                + SuperiorId + "</Superior></Standort>";
         }
     }
 }

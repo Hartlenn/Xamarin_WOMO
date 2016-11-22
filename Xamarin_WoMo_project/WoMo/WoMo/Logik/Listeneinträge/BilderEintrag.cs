@@ -47,7 +47,7 @@ namespace WoMo.Logik.Listeneinträge
             return "<BilderEintrag><Id>" + Id + "</Id><text>"
                 + Text + "</text><bildId>"
                 + BildId + "</bildId><Superior>"
-                + Superior + "</Superior></BilderEintrag>";
+                + SuperiorId + "</Superior></BilderEintrag>";
         }
         
     }

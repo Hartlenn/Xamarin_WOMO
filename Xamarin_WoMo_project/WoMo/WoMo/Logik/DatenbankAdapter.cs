@@ -261,7 +261,7 @@ namespace WoMo.Logik
                             {
                                 eintrag.Stellplatz = ((Stellplatz)select(new Stellplatz().GetType(), "WHERE [ID] = " + eintrag.StellplatzID.ToString()).getListe().First());
                             }
-                            list.add(eintrag);
+                                list.add(eintrag);
                             }
                     }
                     catch { };
@@ -300,7 +300,9 @@ namespace WoMo.Logik
                     {
                         list.addRange(database.Query<Standort>("SELECT * FROM [Standort]" + Bedingung));
                     }
-                    catch { }
+                    catch {
+                        Debug.WriteLine("Standortfehler");
+                    }
                     break;
                 default:
                     return null;          
