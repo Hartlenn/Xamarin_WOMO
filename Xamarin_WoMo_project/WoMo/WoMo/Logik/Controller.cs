@@ -66,7 +66,7 @@ namespace WoMo.Logik
             {
                 string xml = "<XML><WoMo>";
 
-                xml += DatenbankAdapter.getInstance().select(new DB_Bilderliste().GetType(), "").toXml();
+                //xml += DatenbankAdapter.getInstance().select(new DB_Bilderliste().GetType(), "").toXml();
                 xml += DatenbankAdapter.getInstance().select(new DB_Checkliste().GetType(), "").toXml();
                 xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(), "").toXml();
                 xml += "</menue></WoMo></XML>";
@@ -90,13 +90,13 @@ namespace WoMo.Logik
                 string filename = "WoMo_" + DateTime.Now + ".xml";
                 try
                 {
-                    await DependencyService.Get<WoMo.Logik.FileReadWrite.IFileReadWrite>()
+                    await DependencyService.Get<IFileReadWrite>()
                         .GetWriteStream(filename)
                         .WriteAsync(ByteArray, 0, ByteArray.Length);
                 }
                 catch (MyWindowsPhoneFileSystemException mwpfse)
                 {
-                    await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
+                    //await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
                 }
             }
         }

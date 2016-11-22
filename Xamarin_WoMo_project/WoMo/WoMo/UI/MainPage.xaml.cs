@@ -33,7 +33,8 @@ namespace WoMo
 
         void OnXMLVerwaltungClick(object sender, EventArgs e)
         {
-            Controller.getInstance().xmlExportDatenbank();
+            
+            //Controller.getInstance().xmlExportDatenbank();
         }
     }
 }
