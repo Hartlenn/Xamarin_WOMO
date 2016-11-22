@@ -68,8 +68,27 @@ namespace WoMo.Logik
                 DatenbankAdapter dba = DatenbankAdapter.getInstance();
 
                 xml += new Listenklasse<IListeneintrag>("Stellplätze", dba.select(new Stellplatz().GetType(), "")).toXml();
-                xml += new Listenklasse<IListeneintrag>("Tagebücher", dba.select(new DB_Tagebuch().GetType(), "")).toXml();
-                xml += new Listenklasse<IListeneintrag>("Checklisten", dba.select(new DB_Checkliste().GetType(), "")).toXml();
+
+                Listenklasse<IListeneintrag> Verzeichnis = new Listenklasse<IListeneintrag>("Tagebücher");
+                foreach (DB_Tagebuch elem in dba.select(new DB_Tagebuch().GetType(), ""))
+                {
+                    Listenklasse<TbEintrag> tagebuch = new Listenklasse<TbEintrag>(
+                        elem.Text, dba.select(new TbEintrag().GetType(), "WHERE [Superior] = " + elem.Id));
+                    tagebuch.Id = elem.Id;
+                    Verzeichnis.add(tagebuch);
+                }
+                xml += Verzeichnis.toXml();
+
+                Verzeichnis = new Listenklasse<IListeneintrag>("Checklisten");
+                foreach (DB_Checkliste elem in dba.select(new DB_Checkliste().GetType(), ""))
+                {
+                    Listenklasse<CLEintrag> checkliste = new Listenklasse<CLEintrag>(
+                        elem.Text, dba.select(new CLEintrag().GetType(), "WHERE [Superior] = " + elem.Id));
+                    checkliste.Id = elem.Id;
+                    Verzeichnis.add(checkliste);
+                }
+                xml += Verzeichnis.toXml();
+
                 xml += "</menue></WoMo></XML>";
 
                 this.exportFile(xml);
