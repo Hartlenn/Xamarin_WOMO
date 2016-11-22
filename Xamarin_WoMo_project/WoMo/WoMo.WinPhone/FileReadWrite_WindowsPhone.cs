@@ -12,7 +12,7 @@ using WoMo.WinPhone;
 [assembly: Dependency(typeof(FileReadWrite_WindowsPhone))]
 namespace WoMo.WinPhone
 {
-    public class FileReadWrite_WindowsPhone : IFileReadWrite
+    public class FileReadWrite_WindowsPhone : IFileReadWrite, IFileWriteForWindows
     {
         public Stream GetReadStream(string fileName)
         {
@@ -34,7 +34,7 @@ namespace WoMo.WinPhone
             throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
         }
 
-        public static async Task WriteFile(string filename, string text)
+        public async Task WriteFile(string filename, string text)
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile sampleFile = await localFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);

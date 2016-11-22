@@ -61,20 +61,25 @@ namespace WoMo.Logik
             }
         }
 
+        private int superiorid = 0;
         public int SuperiorId
         {
             get
             {
-                return this.superior.Id;
+                if (superior != null)
+                    return this.superior.Id;
+                else
+                    return this.superiorid;
             }
 
             set
             {
-                this.SuperiorId = value;
+                this.superiorid = value;
             }
         }
 
         public Listenklasse(){
+            
         }
 
         public Listenklasse(string text)

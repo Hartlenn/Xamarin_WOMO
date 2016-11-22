@@ -14,6 +14,7 @@ namespace WoMo
         public MainPage()
         {
             InitializeComponent();
+            //XML_Verwaltung.IsEnabled = false;
         }
 
         async void OnStellplatzClick(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace WoMo
         void OnXMLVerwaltungClick(object sender, EventArgs e)
         {
             
-            //Controller.getInstance().xmlExportDatenbank();
+            Controller.getInstance().xmlExportDatenbank();
         }
     }
 }

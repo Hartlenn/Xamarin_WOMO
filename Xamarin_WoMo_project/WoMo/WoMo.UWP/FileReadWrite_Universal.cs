@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(FileReadWrite_Universal))]
 namespace WoMo.Logik.FileReadWrite
 {
-    class FileReadWrite_Universal : IFileReadWrite
+    class FileReadWrite_Universal : IFileReadWrite, IFileWriteForWindows
     {
         public Stream GetReadStream(string fileName)
         {
@@ -21,8 +21,10 @@ namespace WoMo.Logik.FileReadWrite
 
         public Stream GetWriteStream(string fileName)
         {
+            throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
+
             var filePath = GetFilePath(fileName);
-            var stream = File.OpenWrite(filePath);
+            var stream = new FileStream(filePath, FileMode.CreateNew);
             return stream;
         }
 
@@ -34,9 +36,15 @@ namespace WoMo.Logik.FileReadWrite
 
         private string GetFilePath(string fileName)
         {
-            var sqliteFilename = "WoMo.db3";
-            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, sqliteFilename);
+            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, fileName);
             return path;
+        }
+
+        public async Task WriteFile(string filename, string text)
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sampleFile = await localFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(sampleFile, text);
         }
     }
 }

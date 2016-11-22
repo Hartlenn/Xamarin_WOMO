@@ -238,7 +238,9 @@ namespace WoMo.Logik
                             }
                         }
                     }
-                    catch { };
+                    catch(Exception e) {
+                        Debug.WriteLine(e.Message);
+                    };
                     break;
                 case ("womo.logik.listeneinträge.cleintrag"):
                     try

@@ -137,9 +137,7 @@ namespace WoMo.Logik.Listeneinträge
             return "<TbEintrag><Id>"
                 + Id + "</Id><text>"
                 + "</text><Datum>"
-                + this.Datum.ToString() + "</Datum><Standort>"
-                + Standort.Id + "</Standort><Stellplatz>"
-                + Stellplatz.Id + "</Stellplatz><Superior>"
+                + this.Datum.ToString() + "</Datum><Superior>"
                 + SuperiorId + "</Superior></TbEintrag>";
         }
         

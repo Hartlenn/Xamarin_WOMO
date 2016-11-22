@@ -74,7 +74,8 @@ namespace WoMo.Logik
                 {
                     Listenklasse<TbEintrag> tagebuch = new Listenklasse<TbEintrag>(
                         elem.Text, dba.select(new TbEintrag().GetType(), "WHERE [Superior] = " + elem.Id));
-                    tagebuch.Id = elem.Id;
+                    
+                    tagebuch.SuperiorId = elem.Id;
                     Verzeichnis.add(tagebuch);
                 }
                 xml += Verzeichnis.toXml();
@@ -84,7 +85,7 @@ namespace WoMo.Logik
                 {
                     Listenklasse<CLEintrag> checkliste = new Listenklasse<CLEintrag>(
                         elem.Text, dba.select(new CLEintrag().GetType(), "WHERE [Superior] = " + elem.Id));
-                    checkliste.Id = elem.Id;
+                    checkliste.SuperiorId = elem.Id;
                     Verzeichnis.add(checkliste);
                 }
                 xml += Verzeichnis.toXml();
@@ -107,17 +108,22 @@ namespace WoMo.Logik
             for (int i = 0; i < CharArray.Length; i++)
             {
                 ByteArray[i] = Convert.ToByte(CharArray[i]);
-                string filename = "WoMo_" + DateTime.Now + ".xml";
-                try
-                {
-                    await DependencyService.Get<IFileReadWrite>()
-                        .GetWriteStream(filename)
-                        .WriteAsync(ByteArray, 0, ByteArray.Length);
-                }
-                catch (MyWindowsPhoneFileSystemException mwpfse)
-                {
-                    //await FileReadWrite_WindowsPhone.WriteFile(filename, xml);
-                }
+                
+                
+            }
+
+            string filename = "WoMo_" + DateTime.Now.ToFileTime() + ".xml";
+
+            try
+            {
+                
+                await DependencyService.Get<IFileReadWrite>()
+                    .GetWriteStream(filename)
+                    .WriteAsync(ByteArray, 0, ByteArray.Length);
+            }
+            catch (MyWindowsPhoneFileSystemException mwpfse)
+            {
+                await DependencyService.Get<IFileWriteForWindows>().WriteFile(filename, xml);
             }
         }
 
