@@ -65,10 +65,11 @@ namespace WoMo.Logik
             try
             {
                 string xml = "<XML><WoMo>";
+                DatenbankAdapter dba = DatenbankAdapter.getInstance();
 
-                //xml += DatenbankAdapter.getInstance().select(new DB_Bilderliste().GetType(), "").toXml();
-                xml += DatenbankAdapter.getInstance().select(new DB_Checkliste().GetType(), "").toXml();
-                xml += DatenbankAdapter.getInstance().select(new DB_Tagebuch().GetType(), "").toXml();
+                xml += new Listenklasse<IListeneintrag>("Stellplätze", dba.select(new Stellplatz().GetType(), "")).toXml();
+                xml += new Listenklasse<IListeneintrag>("Tagebücher", dba.select(new DB_Tagebuch().GetType(), "")).toXml();
+                xml += new Listenklasse<IListeneintrag>("Checklisten", dba.select(new DB_Checkliste().GetType(), "")).toXml();
                 xml += "</menue></WoMo></XML>";
 
                 this.exportFile(xml);
