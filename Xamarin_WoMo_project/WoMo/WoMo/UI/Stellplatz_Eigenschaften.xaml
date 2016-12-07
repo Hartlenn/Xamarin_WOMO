@@ -30,10 +30,11 @@
           <Entry Grid.Row="1" Grid.Column="1" x:Name="Longitude" />
           <Label Grid.Row="2" Grid.Column="0" Text="Latitude:"/>
           <Entry Grid.Row="2" Grid.Column="1" x:Name="Latitude"/>
+          <Button Clicked="GetPosition" Text="Position" Grid.Row="3" Grid.Column="0"/>
         </Grid>
         <StackLayout Orientation="Horizontal">
-          <Button Text="Save" x:Name="BtnSave" Clicked="OnBtnSaveClick"/>
-          <Button Text="Delete" x:Name="BtnDelete" Clicked="OnBtnDeleteClick"/>
+          <Button Text="Speichern" x:Name="BtnSave" Clicked="OnBtnSaveClick"/>
+          <Button Text="Löschen" x:Name="BtnDelete" Clicked="OnBtnDeleteClick"/>
         </StackLayout>
         <!--<StackLayout Orientation="Horizontal">
           <Label Text="Bilder:"/>

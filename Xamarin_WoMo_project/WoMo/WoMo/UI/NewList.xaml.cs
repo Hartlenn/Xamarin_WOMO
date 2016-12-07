@@ -87,7 +87,17 @@ namespace WoMo.UI
                     aktuellerEintrag = new CLEintrag();
                 aktuellerEintrag.SuperiorId = superior;
                 aktuellerEintrag.Text = Input.Text;
-                if(!dba.update(aktuellerEintrag))
+
+                if(superior < 0)
+                {
+                    Stellplatz.addToStandardListe((CLEintrag)aktuellerEintrag);
+                    foreach(IListeneintrag entry in dba.select(typeof(Stellplatz), ""))
+                    {
+                        aktuellerEintrag.SuperiorId = (entry.Id * -1);
+                        dba.insert(aktuellerEintrag);
+                    }
+                }
+                else if (!dba.update(aktuellerEintrag))
                     dba.insert(aktuellerEintrag);
             }
             await Navigation.PopAsync();

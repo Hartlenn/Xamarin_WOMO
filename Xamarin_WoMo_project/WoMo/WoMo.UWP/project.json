@@ -2,6 +2,7 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "sqlite-net-pcl": "1.2.0",
+    "Xam.Plugin.Geolocator": "3.0.4",
     "Xamarin.Forms": "2.3.2.127"
   },
   "frameworks": {

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Plugin.Geolocator;
 using WoMo.Logik;
 using WoMo.Logik.Database;
 using WoMo.Logik.Listeneinträge;
@@ -17,18 +17,12 @@ namespace WoMo.UI
         private Stellplatz aktuellesElement;
         DatenbankAdapter dba;
         bool isEdit;
-        Picker pick = new Picker();
+        //Picker pick = new Picker();
         ListView ListAdapter;
         Button AddCLeintrag;
         ObservableCollection<IListeneintrag> list;
         DataTemplate cell;
 
-        /*
-        public static readonly BindableProperty TextProperty =
-            BindableProperty.Create("Text", typeof(string), typeof(Stellplatz), null);
-        public static readonly BindableProperty CLTextProperty =
-            BindableProperty.Create("Text", typeof(string), typeof(CLEintrag), null);
-            */
         public IListeneintrag AktuellesElement
         {
             get
@@ -53,13 +47,6 @@ namespace WoMo.UI
 
             InitializeComponent();
             BtnDelete.IsEnabled = false;
-
-            Listenklasse<IListeneintrag> checklists = dba.select(typeof(DB_Checkliste), "");
-            foreach(IListeneintrag cleintrag in checklists)
-            {
-                pick.Items.Add(cleintrag.Id + ": " + cleintrag.Text);
-            }
-            StackLayout.Children.Insert(StackLayout.Children.Count -1 , pick);
         }
 
         public Stellplatz_Eigenschaften(Stellplatz stellplatz, DatenbankAdapter dba)
@@ -103,6 +90,8 @@ namespace WoMo.UI
         {
             if (isEdit)
             {
+                list = new ObservableCollection<IListeneintrag>();
+
                 cell = new DataTemplate(typeof(SwitchCell));
                 cell.SetBinding(SwitchCell.TextProperty, "Text");
                 cell.SetBinding(SwitchCell.OnProperty, "Checked");
@@ -121,17 +110,20 @@ namespace WoMo.UI
             saveChecklistChanges();
             return base.OnBackButtonPressed();
         }
+
         async void OnBtnSaveClick(object sender, EventArgs e)
         {
             if (!isEdit)
                 aktuellesElement.Standort = new Standort();
             try
             {
+                Latitude.Text = Latitude.Text.Replace(',', '.');
                 aktuellesElement.Standort.Latitude = Double.Parse(Latitude.Text);
             }
             catch { }
             try
             {
+                Longitude.Text = Longitude.Text.Replace(',', '.');
                 aktuellesElement.Standort.Longitude = Double.Parse(Longitude.Text);
             }
             catch { }
@@ -145,9 +137,20 @@ namespace WoMo.UI
             }
             else
             {
-                aktuellesElement.StandortID = dba.insert(aktuellesElement.Standort);
-                aktuellesElement.EigenschaftsListeId = int.Parse(pick.Items[pick.SelectedIndex].Split(':')[0]);
+                dba.insert(aktuellesElement.Standort);
+                aktuellesElement.StandortID = dba.getMaxID(typeof(Standort));
+                
                 dba.insert(aktuellesElement);
+                aktuellesElement.EigenschaftsListeId = dba.getMaxID(typeof(Stellplatz)) * -1;
+
+                foreach (IListeneintrag entry in Stellplatz.StandardListe)
+                {
+                    entry.SuperiorId = aktuellesElement.EigenschaftsListeId;
+                    dba.insert(entry);
+                    aktuellesElement.EigenschaftsListe.add(entry);
+                }
+
+                dba.update(aktuellesElement);
             }
             await Navigation.PopAsync();
         }
@@ -173,15 +176,16 @@ namespace WoMo.UI
                 }
             }
         }
-        /*
-        public void OnBtnHinzuBildClicked(object sender, EventArgs e)
-        {
-            // Öffne Bildexplorer des Geräts
 
-            int bildid = 0;
-            aktuellesElement.BilderListe.add(new BilderEintrag(bildid, aktuellesElement.BilderListe));
+        async void GetPosition(object sender, EventArgs e)
+        {
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 100;
+            var position = await locator.GetPositionAsync(/*timeoutMilliseconds: 100*/);
+            Latitude.Text = position.Latitude.ToString();
+            Longitude.Text = position.Longitude.ToString();
+
         }
-        */
 
         async void OnBtnHinzuEintragClicked(object sender, EventArgs e)
         {

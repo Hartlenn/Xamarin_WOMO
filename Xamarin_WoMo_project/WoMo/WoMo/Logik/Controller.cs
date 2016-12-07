@@ -94,7 +94,7 @@ namespace WoMo.Logik
 
                 this.exportFile(xml);
             }
-            catch (Exception e)
+            catch 
             {
             }
 

@@ -201,6 +201,17 @@ namespace WoMo.Logik
             return new Listenklasse<IListeneintrag>(this.Text, liste);
         }
 
+        public int getMaxID()
+        {
+            int maxID = 0;
+            foreach(T eintrag in liste)
+            {
+                if (eintrag.Id > maxID)
+                    maxID = eintrag.Id;
+            }
+            return maxID;
+        }
+
 
         // Interface Methoden
 

@@ -22,7 +22,6 @@ namespace WoMo.UI
             this.dba = dba;
             isEdit = false;
             this.superiorid = superiorid;
-
             InitializeComponent();
             EntryDate.Date = DateTime.Today;
             DELETE.IsEnabled = false;
