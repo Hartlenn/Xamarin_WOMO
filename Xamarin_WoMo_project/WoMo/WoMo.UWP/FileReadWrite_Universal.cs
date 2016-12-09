@@ -22,10 +22,11 @@ namespace WoMo.Logik.FileReadWrite
         public Stream GetWriteStream(string fileName)
         {
             throw new MyWindowsPhoneFileSystemException("Not possible with this method.");
-
+            /*
             var filePath = GetFilePath(fileName);
             var stream = new FileStream(filePath, FileMode.CreateNew);
             return stream;
+            */
         }
 
         public bool FileExists(string fileName)

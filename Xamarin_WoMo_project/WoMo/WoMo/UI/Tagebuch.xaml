@@ -16,8 +16,8 @@
       <DatePicker x:Name="EntryDate"/>
       <Editor x:Name="Entry"/>
       <StackLayout Orientation="Horizontal">
-        <Button x:Name="OK" Clicked="OnBtnOKClick" Text="OK"/>
-        <Button x:Name="DELETE" Clicked="OnBtnDeleteClick" Text="Delete"/>
+        <Button x:Name="OK" Clicked="OnBtnOKClick" Text="Speichern"/>
+        <Button x:Name="DELETE" Clicked="OnBtnDeleteClick" Text="Löschen"/>
       </StackLayout>
     </StackLayout>
   </ContentPage.Content>

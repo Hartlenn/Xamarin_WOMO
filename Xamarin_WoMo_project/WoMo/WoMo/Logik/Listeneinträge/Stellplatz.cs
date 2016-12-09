@@ -23,15 +23,22 @@ namespace WoMo.Logik.Listeneinträge
 
         private Listenklasse<CLEintrag> eigenschaftsliste;
         [Ignore]
-        public Listenklasse<CLEintrag> EigenschaftsListe { get {
+        public Listenklasse<CLEintrag> EigenschaftsListe
+        {
+            get
+            {
                 if(this.eigenschaftsliste == null)
                 {
                     eigenschaftsliste = StandardListe;
+                    this.EigenschaftsListeId = DatenbankAdapter.getInstance().insert(this.eigenschaftsliste);
                 }
                 return eigenschaftsliste;
-            } set {
+            }
+            set
+            {
                 eigenschaftsliste = value;
-            } }
+            }
+        }
         private int eigenschaftslisteid;
         [Column("EigenschaftsListe")]
         public int EigenschaftsListeId { get { return eigenschaftslisteid; } set { eigenschaftslisteid = value; } }

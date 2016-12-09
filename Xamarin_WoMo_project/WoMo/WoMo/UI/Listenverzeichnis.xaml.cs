@@ -163,6 +163,12 @@ namespace WoMo.UI
             
         }
 
+        protected override void OnDisappearing()
+        {
+            saveChanges();
+            base.OnDisappearing();
+        }
+
         async void OnItemTapped(object sender, EventArgs e)
         {
             if (sender is ListView)
@@ -253,10 +259,5 @@ namespace WoMo.UI
             }
         }
 
-        protected override bool OnBackButtonPressed()
-        {
-            saveChanges();
-            return base.OnBackButtonPressed();
-        }
     }
 }

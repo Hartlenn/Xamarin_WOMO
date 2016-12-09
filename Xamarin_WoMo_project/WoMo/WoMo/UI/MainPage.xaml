@@ -18,7 +18,7 @@
       <Button Text="Stellplatz" Clicked="OnStellplatzClick" x:Name="Stellplatz"/>
       <Button Text="Checklist" Clicked="OnChecklistClick" x:Name="Checklist"/>
       <Button Text="Tagebuch" Clicked="OnTagebuchClick" x:Name="Tagebuch"/>
-      <Button Text ="XML-Verwaltung" Clicked="OnXMLVerwaltungClick" x:Name="XML_Verwaltung"/>
+      <Button Text ="XML-Export" Clicked="OnXMLVerwaltungClick" x:Name="XML_Verwaltung"/>
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

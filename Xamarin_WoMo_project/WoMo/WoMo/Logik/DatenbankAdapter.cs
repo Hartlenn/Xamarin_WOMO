@@ -59,6 +59,33 @@ namespace WoMo.Logik
             database.CreateTable<DB_Bilderliste>();
             database.CreateTable<DB_Checkliste>();
             database.CreateTable<DB_Tagebuch>();
+
+            if (Stellplatz.StandardListe == null)
+                setStandardliste();
+        }
+
+
+        private void setStandardliste()
+        {
+            Stellplatz.StandardListe = new Listenklasse<CLEintrag>();
+            CLEintrag eintrag = new CLEintrag();
+            eintrag.Checked = false;
+            eintrag.SuperiorId = 0;
+
+            eintrag.Text = "WC";
+            Stellplatz.addToStandardListe(eintrag);
+
+            eintrag = new CLEintrag();
+            eintrag.Checked = false;
+            eintrag.SuperiorId = 0;
+            eintrag.Text = "Dusche";
+            Stellplatz.addToStandardListe(eintrag);
+
+            eintrag = new CLEintrag();
+            eintrag.Checked = false;
+            eintrag.SuperiorId = 0;
+            eintrag.Text = "Frischwasser";
+            Stellplatz.addToStandardListe(eintrag);
         }
 
         private void leere()
@@ -312,6 +339,17 @@ namespace WoMo.Logik
 
             return list;
         }
+
+        public int getMaxID(Type type)
+        {
+            int maxID = 0;
+            lock (locker)
+            {
+                maxID = select(type, "").getMaxID();
+            }
+
+            return maxID;
+            }
     }
 }
 

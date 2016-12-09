@@ -6,8 +6,8 @@
     <Label x:Name="Title"/>
     <Entry x:Name="Input"/>
     <StackLayout Orientation="Horizontal" >
-      <Button x:Name="OK" Text="Save" Clicked="OnBtnOKClick"/>
-      <Button x:Name="Delete" Text="Delete" Clicked="OnBtnDeleteClick"></Button>
+      <Button x:Name="Save" Text="Speichern" Clicked="OnBtnOKClick"/>
+      <Button x:Name="Delete" Text="Löschen" Clicked="OnBtnDeleteClick"></Button>
     </StackLayout>
   </StackLayout>
 </ContentPage>
