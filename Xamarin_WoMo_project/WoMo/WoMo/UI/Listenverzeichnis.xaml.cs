@@ -114,6 +114,7 @@ namespace WoMo.UI
                     cell = new DataTemplate(typeof(SwitchCell));
                     cell.SetBinding(SwitchCell.TextProperty, "Text");
                     cell.SetBinding(SwitchCell.OnProperty, "Checked");
+                    
                     //add methode for onChanged
                     foreach (IListeneintrag eintrag in ((Listenklasse<IListeneintrag>)aktuellesElement))
                     {
